@@ -143,8 +143,7 @@ TODO: A estrutura abaixo é uma sugestão. Precisamos discutir melhor isso em eq
 
 ### Pré-requisitos
 
-- Python 3.12 ou superior
-- pip (gerenciador de pacotes Python)
+- TODO: Precisamos discutir melhor isso em equipe.
 
 ### Instalação
 
@@ -157,6 +156,8 @@ cd Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1
 ```
 
 ## 📹 Vídeo demonstrativo
+
+TODO: Precisamos discutir melhor isso em equipe.
 
 [![Youtube Video](https://gitlab.com/reinanhs/repo-slide-presentation/-/wikis/uploads/c5e58833db92ec50619f8b302ae8f480/baixados.png)](https://youtu.be/lcOxhH8N3Bo)
 
@@ -172,8 +173,6 @@ cd Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1
 | **Reinan** | Curadoria e inferência das questões abertas 177–188 e múltipla escolha 1846–1968. |
 | **Mikaela** | Curadoria e inferência das questões abertas 189–200 e múltipla escolha 1969–2091. |
 | **Victor Leonardo** | Curadoria e inferência das questões abertas 201–210 e múltipla escolha 2092–2210. |
-
-> **Nota:** Atualize esta tabela ao final do projeto com as contribuições detalhadas de cada membro.
 
 ## 📄 Licença
 
