@@ -80,7 +80,7 @@ class ExecutionManager:
         
         return q_result
 
-    def classify_difficulty(self, q: Dict[str, Any], model: str) -> Dict[str, Any]:
+    def classify_difficulty(self, q: Dict[str, Any], model: str, dataset: str) -> Dict[str, Any]:
         """
         Classifica o nível de dificuldade da questão usando o template de curador.
         """
@@ -88,10 +88,20 @@ class ExecutionManager:
         template_path = prompts_dir / "curador" / "difficulty-level" / "user_template.minijinja"
         
         context = q.copy()
-        context["statement"] = context.get("statement", context.get("question", ""))
-        context["category"] = context.get("category", context.get("area", ""))
-        context["question_id"] = context.get("question_id", context.get("id", ""))
         
+        if dataset == "oab_exams":
+            statement = q.get("question", "")
+            if "choices" in q:
+                choices_text = [f"{label}) {text}" for label, text in zip(q['choices']['label'], q['choices']['text'])]
+                statement += "\n\nAlgumas alternativas:\n" + "\n".join(choices_text)
+            context["statement"] = statement
+            context["category"] = q.get("area", "Sem Área")
+            context["question_id"] = q.get("id", "")
+        else:
+            context["statement"] = q.get("statement", q.get("question", ""))
+            context["category"] = q.get("category", q.get("area", ""))
+            context["question_id"] = q.get("question_id", q.get("id", ""))
+            
         if not template_path.exists():
             return {**q, "error": f"Template não encontrado em {template_path}"}
             
@@ -117,7 +127,6 @@ class ExecutionManager:
             resp_str_clean = response.replace("```json", "").replace("```", "").strip()
             resp_json = json.loads(resp_str_clean)
             q_result['dificuldade'] = resp_json.get("dificuldade")
-            q_result['nivel'] = resp_json.get("nivel")
         except Exception:
             pass
             
@@ -129,13 +138,12 @@ class ExecutionManager:
         """
 
         q_result = self.process_question(q, model, dataset)
-        difficulty_result = self.classify_difficulty(q, model)
+        difficulty_result = self.classify_difficulty(q, model, dataset)
         
         if "error" in difficulty_result and difficulty_result["error"]:
             q_result['dificuldade_error'] = difficulty_result['error']
             
         q_result['dificuldade'] = difficulty_result.get('dificuldade')
-        q_result['nivel'] = difficulty_result.get('nivel')
         
         return q_result
 
