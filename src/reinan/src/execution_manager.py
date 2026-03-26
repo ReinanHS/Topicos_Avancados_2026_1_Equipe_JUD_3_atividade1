@@ -98,9 +98,10 @@ class ExecutionManager:
             context["category"] = q.get("area", "Sem Área")
             context["question_id"] = q.get("id", "")
         else:
-            context["statement"] = q.get("statement", q.get("question", ""))
-            context["category"] = q.get("category", q.get("area", ""))
-            context["question_id"] = q.get("question_id", q.get("id", ""))
+            context["statement"] = q.get("statement", "")
+            context["category"] = q.get("category", "")
+            context["question_id"] = q.get("question_id", "")
+            context["turns"] = q.get("turns", [])
             
         if not template_path.exists():
             return {**q, "error": f"Template não encontrado em {template_path}"}
@@ -150,9 +151,10 @@ class ExecutionManager:
             context["category"] = q.get("area", "Sem Área")
             context["question_id"] = q.get("id", "")
         else:
-            context["statement"] = q.get("statement", q.get("question", ""))
-            context["category"] = q.get("category", q.get("area", ""))
-            context["question_id"] = q.get("question_id", q.get("id", ""))
+            context["statement"] = q.get("statement", "")
+            context["category"] = q.get("category", "")
+            context["question_id"] = q.get("question_id", "")
+            context["turns"] = q.get("turns", [])
             
         if not template_path.exists():
             return {**q, "error": f"Template não encontrado em {template_path}"}
@@ -174,12 +176,13 @@ class ExecutionManager:
         q_result['ollama_response'] = response
         q_result['model_used'] = model
         q_result['task'] = "basic-legislation"
+        q_result['user_prompt'] = user_prompt
+        q_result['system_prompt'] = system_prompt
 
         try:
             resp_str_clean = response.replace("```json", "").replace("```", "").strip()
             resp_json = json.loads(resp_str_clean)
             q_result['legislacao_base'] = resp_json.get("legislacao_base")
-            q_result['legislacao_secundaria'] = resp_json.get("legislacao_secundaria")
         except Exception:
             pass
             
@@ -203,7 +206,6 @@ class ExecutionManager:
             q_result['legislacao_error'] = legislation_result['error']
             
         q_result['legislacao_base'] = legislation_result.get('legislacao_base')
-        q_result['legislacao_secundaria'] = legislation_result.get('legislacao_secundaria')
         
         return q_result
 

@@ -1,5 +1,4 @@
 import evaluate
-import json
 from typing import Dict, Any
 
 class EvaluationManager:
