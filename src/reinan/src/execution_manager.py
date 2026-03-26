@@ -80,6 +80,65 @@ class ExecutionManager:
         
         return q_result
 
+    def classify_difficulty(self, q: Dict[str, Any], model: str) -> Dict[str, Any]:
+        """
+        Classifica o nível de dificuldade da questão usando o template de curador.
+        """
+        prompts_dir = Path(__file__).parent.parent / "prompts"
+        template_path = prompts_dir / "curador" / "difficulty-level" / "user_template.minijinja"
+        
+        context = q.copy()
+        context["statement"] = context.get("statement", context.get("question", ""))
+        context["category"] = context.get("category", context.get("area", ""))
+        context["question_id"] = context.get("question_id", context.get("id", ""))
+        
+        if not template_path.exists():
+            return {**q, "error": f"Template não encontrado em {template_path}"}
+            
+        with open(template_path, "r", encoding="utf-8") as f:
+            template_str = f.read()
+            
+        template = jinja2.Template(template_str)
+        user_prompt = template.render(**context)
+        
+        system_prompt = "Você é um curador jurídico especializado em questões do Exame da OAB."
+        
+        try:
+            response = self.ollama_manager.generate_response(model, system_prompt, user_prompt)
+        except Exception as e:
+            response = f"ERRO: {e}"
+            
+        q_result = q.copy()
+        q_result['ollama_response'] = response
+        q_result['model_used'] = model
+        q_result['task'] = "difficulty-level"
+
+        try:
+            resp_str_clean = response.replace("```json", "").replace("```", "").strip()
+            resp_json = json.loads(resp_str_clean)
+            q_result['dificuldade'] = resp_json.get("dificuldade")
+            q_result['nivel'] = resp_json.get("nivel")
+        except Exception:
+            pass
+            
+        return q_result
+
+    def process_full_question(self, q: Dict[str, Any], model: str, dataset: str) -> Dict[str, Any]:
+        """
+        Executa sequencialmente a inferência da questão e a classificação de dificuldade.
+        """
+
+        q_result = self.process_question(q, model, dataset)
+        difficulty_result = self.classify_difficulty(q, model)
+        
+        if "error" in difficulty_result and difficulty_result["error"]:
+            q_result['dificuldade_error'] = difficulty_result['error']
+            
+        q_result['dificuldade'] = difficulty_result.get('dificuldade')
+        q_result['nivel'] = difficulty_result.get('nivel')
+        
+        return q_result
+
     def save_results(self, results: List[Dict[str, Any]], dataset: str, model: str) -> Path:
         """
         Salva os resultados consolidados na subpasta definida para o cache.

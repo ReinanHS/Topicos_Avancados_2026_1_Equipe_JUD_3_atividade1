@@ -47,7 +47,7 @@ def run(
     limit: int = typer.Option(None, "--limit", "-l", help="Limitar a quantidade de questões a serem executadas.")
 ):
     """
-    Executa a inferência nas questões do dataset através do LLM local conectado via Ollama.
+    Executa a inferência e a classificação de dificuldade nas questões do dataset através do LLM local.
     """
 
     if model not in OllamaManager.AVAILABLE_MODELS:
@@ -63,14 +63,14 @@ def run(
     typer.echo(f"Iniciando a execução de {len(questions)} questões no modelo {model}...")
     results = []
     
-    with typer.progressbar(questions, label="Processando inferências") as progress:
+    with typer.progressbar(questions, label="Processando questões") as progress:
         for q in progress:
-            q_result = execution_manager.process_question(q, model, dataset)
+            q_result = execution_manager.process_full_question(q, model, dataset)
             results.append(q_result)
             
     output_path = execution_manager.save_results(results, dataset, model)
     
-    typer.echo("Inferência finalizada com sucesso!")
+    typer.echo("Execução finalizada com sucesso!")
     typer.echo(f"Resultados salvos em: {output_path}")
 
 @app.command()
