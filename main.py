@@ -12,6 +12,7 @@ ollama_manager = OllamaManager()
 execution_manager = ExecutionManager(dataset_manager, storage_manager, ollama_manager)
 evaluation_manager = EvaluationManager(dataset_manager, storage_manager)
 
+
 @app.callback()
 def main_callback():
     """
@@ -19,10 +20,15 @@ def main_callback():
     """
     pass
 
+
 @app.command()
 def pull(
-    dataset: str = typer.Argument(..., help="Nome do dataset para baixar (ex: oab_bench, oab_exams)"), 
-    output: str = typer.Option("json", "--output", help="Formato do arquivo de saída (json ou csv)")
+    dataset: str = typer.Argument(
+        ..., help="Nome do dataset para baixar (ex: oab_bench, oab_exams)"
+    ),
+    output: str = typer.Option(
+        "json", "--output", help="Formato do arquivo de saída (json ou csv)"
+    ),
 ):
     """
     Baixa as informações do dataset e salva no diretório de armazenamento local em JSON ou CSV.
@@ -32,72 +38,111 @@ def pull(
     elif dataset == "oab_exams":
         questions = dataset_manager.load_oab_exams()
     else:
-        typer.echo(f"Erro: Dataset '{dataset}' não reconhecido. Use 'oab_bench' ou 'oab_exams'.", err=True)
+        typer.echo(
+            f"Erro: Dataset '{dataset}' não reconhecido. Use 'oab_bench' ou 'oab_exams'.",
+            err=True,
+        )
         raise typer.Exit(code=1)
-        
-    caminho_arquivo = storage_manager.save_data(questions, dataset, fmt=output, sub_dir="dataset")
-    
+
+    caminho_arquivo = storage_manager.save_data(
+        questions, dataset, fmt=output, sub_dir="dataset"
+    )
+
     typer.echo(f"Foram selecionadas {len(questions)} questões para o lote.")
     typer.echo(f"Conjunto de dados salvo com sucesso em: {caminho_arquivo}")
 
+
 @app.command()
 def run(
-    dataset: str = typer.Argument(..., help="Nome do dataset para processar (ex: oab_bench, oab_exams)"),
-    model: str = typer.Option(..., "--model", "-m", help=f"Modelo do ollama para execução: {', '.join(OllamaManager.AVAILABLE_MODELS)}"),
-    limit: int = typer.Option(None, "--limit", "-l", help="Limitar a quantidade de questões a serem executadas.")
+    dataset: str = typer.Argument(
+        ..., help="Nome do dataset para processar (ex: oab_bench, oab_exams)"
+    ),
+    model: str = typer.Option(
+        ...,
+        "--model",
+        "-m",
+        help=f"Modelo do ollama para execução: {', '.join(OllamaManager.AVAILABLE_MODELS)}",
+    ),
+    limit: int = typer.Option(
+        None,
+        "--limit",
+        "-l",
+        help="Limitar a quantidade de questões a serem executadas.",
+    ),
 ):
     """
     Executa a inferência e a classificação de dificuldade nas questões do dataset através do LLM local.
     """
 
     if model not in OllamaManager.AVAILABLE_MODELS:
-        typer.echo(f"Erro: Modelo '{model}' não é suportado pelo nosso OllamaManager.", err=True)
+        typer.echo(
+            f"Erro: Modelo '{model}' não é suportado pelo nosso OllamaManager.",
+            err=True,
+        )
         raise typer.Exit(code=1)
-        
+
     if dataset not in ["oab_bench", "oab_exams"]:
-        typer.echo(f"Erro: Dataset '{dataset}' não reconhecido. Use 'oab_bench' ou 'oab_exams'.", err=True)
+        typer.echo(
+            f"Erro: Dataset '{dataset}' não reconhecido. Use 'oab_bench' ou 'oab_exams'.",
+            err=True,
+        )
         raise typer.Exit(code=1)
 
     questions = execution_manager.get_questions(dataset, limit)
 
-    typer.echo(f"Iniciando a execução de {len(questions)} questões no modelo {model}...")
+    typer.echo(
+        f"Iniciando a execução de {len(questions)} questões no modelo {model}..."
+    )
     results = []
-    
+
     with typer.progressbar(questions, label="Processando questões") as progress:
         for q in progress:
             q_result = execution_manager.process_full_question(q, model, dataset)
             results.append(q_result)
-            
+
     output_path = execution_manager.save_results(results, dataset, model)
-    
+
     typer.echo("Execução finalizada com sucesso!")
     typer.echo(f"Resultados salvos em: {output_path}")
 
+
 @app.command()
 def evaluate(
-    dataset: str = typer.Argument(..., help="Nome do dataset para avaliar o resultado dos modelos.")
+    dataset: str = typer.Argument(
+        ..., help="Nome do dataset para avaliar o resultado dos modelos."
+    ),
 ):
     """
     Avalia as respostas geradas comparando-as de forma cruzada (um modelo como referência para o outro) ou exata.
     O sistema detecta automaticamente quais modelos já possuem resultados salvos para este dataset.
     """
     if dataset not in ["oab_bench", "oab_exams"]:
-        typer.echo("Erro: Atualmente a avaliação está implementada apenas para 'oab_bench' e 'oab_exams'.", err=True)
+        typer.echo(
+            "Erro: Atualmente a avaliação está implementada apenas para 'oab_bench' e 'oab_exams'.",
+            err=True,
+        )
         raise typer.Exit(code=1)
 
     typer.echo(f"Buscando modelos disponíveis para o dataset {dataset}...")
     models = storage_manager.list_available_models(dataset)
-    
+
     if dataset == "oab_bench":
         if len(models) < 2:
-            typer.echo(f"Foram encontrados resultados para apenas {len(models)} modelo(s): {models}.")
-            typer.echo("Erro: Para a avaliação cruzada, é necessário primeiro fazer a execução para ter os resultados salvos (no mínimo 2 modelos).", err=True)
-            typer.echo(f"Sugestão: Execute 'uv run python main.py run {dataset} --model <nome_do_modelo>' para novos modelos.")
+            typer.echo(
+                f"Foram encontrados resultados para apenas {len(models)} modelo(s): {models}."
+            )
+            typer.echo(
+                "Erro: Para a avaliação cruzada, é necessário primeiro fazer a execução para ter os resultados salvos (no mínimo 2 modelos).",
+                err=True,
+            )
+            typer.echo(
+                f"Sugestão: Execute 'uv run python main.py run {dataset} --model <nome_do_modelo>' para novos modelos."
+            )
             raise typer.Exit(code=1)
-            
+
         typer.echo(f"Modelos encontrados ({len(models)}): {', '.join(models)}")
         typer.echo("Iniciando a avaliação cruzada (Pairwise Metrics)...")
-        
+
         try:
             cross_scores = evaluation_manager.evaluate_cross_models(dataset, models)
             typer.echo("\n--- Resultados da Avaliação Cruzada ---")
@@ -108,15 +153,18 @@ def evaluate(
         except Exception as e:
             typer.echo(f"Erro durante a avaliação: {e}", err=True)
             raise typer.Exit(code=1)
-            
+
     elif dataset == "oab_exams":
         if len(models) < 1:
-            typer.echo("Erro: Nenhum modelo encontrado para 'oab_exams'. Execute o comando 'run' primeiro para gerar os resultados.", err=True)
+            typer.echo(
+                "Erro: Nenhum modelo encontrado para 'oab_exams'. Execute o comando 'run' primeiro para gerar os resultados.",
+                err=True,
+            )
             raise typer.Exit(code=1)
-            
+
         typer.echo(f"Modelos encontrados ({len(models)}): {', '.join(models)}")
         typer.echo("Iniciando a avaliação exata (Acurácia, Precisão, Recall, F1)...")
-        
+
         try:
             model_scores = evaluation_manager.evaluate_oab_exams(dataset, models)
             typer.echo("\n--- Resultados da Avaliação ---")
@@ -127,6 +175,7 @@ def evaluate(
         except Exception as e:
             typer.echo(f"Erro durante a avaliação: {e}", err=True)
             raise typer.Exit(code=1)
+
 
 if __name__ == "__main__":
     app()
