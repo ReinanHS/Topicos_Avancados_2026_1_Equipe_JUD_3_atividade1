@@ -121,3 +121,4 @@ fabric.properties
 __pycache__
 plot_melhor_rota.png
 plot_convergencia.png
+.reinan_cache/
