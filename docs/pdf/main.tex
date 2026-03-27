@@ -1,0 +1,351 @@
+% =========================================================
+%  Relatório — Atividade Avaliativa 1
+%  Curadoria de Datasets e Inferência Básica com LLMs
+%  Equipe 3 — Domínio Jurídico
+% =========================================================
+\documentclass[12pt,a4paper]{article}
+
+% -------------------- Idioma e fontes --------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+
+% -------------------- Layout -----------------------------
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+% -------------------- Utilidades -------------------------
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{parskip}
+
+% -------------------- Links ------------------------------
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  urlcolor=blue!60!black,
+  citecolor=blue!60!black
+}
+
+% -------------------- Código (Python) --------------------
+\usepackage{xcolor}
+\usepackage{listings}
+
+\definecolor{pybg}{RGB}{248,248,248}
+\definecolor{pyframe}{RGB}{220,220,220}
+\definecolor{pyblue}{RGB}{32,64,154}
+\definecolor{pystring}{RGB}{163,21,21}
+\definecolor{pycomment}{RGB}{120,120,120}
+
+\lstdefinestyle{pythonstyle}{
+  language=Python,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{pyblue}\bfseries,
+  stringstyle=\color{pystring},
+  commentstyle=\color{pycomment}\itshape,
+  showstringspaces=false,
+  columns=fullflexible,
+  backgroundcolor=\color{pybg},
+  frame=single,
+  rulecolor=\color{pyframe},
+  frameround=ffff,
+  breaklines=true,
+  tabsize=2,
+  numbersep=8pt,
+  numbers=left,
+  numberstyle=\tiny\color{pycomment}
+}
+
+\lstdefinestyle{bashstyle}{
+  language=bash,
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{pybg},
+  frame=single,
+  rulecolor=\color{pyframe},
+  frameround=ffff,
+  breaklines=true,
+  numbers=none
+}
+
+% -------------------- Metadados --------------------------
+\title{%
+  \vspace{-1cm}
+  \large\textbf{Universidade Federal de Sergipe}\\[0.3cm]
+  \normalsize Departamento de Computação\\
+  Tópicos Avançados em Engenharia de Software e Sistemas de Informação I\\[1cm]
+  \Large\textbf{Atividade Avaliativa 1}\\[0.3cm]
+  \large Curadoria de Datasets e Inferência Básica com LLMs\\[0.3cm]
+  \normalsize Equipe 3 — Domínio Jurídico
+}
+\author{Reinan Gabriel dos Santos Souza}
+\date{Abril de 2026}
+
+% =========================================================
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+% ----- Informações de acesso em destaque -----
+\begin{center}
+  \fbox{\parbox{0.85\textwidth}{\centering
+    \textbf{Repositório GitHub:}\\
+    \url{https://github.com/reinanhs/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1}\\[6pt]
+    \textbf{Vídeo demonstrativo:}\\
+    \url{https://youtu.be/lcOxhH8N3Bo}
+  }}
+\end{center}
+
+\vspace{0.5cm}
+
+\tableofcontents
+\newpage
+
+% =========================================================
+\section{Introdução}
+% =========================================================
+
+Este documento apresenta os resultados da \textbf{Atividade Avaliativa 1} da disciplina Tópicos Avançados em Engenharia de Software e Sistemas de Informação I, ministrada na Universidade Federal de Sergipe (UFS), semestre 2026.1.
+
+A atividade consiste na curadoria de datasets jurídicos e na realização de inferência básica utilizando Modelos de Linguagem (LLMs), com foco em questões do Exame da OAB (Ordem dos Advogados do Brasil). Embora a execução das tarefas de curadoria e análise seja individual, a entrega e consolidação dos resultados são feitas em equipe.
+
+O presente relatório documenta as contribuições individuais do aluno \textbf{Reinan Gabriel dos Santos Souza}, membro da \textbf{Equipe 3 (Jurídica)}, abrangendo todo o pipeline de execução: desde a seleção e configuração dos modelos de linguagem, passando pela inferência sobre os datasets, até a avaliação quantitativa dos resultados obtidos.
+
+% =========================================================
+\section{Domínio de atuação}
+% =========================================================
+
+A Equipe 3 atua no \textbf{Domínio Jurídico}, trabalhando com dois datasets complementares:
+
+\begin{table}[H]
+\centering
+\caption{Datasets utilizados pela Equipe 3.}
+\label{tab:datasets}
+\begin{tabularx}{\textwidth}{l l c X}
+\toprule
+\textbf{Dataset} & \textbf{Tipo} & \textbf{Qtd.} & \textbf{Fonte} \\
+\midrule
+J1 — OAB Bench & Questões Abertas & 210 & \texttt{maritaca-ai/oab-bench} \\
+J2 — OAB Exams & Múltipla Escolha & 2210 & \texttt{eduagarcia/oab\_exams} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+O artigo de referência para o dataset J1 está disponível na ACM Digital Library\footnote{\url{https://dl.acm.org/doi/pdf/10.1145/3769126.3769227}}.
+
+\subsection{Distribuição das questões}
+
+Conforme a distribuição oficial da atividade, as questões designadas para este membro são:
+
+\begin{itemize}[nosep]
+  \item \textbf{Questões abertas (J1):} intervalo 177 a 188 — 12 questões do subset \texttt{questions}.
+  \item \textbf{Questões objetivas (J2):} intervalo 1846 a 1968 — 122 questões de múltipla escolha.
+\end{itemize}
+
+% =========================================================
+\section{Ambiente de execução}
+% =========================================================
+
+\subsection{Configuração de hardware}
+
+Os experimentos de inferência foram executados em uma máquina local com a seguinte configuração de GPU:
+
+\begin{table}[H]
+\centering
+\caption{Especificação de hardware utilizado.}
+\label{tab:hardware}
+\begin{tabular}{ll}
+\toprule
+\textbf{Componente} & \textbf{Especificação} \\
+\midrule
+GPU & NVIDIA GeForce GTX 1050 \\
+VRAM dedicada & 4,0 GB \\
+Memória compartilhada & 8,0 GB \\
+Versão do driver & 32.0.15.8228 \\
+Versão do DirectX & 12 (FL 12.1) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Dado o limite de 4 GB de VRAM dedicada, a seleção dos modelos foi direcionada para LLMs compactos (até $\sim$3B de parâmetros) com versões quantizadas que cabem confortavelmente na memória disponível da GPU.
+
+\subsection{Modelos de linguagem selecionados}
+
+Foram escolhidos três modelos de diferentes organizações, todos executados localmente via Ollama:
+
+\begin{table}[H]
+\centering
+\caption{Modelos de linguagem utilizados nos experimentos.}
+\label{tab:modelos}
+\begin{tabular}{clcccc}
+\toprule
+\textbf{\#} & \textbf{Modelo} & \textbf{Desenvolvedor} & \textbf{Parâmetros} & \textbf{Quantização} & \textbf{Tamanho} \\
+\midrule
+1 & Llama 3.2 3B & Meta & 3,21B & Q4\_K\_M & $\sim$2,0 GB \\
+2 & Gemma 2 2B & Google & 2,61B & Q4\_0 & $\sim$1,6 GB \\
+3 & Qwen 2.5 3B & Alibaba Cloud & 3,09B & Q4\_K\_M & $\sim$1,9 GB \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A justificativa para a escolha destes modelos se baseia em três critérios: compatibilidade com o hardware disponível (todos inferiores a 2 GB quantizados), diversidade de origem (Meta, Google e Alibaba Cloud) e suporte ao idioma português.
+
+% =========================================================
+\section{Metodologia}
+% =========================================================
+
+\subsection{Curadoria (Classificação criativa)}
+
+Cada questão do lote atribuído foi classificada de acordo com os parâmetros definidos em conjunto pela equipe, incluindo nível de dificuldade, área de especialidade jurídica e legislação de referência. A classificação de dificuldade e a identificação da legislação base foram realizadas de forma automatizada por meio dos próprios LLMs, utilizando templates de prompt dedicados.
+
+\subsection{Inferência com LLMs}
+
+Para cada questão, o pipeline de execução realiza três etapas sequenciais por modelo: (1) inferência da resposta principal, (2) classificação de dificuldade e (3) identificação da legislação base. Os prompts são gerenciados via templates Jinja2 armazenados no diretório \texttt{prompts/}.
+
+Os comandos de execução são centralizados em uma CLI construída com Typer:
+
+\begin{lstlisting}[style=bashstyle]
+# Inferência sobre questões abertas
+uv run python main.py run oab_bench --model llama3.2:3b
+uv run python main.py run oab_bench --model gemma2:2b
+uv run python main.py run oab_bench --model qwen2.5:3b
+
+# Inferência sobre questões objetivas
+uv run python main.py run oab_exams --model llama3.2:3b
+uv run python main.py run oab_exams --model gemma2:2b
+uv run python main.py run oab_exams --model qwen2.5:3b
+\end{lstlisting}
+
+\subsection{Avaliação e comparação}
+
+Por se tratar do domínio jurídico, as questões abertas \textbf{não possuem gabarito oficial}. A avaliação foi realizada de duas formas:
+
+\begin{itemize}[nosep]
+  \item \textbf{Avaliação cruzada (J1):} comparação entre as respostas dos três modelos utilizando métricas de similaridade textual — BLEU, ROUGE-1, ROUGE-2, ROUGE-L e BERTScore F1.
+  \item \textbf{Avaliação exata (J2):} comparação das respostas de múltipla escolha contra o gabarito oficial, utilizando Acurácia, Precisão, Recall e F1-Score.
+\end{itemize}
+
+% =========================================================
+\section{Resultados}
+% =========================================================
+
+\subsection{Avaliação Cruzada — Questões Abertas (OAB Bench)}
+
+A Tabela~\ref{tab:cross} apresenta os resultados da avaliação cruzada entre pares de modelos para as 12 questões abertas do lote atribuído.
+
+\begin{table}[H]
+\centering
+\caption{Avaliação cruzada — métricas de similaridade entre pares de modelos.}
+\label{tab:cross}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Par de Modelos} & \textbf{BLEU} & \textbf{ROUGE-1} & \textbf{ROUGE-2} & \textbf{ROUGE-L} & \textbf{BERTScore F1} \\
+\midrule
+gemma2:2b vs llama3.2:3b  & 0,1474 & 0,5094 & 0,2208 & 0,2627 & 0,7665 \\
+gemma2:2b vs qwen2.5:3b   & 0,1413 & 0,5063 & 0,1985 & 0,2440 & 0,7588 \\
+llama3.2:3b vs qwen2.5:3b & 0,1515 & 0,5222 & 0,2206 & 0,2620 & 0,7672 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Avaliação Exata — Múltipla Escolha (OAB Exams)}
+
+A Tabela~\ref{tab:exata} apresenta os resultados da avaliação exata para as 122 questões objetivas do lote atribuído.
+
+\begin{table}[H]
+\centering
+\caption{Avaliação exata — desempenho dos modelos em questões de múltipla escolha.}
+\label{tab:exata}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Modelo} & \textbf{Acurácia} & \textbf{Precisão} & \textbf{Recall} & \textbf{F1} \\
+\midrule
+gemma2:2b   & 0,4508 & 0,4846 & 0,4532 & 0,4457 \\
+llama3.2:3b & 0,3852 & 0,3896 & 0,3845 & 0,3781 \\
+qwen2.5:3b  & 0,4016 & 0,4344 & 0,4064 & 0,4059 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =========================================================
+\section{Contribuições individuais — Reinan Gabriel}
+% =========================================================
+
+Esta seção detalha as contribuições individuais realizadas pelo aluno Reinan Gabriel dos Santos Souza no contexto desta atividade.
+
+\subsection{Organização do projeto no GitHub}
+
+Todo o código-fonte, dados de execução e configurações estão organizados no repositório público da equipe no GitHub. A estrutura do projeto foi desenvolvida com foco em reprodutibilidade e modularidade:
+
+\begin{itemize}[nosep]
+  \item \textbf{CLI centralizada (\texttt{main.py}):} interface de linha de comando construída com Typer, que expõe os comandos \texttt{pull}, \texttt{run} e \texttt{evaluate}.
+  \item \textbf{Módulos em \texttt{src/}:} o projeto é dividido em gerenciadores especializados:
+    \begin{itemize}[nosep]
+      \item \texttt{dataset\_manager.py} — carregamento e filtragem dos datasets via HuggingFace.
+      \item \texttt{ollama\_manager.py} — integração com os LLMs locais via Ollama.
+      \item \texttt{execution\_manager.py} — orquestração do pipeline de inferência.
+      \item \texttt{evaluation\_manager.py} — cálculo das métricas de avaliação (BLEU, ROUGE, BERTScore, Acurácia, F1).
+      \item \texttt{storage\_manager.py} — persistência local dos resultados em JSON/CSV.
+    \end{itemize}
+  \item \textbf{Templates de prompt (\texttt{prompts/}):} arquivos \texttt{.minijinja} para cada tipo de tarefa e dataset, renderizados via Jinja2.
+  \item \textbf{Gerenciamento de dependências:} o projeto utiliza \texttt{uv} como gerenciador de pacotes e \texttt{ruff} como linter, ambos configurados no \texttt{pyproject.toml}.
+\end{itemize}
+
+O repositório também conta com um ambiente pré-configurado para GitHub Codespaces, permitindo a execução dos experimentos diretamente na nuvem.
+
+\subsection{Resultados coletados}
+
+Os resultados apresentados na Seção 5 foram obtidos a partir da execução completa do pipeline sobre os dois datasets atribuídos. Abaixo, são destacados os principais achados:
+
+\subsubsection{Questões abertas (OAB Bench)}
+
+Na avaliação cruzada, o par \textbf{llama3.2:3b vs qwen2.5:3b} obteve os melhores índices de similaridade na maioria das métricas (BLEU = 0,1515; ROUGE-1 = 0,5222; BERTScore F1 = 0,7672), sugerindo que esses dois modelos tendem a produzir respostas mais semelhantes entre si. Todos os pares apresentaram BERTScore F1 acima de 0,75, indicando um grau razoável de concordância semântica entre os modelos, apesar da baixa sobreposição lexical (BLEU $\approx$ 0,14--0,15).
+
+\subsubsection{Questões objetivas (OAB Exams)}
+
+Entre os três modelos, o \textbf{gemma2:2b} apresentou o melhor desempenho geral, com acurácia de 0,4508 e F1 de 0,4457. O \textbf{qwen2.5:3b} ocupou a segunda posição (acurácia 0,4016), enquanto o \textbf{llama3.2:3b} ficou em terceiro (acurácia 0,3852). Nenhum dos modelos atingiu desempenho superior a 50\%, o que é esperado considerando o tamanho reduzido dos modelos ($\leq$ 3B parâmetros) e a complexidade das questões da OAB.
+
+% =========================================================
+\section{Instruções de reprodução}
+% =========================================================
+
+Para reproduzir os experimentos, são necessários: Python 3.12+, \texttt{uv} 0.10+ e Ollama com os três modelos instalados. Os passos completos estão documentados no \texttt{README.md} do repositório. De forma resumida:
+
+\begin{lstlisting}[style=bashstyle]
+# Instalar dependências
+uv sync
+
+# Baixar datasets
+uv run python main.py pull oab_bench
+uv run python main.py pull oab_exams
+
+# Executar inferência (repetir para cada modelo)
+uv run python main.py run oab_bench --model llama3.2:3b
+uv run python main.py run oab_exams --model llama3.2:3b
+
+# Avaliar resultados
+uv run python main.py evaluate oab_bench
+uv run python main.py evaluate oab_exams
+\end{lstlisting}
+
+% =========================================================
+\section{Referências}
+% =========================================================
+
+\begin{enumerate}[nosep]
+  \item Databricks. \textit{Best Practices and Methods for LLM Evaluation}. Disponível em: \url{https://www.databricks.com/br/blog/best-practices-and-methods-llm-evaluation}.
+  \item Confident AI. \textit{LLM Evaluation Metrics: Everything You Need for LLM Evaluation}. Disponível em: \url{https://www.confident-ai.com/blog/llm-evaluation-metrics-everything-you-need-for-llm-evaluation}.
+  \item Databricks. \textit{LLM Auto-Eval Best Practices for RAG}. Disponível em: \url{https://www.databricks.com/blog/LLM-auto-eval-best-practices-RAG}.
+  \item Zhao, H. et al. \textit{LLM Evaluation: A Comprehensive Survey}. arXiv, 2025. Disponível em: \url{https://arxiv.org/html/2504.21202v1}.
+  \item Astral. \textit{uv — Python package manager}. Disponível em: \url{https://docs.astral.sh/uv/}.
+  \item Astral. \textit{Ruff — An extremely fast Python linter}. Disponível em: \url{https://docs.astral.sh/ruff/}.
+  \item Typer. \textit{Typer — library for building CLIs in Python}. Disponível em: \url{https://typer.tiangolo.com/}.
+  \item IBM. \textit{Tokenização: o que é e como funciona}. Disponível em: \url{https://www.ibm.com/br-pt/think/topics/tokenization}.
+\end{enumerate}
+
+\end{document}

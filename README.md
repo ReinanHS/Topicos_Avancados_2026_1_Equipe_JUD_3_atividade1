@@ -15,6 +15,10 @@
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="Licença MIT">
   </a>
+  <!-- PDF -->
+  <a href="https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/contribuicao-individual.pdf">
+    <img src="https://img.shields.io/badge/Contribui%C3%A7%C3%A3o%20individual-PDF-red.svg?logo=libreofficewriter" alt="PDF">
+  </a>
   <!-- Last commit -->
   <a href="https://github.com/reinanhs/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/commits/main">
     <img src="https://img.shields.io/github/last-commit/reinanhs/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1.svg" alt="Último commit">

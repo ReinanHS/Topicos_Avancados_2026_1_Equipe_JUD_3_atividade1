@@ -51,9 +51,20 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Create static Hello World HTML
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Compilar LaTeX (docs/main.tex)
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex
+          working_directory: docs/pdf
+          latexmk_use_xelatex: true
+
+      - name: Create static Hello World HTML and copy PDF
         run: |
           mkdir -p public
+          cp docs/pdf/main.pdf public/contribuicao-individual.pdf
           cat << 'EOF' > public/index.html
           <!DOCTYPE html>
           <html lang="pt-BR">
@@ -66,6 +77,8 @@ jobs:
                   .container { text-align: center; padding: 2rem; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
                   h1 { color: #333; }
                   p { color: #666; }
+                  a.btn { display: inline-block; margin-top: 1rem; padding: 10px 20px; text-decoration: none; color: white; background-color: #007bff; border-radius: 5px; font-weight: bold; }
+                  a.btn:hover { background-color: #0056b3; }
               </style>
           </head>
           <body>
@@ -73,6 +86,7 @@ jobs:
                   <h1>Hello World! 🚀</h1>
                   <p>Implantação gerada automaticamente via GitHub Actions.</p>
                   <p>Dependências gerenciadas com <b>uv</b> e código validado com <b>ruff</b>.</p>
+                  <a href="contribuicao-individual.pdf" target="_blank" class="btn">📄 Ver Contribuição Individual (PDF)</a>
               </div>
           </body>
           </html>
