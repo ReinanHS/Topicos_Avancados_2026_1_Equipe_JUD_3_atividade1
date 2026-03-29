@@ -61,36 +61,13 @@ jobs:
           working_directory: docs/pdf
           latexmk_use_xelatex: true
 
-      - name: Create static Hello World HTML and copy PDF
+      - name: Build Docusaurus
         run: |
-          mkdir -p public
-          cp docs/pdf/main.pdf public/contribuicao-individual.pdf
-          cat << 'EOF' > public/index.html
-          <!DOCTYPE html>
-          <html lang="pt-BR">
-          <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>Hello World - CI/CD</title>
-              <style>
-                  body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f0f2f5; }
-                  .container { text-align: center; padding: 2rem; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-                  h1 { color: #333; }
-                  p { color: #666; }
-                  a.btn { display: inline-block; margin-top: 1rem; padding: 10px 20px; text-decoration: none; color: white; background-color: #007bff; border-radius: 5px; font-weight: bold; }
-                  a.btn:hover { background-color: #0056b3; }
-              </style>
-          </head>
-          <body>
-              <div class="container">
-                  <h1>Hello World! 🚀</h1>
-                  <p>Implantação gerada automaticamente via GitHub Actions.</p>
-                  <p>Dependências gerenciadas com <b>uv</b> e código validado com <b>ruff</b>.</p>
-                  <a href="contribuicao-individual.pdf" target="_blank" class="btn">📄 Ver Contribuição Individual (PDF)</a>
-              </div>
-          </body>
-          </html>
-          EOF
+          git clone https://gitlab.com/reinanhs/template-documentacao-ia-juridica.git
+          cd template-documentacao-ia-juridica
+          npm ci
+          npm run build
+          cp ../docs/pdf/main.pdf build/contribuicao-individual.pdf
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -98,7 +75,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './public'
+          path: './template-documentacao-ia-juridica/build'
 
       - name: Deploy to GitHub Pages
         id: deployment
