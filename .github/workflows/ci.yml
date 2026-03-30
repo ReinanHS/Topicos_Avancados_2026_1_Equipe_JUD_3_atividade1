@@ -65,6 +65,8 @@ jobs:
         run: |
           git clone https://gitlab.com/reinanhs/template-documentacao-ia-juridica.git
           cd template-documentacao-ia-juridica
+          rm -rf docs
+          cp -r ../docs docs
           npm ci
           npm run build
           cp ../docs/pdf/main.pdf build/contribuicao-individual.pdf
