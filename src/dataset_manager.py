@@ -1,4 +1,3 @@
-from datasets import load_dataset
 from typing import List, Dict, Any
 
 
@@ -16,6 +15,8 @@ class DatasetManager:
         Baixa as coleções de guidelines e questions do maritaca-ai/oab-bench,
         agrupa-as e retorna o lote de questões designadas.
         """
+        from datasets import load_dataset
+
         ds_guidelines = load_dataset("maritaca-ai/oab-bench", "guidelines")
         ds_questions = load_dataset("maritaca-ai/oab-bench", "questions")
 
@@ -26,6 +27,8 @@ class DatasetManager:
         """
         Baixa as questões do eduagarcia/oab_exams e retorna o lote designado.
         """
+        from datasets import load_dataset
+
         ds_exams = load_dataset("eduagarcia/oab_exams")
 
         questions = list(ds_exams["train"])

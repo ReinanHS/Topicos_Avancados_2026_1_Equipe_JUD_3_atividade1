@@ -1,16 +1,6 @@
 import typer
-from src.dataset_manager import DatasetManager
-from src.storage_manager import StorageManager
-from src.ollama_manager import OllamaManager
-from src.execution_manager import ExecutionManager
-from src.evaluation_manager import EvaluationManager
 
 app = typer.Typer(no_args_is_help=True)
-dataset_manager = DatasetManager()
-storage_manager = StorageManager()
-ollama_manager = OllamaManager()
-execution_manager = ExecutionManager(dataset_manager, storage_manager, ollama_manager)
-evaluation_manager = EvaluationManager(dataset_manager, storage_manager)
 
 
 @app.callback()
@@ -33,6 +23,12 @@ def pull(
     """
     Baixa as informações do dataset e salva no diretório de armazenamento local em JSON ou CSV.
     """
+    from src.dataset_manager import DatasetManager
+    from src.storage_manager import StorageManager
+
+    dataset_manager = DatasetManager()
+    storage_manager = StorageManager()
+
     if dataset == "oab_bench":
         questions = dataset_manager.load_oab_bench()
     elif dataset == "oab_exams":
@@ -61,7 +57,7 @@ def run(
         ...,
         "--model",
         "-m",
-        help=f"Modelo do ollama para execução: {', '.join(OllamaManager.AVAILABLE_MODELS)}",
+        help="Modelo do ollama para execução: llama3.2:3b, gemma2:2b, qwen2.5:3b",
     ),
     limit: int = typer.Option(
         None,
@@ -73,6 +69,12 @@ def run(
     """
     Executa a inferência e a classificação de dificuldade nas questões do dataset através do LLM local.
     """
+    from src.dataset_manager import DatasetManager
+    from src.storage_manager import StorageManager
+    from src.ollama_manager import OllamaManager
+    from src.execution_manager import ExecutionManager
+
+    ollama_manager = OllamaManager()
 
     if model not in OllamaManager.AVAILABLE_MODELS:
         typer.echo(
@@ -87,6 +89,10 @@ def run(
             err=True,
         )
         raise typer.Exit(code=1)
+
+    dataset_manager = DatasetManager()
+    storage_manager = StorageManager()
+    execution_manager = ExecutionManager(dataset_manager, storage_manager, ollama_manager)
 
     questions = execution_manager.get_questions(dataset, limit)
 
@@ -116,12 +122,20 @@ def evaluate(
     Avalia as respostas geradas comparando-as de forma cruzada (um modelo como referência para o outro) ou exata.
     O sistema detecta automaticamente quais modelos já possuem resultados salvos para este dataset.
     """
+    from src.dataset_manager import DatasetManager
+    from src.storage_manager import StorageManager
+    from src.evaluation_manager import EvaluationManager
+
     if dataset not in ["oab_bench", "oab_exams"]:
         typer.echo(
             "Erro: Atualmente a avaliação está implementada apenas para 'oab_bench' e 'oab_exams'.",
             err=True,
         )
         raise typer.Exit(code=1)
+
+    dataset_manager = DatasetManager()
+    storage_manager = StorageManager()
+    evaluation_manager = EvaluationManager(dataset_manager, storage_manager)
 
     typer.echo(f"Buscando modelos disponíveis para o dataset {dataset}...")
     models = storage_manager.list_available_models(dataset)

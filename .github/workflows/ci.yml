@@ -42,7 +42,7 @@ jobs:
         run: uv run ruff format --check .
 
   deploy-pages:
-    name: Deploy Hello World to GitHub Pages
+    name: Deploy documentation to GitHub Pages
     needs: lint-and-test
 
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'

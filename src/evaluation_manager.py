@@ -1,4 +1,3 @@
-import evaluate
 from typing import Dict, Any
 
 
@@ -11,15 +10,17 @@ class EvaluationManager:
     def __init__(self, dataset_manager, storage_manager):
         self.dataset_manager = dataset_manager
         self.storage_manager = storage_manager
+        self._metrics_cache = {}
 
-        self.bleu = evaluate.load("bleu")
-        self.rouge = evaluate.load("rouge")
-        self.bertscore = evaluate.load("bertscore")
+    def _get_metric(self, name: str):
+        """
+        Carrega uma métrica do evaluate sob demanda e guarda em cache.
+        """
+        if name not in self._metrics_cache:
+            import evaluate
 
-        self.accuracy = evaluate.load("accuracy")
-        self.precision = evaluate.load("precision")
-        self.recall = evaluate.load("recall")
-        self.f1 = evaluate.load("f1")
+            self._metrics_cache[name] = evaluate.load(name)
+        return self._metrics_cache[name]
 
     def evaluate_cross_models(
         self, dataset_name: str, models: list
@@ -65,13 +66,13 @@ class EvaluationManager:
             if not predictions:
                 continue
 
-            bleu_score = self.bleu.compute(
+            bleu_score = self._get_metric("bleu").compute(
                 predictions=predictions, references=references
             )
-            rouge_score = self.rouge.compute(
+            rouge_score = self._get_metric("rouge").compute(
                 predictions=predictions, references=references
             )
-            bert_score_raw = self.bertscore.compute(
+            bert_score_raw = self._get_metric("bertscore").compute(
                 predictions=predictions, references=references, lang="pt"
             )
 
@@ -124,22 +125,22 @@ class EvaluationManager:
             if not predictions:
                 continue
 
-            acc_score = self.accuracy.compute(
+            acc_score = self._get_metric("accuracy").compute(
                 predictions=predictions, references=references
             )
-            prec_score = self.precision.compute(
+            prec_score = self._get_metric("precision").compute(
                 predictions=predictions,
                 references=references,
                 average="macro",
                 zero_division=0,
             )
-            rec_score = self.recall.compute(
+            rec_score = self._get_metric("recall").compute(
                 predictions=predictions,
                 references=references,
                 average="macro",
                 zero_division=0,
             )
-            f1_score = self.f1.compute(
+            f1_score = self._get_metric("f1").compute(
                 predictions=predictions, references=references, average="macro"
             )
 
