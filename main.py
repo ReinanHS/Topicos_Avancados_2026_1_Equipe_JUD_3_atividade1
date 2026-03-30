@@ -92,7 +92,9 @@ def run(
 
     dataset_manager = DatasetManager()
     storage_manager = StorageManager()
-    execution_manager = ExecutionManager(dataset_manager, storage_manager, ollama_manager)
+    execution_manager = ExecutionManager(
+        dataset_manager, storage_manager, ollama_manager
+    )
 
     questions = execution_manager.get_questions(dataset, limit)
 

@@ -35,6 +35,25 @@
 
 Repositório da **Equipe 3 (Jurídica)** para a primeira atividade avaliativa da disciplina **Tópicos Avançados em Engenharia de Software e Sistemas de Informação I**. O projeto consiste na curadoria de datasets jurídicos e na realização de inferência básica utilizando Modelos de Linguagem (LLMs), com foco em questões do Exame da OAB (Ordem dos Advogados do Brasil).
 
+## Onde está a documentação
+
+A documentação completa não fica concentrada neste `README.md`. Toda a
+documentação do projeto está disponível na pasta `docs/`, e a leitura deve
+começar por [`docs/intro.md`][docs-intro].
+
+Para facilitar a navegação, também recomendamos acessar a versão web já
+compilada da documentação em [documentação publicada][docs-web]. Veja o exemplo da imagem abaixo: 
+
+![Exemplo de documentação publicada](docs/assets/presentation-documentation.gif)
+
+Se você quiser entender melhor a abordagem Docs-as-Code utilizada neste
+repositório, recomendamos a leitura de
+[Docs-as-Code: um guia básico para iniciantes][docs-as-code-artigo].
+
+[docs-intro]: docs/intro.md
+[docs-web]: https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/docs
+[docs-as-code-artigo]: https://medium.com/@reinanhs/docs-as-code-um-guia-b%C3%A1sico-para-iniciantes-b65b1e63b53a
+
 ## ⚖️ Domínio de atuação
 
 A Equipe 3 atua no **Domínio Jurídico**, trabalhando com os seguintes datasets:
