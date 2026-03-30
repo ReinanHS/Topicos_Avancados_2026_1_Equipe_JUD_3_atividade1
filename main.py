@@ -30,9 +30,9 @@ def pull(
     storage_manager = StorageManager()
 
     if dataset == "oab_bench":
-        questions = dataset_manager.load_oab_bench()
+        questions = dataset_manager.load_oab_bench_questions()
     elif dataset == "oab_exams":
-        questions = dataset_manager.load_oab_exams()
+        questions = dataset_manager.load_oab_exams_questions()
     else:
         typer.echo(
             f"Erro: Dataset '{dataset}' não reconhecido. Use 'oab_bench' ou 'oab_exams'.",

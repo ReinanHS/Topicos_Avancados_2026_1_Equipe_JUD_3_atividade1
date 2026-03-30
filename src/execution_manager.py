@@ -19,9 +19,9 @@ class ExecutionManager:
         Carrega as questões do dataset especificado e aplica o limite caso exista.
         """
         if dataset == "oab_bench":
-            questions = self.dataset_manager.load_oab_bench()
+            questions = self.dataset_manager.load_oab_bench_questions()
         elif dataset == "oab_exams":
-            questions = self.dataset_manager.load_oab_exams()
+            questions = self.dataset_manager.load_oab_exams_questions()
         else:
             raise ValueError(f"Dataset desconhecido: {dataset}")
 
