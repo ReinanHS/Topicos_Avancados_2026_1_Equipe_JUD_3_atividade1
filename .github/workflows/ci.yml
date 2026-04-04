@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 permissions:
   contents: read
@@ -62,8 +59,10 @@ jobs:
           latexmk_use_xelatex: true
 
       - name: Build Docusaurus
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
         run: |
-          git clone https://oauth2:${{ secrets.GITLAB_TOKEN }}@gitlab.com/reinanhs/template-documentacao-ia-juridica.git
+          git clone https://oauth2:${GITLAB_TOKEN}@gitlab.com/reinanhs/template-documentacao-ia-juridica.git
           cd template-documentacao-ia-juridica
           rm -rf docs
           cp -r ../docs docs
