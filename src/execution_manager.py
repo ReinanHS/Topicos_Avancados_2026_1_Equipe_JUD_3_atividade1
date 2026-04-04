@@ -51,44 +51,80 @@ class ExecutionManager:
         self, q: Dict[str, Any], model: str, dataset: str
     ) -> Dict[str, Any]:
         """
-        Recebe uma questão crua, carrega seus templates locais minijinja, formata o prompt usando Jinja2
-        e extrai a resposta do LLM.
+        Recebe uma questão crua, formata o prompt e extrai a resposta do LLM.
+        Para o dataset oab_bench, utiliza uma estratégia multi-turn.
         """
+        q_result = q.copy()
+        q_result["model_used"] = model
 
-        user_prompt = self._render_prompt(dataset, "user_template.minijinja", q)
         system_prompt = self._render_prompt(dataset, "system_template.minijinja", q)
-
-        if not user_prompt:
-            user_prompt = q.get("statement", q.get("question", ""))
-            if "choices" in q:
-                choices_text = [
-                    f"{label}) {text}"
-                    for label, text in zip(q["choices"]["label"], q["choices"]["text"])
-                ]
-                user_prompt += "\n" + "\n".join(choices_text)
-
         if not system_prompt:
             system_prompt = q.get(
                 "system",
                 "Você é um assistente prestativo especialista em direito brasileiro.",
             )
 
-        try:
-            response = self.ollama_manager.generate_response(
-                model, system_prompt, user_prompt
-            )
-        except Exception as e:
-            response = f"ERRO: {e}"
+        if dataset == "oab_bench":
+            turns = list(q.get("turns", []))
+            if not turns:
+                turns = [""]
 
-        q_result = q.copy()
-        q_result["ollama_response"] = response
-        q_result["model_used"] = model
+            messages = [{"role": "system", "content": system_prompt}]
+            turns_respostas = []
 
-        if dataset == "oab_exams":
-            resp_str_clean = response.replace("```json", "").replace("```", "").strip()
-            resp_json = json.loads(resp_str_clean)
+            for i, turn_text in enumerate(turns):
+                context_for_jinja = q.copy()
+                context_for_jinja["turn_index"] = i
+                context_for_jinja["current_turn"] = turn_text
 
-            q_result["objective_answer"] = resp_json.get("resposta_objetiva", "")
+                turn_prompt = self._render_prompt(
+                    dataset, "user_template.minijinja", context_for_jinja
+                )
+
+                messages.append({"role": "user", "content": turn_prompt})
+
+                try:
+                    resposta = self.ollama_manager.generate_chat_response(model, messages)
+                except Exception as e:
+                    resposta = f"ERRO: {e}"
+
+                messages.append({"role": "assistant", "content": resposta})
+
+                turns_respostas.append({
+                    "content": resposta
+                })
+
+            q_result["choices"] = [{"index": 0, "turns": turns_respostas}]
+            q_result["ollama_response"] = "\n\n".join([t["content"] for t in turns_respostas])
+
+        else:
+            user_prompt = self._render_prompt(dataset, "user_template.minijinja", q)
+
+            if not user_prompt:
+                user_prompt = q.get("statement", q.get("question", ""))
+                if "choices" in q:
+                    choices_text = [
+                        f"{label}) {text}"
+                        for label, text in zip(q["choices"]["label"], q["choices"]["text"])
+                    ]
+                    user_prompt += "\n" + "\n".join(choices_text)
+
+            try:
+                response = self.ollama_manager.generate_response(
+                    model, system_prompt, user_prompt
+                )
+            except Exception as e:
+                response = f"ERRO: {e}"
+
+            q_result["ollama_response"] = response
+
+            if dataset == "oab_exams":
+                resp_str_clean = response.replace("```json", "").replace("```", "").strip()
+                try:
+                    resp_json = json.loads(resp_str_clean)
+                    q_result["objective_answer"] = resp_json.get("resposta_objetiva", "")
+                except Exception:
+                    q_result["objective_answer"] = ""
 
         return q_result
 

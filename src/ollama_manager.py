@@ -30,3 +30,20 @@ class OllamaManager:
             ],
         )
         return response["message"]["content"]
+
+    def generate_chat_response(
+        self, model: str, messages: list
+    ) -> str:
+        """
+        Gera uma resposta síncrona do Ollama usando um modelo específico e uma lista de mensagens (multi-turn).
+        """
+        if model not in self.AVAILABLE_MODELS:
+            raise ValueError(
+                f"Modelo {model} não suportado. Modelos disponíveis: {', '.join(self.AVAILABLE_MODELS)}"
+            )
+
+        response = self.client.chat(
+            model=model,
+            messages=messages,
+        )
+        return response["message"]["content"]
