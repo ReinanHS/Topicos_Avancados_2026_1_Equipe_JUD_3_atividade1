@@ -63,7 +63,7 @@ jobs:
 
       - name: Build Docusaurus
         run: |
-          git clone https://gitlab.com/reinanhs/template-documentacao-ia-juridica.git
+          git clone https://oauth2:${{ secrets.GITLAB_TOKEN }}@gitlab.com/reinanhs/template-documentacao-ia-juridica.git
           cd template-documentacao-ia-juridica
           rm -rf docs
           cp -r ../docs docs
