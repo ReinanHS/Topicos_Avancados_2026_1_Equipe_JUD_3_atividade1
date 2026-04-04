@@ -2,6 +2,8 @@ from typing import List, Dict, Any
 from pathlib import Path
 import jinja2
 import json
+import uuid
+import time
 
 
 class ExecutionManager:
@@ -263,23 +265,42 @@ class ExecutionManager:
     ) -> Dict[str, Any]:
         """
         Executa sequencialmente a inferência da questão, a classificação de dificuldade e a identificação da legislação base.
+        E formata a saída final de acordo com o modelo de resposta especificado.
         """
-
         q_result = self.process_question(q, model, dataset)
         difficulty_result = self.classify_difficulty(q, model, dataset)
         legislation_result = self.define_basic_legislation(q, model, dataset)
 
+        final_answer = {
+            "question_id": q.get("question_id", q.get("id", "")),
+            "answer_id": uuid.uuid4().hex,
+            "model_id": model,
+            "choices": [],
+            "additional_information": {
+                "difficulty_question": difficulty_result.get("dificuldade"),
+                "basic_legislation": legislation_result.get("legislacao_base")
+            },
+            "tstamp": time.time()
+        }
+
+        if dataset == "oab_bench":
+            final_answer["choices"] = q_result.get("choices", [])
+        elif dataset == "oab_exams":
+            final_answer["choices"] = [
+                {
+                    "objective_answer": q_result.get("objective_answer", "")
+                }
+            ]
+        else:
+            final_answer["choices"] = q_result.get("choices", [])
+
         if "error" in difficulty_result and difficulty_result["error"]:
-            q_result["dificuldade_error"] = difficulty_result["error"]
-
-        q_result["dificuldade"] = difficulty_result.get("dificuldade")
-
+            final_answer["additional_information"]["dificuldade_error"] = difficulty_result["error"]
+        
         if "error" in legislation_result and legislation_result["error"]:
-            q_result["legislacao_error"] = legislation_result["error"]
+            final_answer["additional_information"]["legislacao_error"] = legislation_result["error"]
 
-        q_result["legislacao_base"] = legislation_result.get("legislacao_base")
-
-        return q_result
+        return final_answer
 
     def save_results(
         self, results: List[Dict[str, Any]], dataset: str, model: str
