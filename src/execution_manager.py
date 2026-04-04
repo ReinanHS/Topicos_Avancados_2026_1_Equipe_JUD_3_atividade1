@@ -287,8 +287,10 @@ class ExecutionManager:
         """
         Salva os resultados consolidados na subpasta definida para o cache.
         """
-        filename = f"{dataset}_{model.replace(':', '-')}_results"
+        sub_dir = f"results/{dataset}/model_answer"
+        filename = model.replace(":", "-")
+        
         output_path = self.storage_manager.save_data(
-            results, filename, fmt="json", sub_dir="results"
+            results, filename, fmt="json", sub_dir=sub_dir
         )
         return output_path

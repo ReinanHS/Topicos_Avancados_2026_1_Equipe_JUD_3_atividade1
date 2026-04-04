@@ -78,16 +78,15 @@ class StorageManager:
         Retorna a lista de nomes de modelos que possuem resultados salvos em cache
         para um determinado dataset.
         """
-        target_dir = self.cache_dir / sub_dir
+        target_dir = self.cache_dir / "results" / dataset_name / "model answer"
         if not target_dir.exists():
             return []
 
         models = []
-        prefix = f"{dataset_name}_"
-        suffix = "_results.json"
+        suffix = ".json"
 
-        for file in target_dir.glob(f"{prefix}*{suffix}"):
-            model_name_dashed = file.name[len(prefix) : -len(suffix)]
+        for file in target_dir.glob(f"*{suffix}"):
+            model_name_dashed = file.name[: -len(suffix)]
             model_name = model_name_dashed.replace("-", ":")
             models.append(model_name)
 
