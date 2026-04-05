@@ -10,23 +10,23 @@ Classificar a área do direito de uma questão da OAB, escolhendo obrigatoriamen
 
 Você deve retornar EXATAMENTE um dos valores abaixo. Nenhum outro valor é aceito:
 
-1. Direito Administrativo
-2. Direito Ambiental
-3. Direito Civil
-4. Direito Constitucional
-5. Direito da Criança e do Adolescente
-6. Direito do Consumidor
-7. Direito do Trabalho
-8. Direito Empresarial
-9. Direito Internacional
-10. Direito Penal
-11. Direito Processual Civil
-12. Direito Processual do Trabalho
-13. Direito Processual Penal
-14. Direito Tributário
-15. Direitos Humanos
-16. Ética Profissional e Estatuto da OAB
-17. Filosofia do Direito
+- Direito Administrativo
+- Direito Ambiental
+- Direito Civil
+- Direito Constitucional
+- Direito da Criança e do Adolescente
+- Direito do Consumidor
+- Direito do Trabalho
+- Direito Empresarial
+- Direito Internacional
+- Direito Penal
+- Direito Processual Civil
+- Direito Processual do Trabalho
+- Direito Processual Penal
+- Direito Tributário
+- Direitos Humanos
+- Ética Profissional e Estatuto da OAB
+- Filosofia do Direito
 
 ## REGRAS
 
