@@ -12,4 +12,4 @@ Classifique a dificuldade da questão abaixo.
 
 Responda APENAS com este JSON:
 
-{"dificuldade": 1}
+{"difficulty_question": 1}

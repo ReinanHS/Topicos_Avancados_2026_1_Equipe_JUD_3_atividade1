@@ -48,12 +48,14 @@ class ExecutionManager(ABC):
         """Formata as escolhas para a estrutura de resposta final."""
         ...
 
-    def classify_difficulty(self, q: Dict[str, Any], model: str) -> Dict[str, Any]:
+    def _execute_curador_task(
+        self, q: Dict[str, Any], model: str, task_dir_name: str, result_key: str
+    ) -> Dict[str, Any]:
         """
-        Classifica o nível de dificuldade da questão usando os templates de curador.
+        Executa uma tarefa genérica de curadoria chamando o LLM com templates específicos.
         """
         prompts_dir = Path(__file__).parent.parent.parent / "prompts"
-        curador_dir = prompts_dir / "curador" / "difficulty-level"
+        curador_dir = prompts_dir / "curador" / task_dir_name
         user_template_path = curador_dir / "user_template.minijinja"
         system_template_path = curador_dir / "system_template.minijinja"
 
@@ -73,78 +75,36 @@ class ExecutionManager(ABC):
         try:
             resp_str_clean = response.replace("```json", "").replace("```", "").strip()
             resp_json = json.loads(resp_str_clean)
-            dificuldade = resp_json.get("dificuldade")
-            q_result["dificuldade"] = dificuldade
+            value = resp_json.get(result_key)
+            q_result[result_key] = value
         except Exception:
-            q_result["dificuldade"] = "Inconclusivo"
+            q_result[result_key] = "Inconclusivo"
 
         return q_result
+
+    def classify_difficulty(self, q: Dict[str, Any], model: str) -> Dict[str, Any]:
+        """
+        Classifica o nível de dificuldade da questão usando os templates de curador.
+        """
+        return self._execute_curador_task(
+            q, model, "classify_difficulty", "difficulty_question"
+        )
 
     def define_basic_legislation(self, q: Dict[str, Any], model: str) -> Dict[str, Any]:
         """
         Identifica a legislação base que fundamenta a questão
         usando os templates de curador.
         """
-        prompts_dir = Path(__file__).parent.parent.parent / "prompts"
-        curador_dir = prompts_dir / "curador" / "basic-legislation"
-        user_template_path = curador_dir / "user_template.minijinja"
-        system_template_path = curador_dir / "system_template.minijinja"
-
-        context = self._build_context_for_curador(q)
-        user_prompt = self.prompt_renderer.render_from_path(user_template_path, context)
-        system_prompt = self.prompt_renderer.render_from_path(system_template_path, {})
-
-        try:
-            response = self.ollama_client.generate_response(
-                model, system_prompt, user_prompt
-            )
-        except Exception as e:
-            return {**q, "error": f"ERRO: {e}"}
-
-        q_result = q.copy()
-
-        try:
-            resp_str_clean = response.replace("```json", "").replace("```", "").strip()
-            resp_json = json.loads(resp_str_clean)
-            legislacao = resp_json.get("legislacao_base")
-            q_result["legislacao_base"] = legislacao
-        except Exception:
-            q_result["legislacao_base"] = "Inconclusivo"
-
-        return q_result
+        return self._execute_curador_task(
+            q, model, "basic_legislation", "basic_legislation"
+        )
 
     def define_area_expertise(self, q: Dict[str, Any], model: str) -> Dict[str, Any]:
         """
         Identifica a área de expertise que fundamenta a questão
         usando os templates de curador.
         """
-        prompts_dir = Path(__file__).parent.parent.parent / "prompts"
-        curador_dir = prompts_dir / "curador" / "area-​​expertise"
-        user_template_path = curador_dir / "user_template.minijinja"
-        system_template_path = curador_dir / "system_template.minijinja"
-
-        context = self._build_context_for_curador(q)
-        user_prompt = self.prompt_renderer.render_from_path(user_template_path, context)
-        system_prompt = self.prompt_renderer.render_from_path(system_template_path, {})
-
-        try:
-            response = self.ollama_client.generate_response(
-                model, system_prompt, user_prompt
-            )
-        except Exception as e:
-            return {**q, "error": f"ERRO: {e}"}
-
-        q_result = q.copy()
-
-        try:
-            resp_str_clean = response.replace("```json", "").replace("```", "").strip()
-            resp_json = json.loads(resp_str_clean)
-            area_expertise = resp_json.get("area_direito")
-            q_result["area_direito"] = area_expertise
-        except Exception:
-            q_result["area_direito"] = "Inconclusivo"
-
-        return q_result
+        return self._execute_curador_task(q, model, "area_expertise", "area_expertise")
 
     def process_full_question(self, q: Dict[str, Any], model: str) -> Dict[str, Any]:
         """
@@ -162,9 +122,9 @@ class ExecutionManager(ABC):
             "model_id": model,
             "choices": self._format_choices_for_final_answer(q_result),
             "additional_information": {
-                "difficulty_question": difficulty_result.get("dificuldade"),
-                "basic_legislation": legislation_result.get("legislacao_base"),
-                "area_expertise": area_expertise_result.get("area_direito"),
+                "difficulty_question": difficulty_result.get("difficulty_question"),
+                "basic_legislation": legislation_result.get("basic_legislation"),
+                "area_expertise": area_expertise_result.get("area_expertise"),
             },
             "tstamp": time.time(),
         }
