@@ -208,6 +208,12 @@ uv run python main.py judgment oab_bench
 # Debug Linux/macOS
 export LLM_DEBUG="1"
 uv run python main.py judgment oab_bench
+
+# Executar o fluxo completo do pipeline
+uv run python main.py run-all
+
+# Executar o fluxo completo do pipeline com limite de 2 questões
+uv run python main.py run-all --limit 2
 ```
 
 ---

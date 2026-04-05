@@ -416,3 +416,44 @@ def curate(
     typer.echo(
         f"\nCuradoria com {judge} finalizada! Resultados salvos em: {output_path}"
     )
+
+
+@app.command("run-all")
+def run_all(
+    limit: int = typer.Option(
+        None,
+        "--limit",
+        "-l",
+        help="Limitar a quantidade de questões a serem executadas no comando infer.",
+    ),
+):
+    """
+    Executa o fluxo completo do pipeline para os datasets:
+    - pull oab_bench
+    - pull oab_exams
+    - infer oab_bench
+    - infer oab_exams
+    - evaluate oab_bench
+    - evaluate oab_exams
+    """
+    typer.echo("=== Iniciando execução do pipeline completo ===")
+
+    typer.echo("\n[1/6] Executando 'pull' para 'oab_bench'...")
+    pull(dataset="oab_bench", output="json")
+
+    typer.echo("\n[2/6] Executando 'pull' para 'oab_exams'...")
+    pull(dataset="oab_exams", output="json")
+
+    typer.echo("\n[3/6] Executando 'infer' para 'oab_bench'...")
+    infer(dataset="oab_bench", model=None, limit=limit)
+
+    typer.echo("\n[4/6] Executando 'infer' para 'oab_exams'...")
+    infer(dataset="oab_exams", model=None, limit=limit)
+
+    typer.echo("\n[5/6] Executando 'evaluate' para 'oab_bench'...")
+    evaluate(dataset="oab_bench")
+
+    typer.echo("\n[6/6] Executando 'evaluate' para 'oab_exams'...")
+    evaluate(dataset="oab_exams")
+
+    typer.echo("\n=== Pipeline completo finalizado com sucesso! ===")
