@@ -297,11 +297,30 @@ def judgment(
         f"Modelos selecionados ({len(models_to_run)}): {', '.join(models_to_run)}"
     )
     typer.echo(f"Modelo juiz: {judge_model}")
-    typer.echo("Gerando registros de julgamento...")
-
     try:
-        output_path = judge_manager.run(dataset, models_to_run, limit=limit)
+        q_map, ref_map = judge_manager.prepare_dataset_context(dataset)
+        all_models_judgments = []
+
+        for current_model in models_to_run:
+            typer.echo(f"\nCarregando respostas do modelo {current_model}...")
+            answers = judge_manager.load_model_answers(dataset, current_model)
+            if limit is not None:
+                answers = answers[:limit]
+
+            typer.echo(f"Iniciando julgamento de {len(answers)} questões...")
+
+            with typer.progressbar(
+                answers, label=f"Julgando ({current_model})"
+            ) as progress:
+                for answer in progress:
+                    judgments = judge_manager.process_answer(
+                        answer, current_model, q_map, ref_map
+                    )
+                    all_models_judgments.extend(judgments)
+
+        output_path = judge_manager.save_judgments(dataset, all_models_judgments)
         typer.echo(f"\nJulgamentos salvos com sucesso em: {output_path}")
+
     except Exception as e:
-        typer.echo(f"Erro durante o julgamento: {e}", err=True)
+        typer.echo(f"\nErro durante o julgamento: {e}", err=True)
         raise typer.Exit(code=1)
