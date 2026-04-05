@@ -171,6 +171,22 @@ def evaluate(
                     typer.echo(f"  {section.upper()}:")
                     for metric, value in metrics.items():
                         typer.echo(f"    {metric.upper()}: {value:.4f}")
+
+            for model in models:
+                model_metrics = {}
+                for pair, scores in cross_scores.items():
+                    if model in pair:
+                        model_metrics[pair] = scores
+
+                filename = model.replace(":", "-")
+                output_path = storage.save_data(
+                    [model_metrics],
+                    filename,
+                    fmt="json",
+                    sub_dir=f"results/{dataset}/model_metric",
+                )
+                typer.echo(f"Métricas de {model} salvas em: {output_path}")
+
         except Exception as e:
             typer.echo(f"Erro durante a avaliação: {e}", err=True)
             raise typer.Exit(code=1)
@@ -195,6 +211,17 @@ def evaluate(
                 typer.echo(f"\n[{mod}]")
                 for metric, score in scores.items():
                     typer.echo(f"  {metric.upper()}: {score:.4f}")
+
+            for mod, scores in model_scores.items():
+                filename = mod.replace(":", "-")
+                output_path = storage.save_data(
+                    [scores],
+                    filename,
+                    fmt="json",
+                    sub_dir=f"results/{dataset}/model_metric",
+                )
+                typer.echo(f"Métricas de {mod} salvas em: {output_path}")
+
         except Exception as e:
             typer.echo(f"Erro durante a avaliação: {e}", err=True)
             raise typer.Exit(code=1)
