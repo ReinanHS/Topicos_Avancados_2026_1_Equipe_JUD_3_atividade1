@@ -92,7 +92,15 @@ def infer(
 
     questions = execution_manager.get_questions(limit)
 
-    for current_model in models_to_run:
+    import time
+
+    for i, current_model in enumerate(models_to_run):
+        if i > 0:
+            typer.echo(
+                "\nAguardando 15 segundos para limpeza de VRAM e estabilização do Ollama..."
+            )
+            time.sleep(15)
+
         typer.echo(
             f"\nIniciando a execução de {len(questions)} questões no modelo {current_model}..."
         )
