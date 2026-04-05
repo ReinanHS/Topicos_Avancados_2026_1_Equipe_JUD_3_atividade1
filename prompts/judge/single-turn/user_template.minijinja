@@ -1,0 +1,10 @@
+[Questão do Exame da Ordem]
+{{ question }}
+
+[Início do Padrão de Respostas Oficial]
+{{ ref_answer_1 }}
+[Fim do Padrão de Respostas Oficial]
+
+[Início da Resposta do Candidato]
+{{ answer }}
+[Fim da Resposta do Candidato]

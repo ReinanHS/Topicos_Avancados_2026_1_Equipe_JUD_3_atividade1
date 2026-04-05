@@ -1,0 +1,32 @@
+<|Início do Padrão de Respostas Oficial|>
+
+### Fiscal de Aplicação:
+{{ question_1 }}
+
+### Gabarito Oficial:
+{{ ref_answer_1 }}
+
+### Fiscal de Aplicação:
+{{ question_2 }}
+
+### Gabarito Oficial:
+{{ ref_answer_2 }}
+
+<|Fim do Padrão de Respostas Oficial|>
+
+
+<|Início do Diálogo entre Candidato e Fiscal|>
+
+### Fiscal de Aplicação:
+{{ question_1 }}
+
+### Candidato:
+{{ answer_1 }}
+
+### Fiscal de Aplicação:
+{{ question_2 }}
+
+### Candidato:
+{{ answer_2 }}
+
+<|Fim do Diálogo entre Candidato e Fiscal|>
