@@ -1,4 +1,5 @@
 import itertools
+import re
 from typing import Any, Dict, List
 
 
@@ -33,15 +34,29 @@ class CrossModelEvaluator:
         return [t.get("content", "") for t in turns]
 
     @staticmethod
+    def _format_guideline_turn(turn_text: str) -> str:
+        """
+        Formata o texto da guideline: remove a seção de distribuição de pontos
+        e limpa quebras de linha e espaços em branco duplicados.
+        """
+        idx = turn_text.find("DISTRIBUIÇÃO DE PONTOS")
+        if idx != -1:
+            turn_text = turn_text[:idx]
+
+        turn_text = turn_text.replace("\n", " ").replace("\r", " ")
+        return re.sub(r"\s+", " ", turn_text).strip()
+
+    @staticmethod
     def _extract_reference_turns(reference: dict) -> List[str]:
         """
-        Extrai a lista de turns de uma referência (guideline).
+        Extrai e formata a lista de turns de uma referência (guideline).
         """
         choices = reference.get("choices", [])
         if not choices:
             return []
         turns = choices[0].get("turns", [])
-        return [t if isinstance(t, str) else str(t) for t in turns]
+        extracted = [t if isinstance(t, str) else str(t) for t in turns]
+        return [CrossModelEvaluator._format_guideline_turn(t) for t in extracted]
 
     def _compute_pair_metrics(
         self, predictions: List[str], references: List[str]
