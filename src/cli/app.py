@@ -436,6 +436,10 @@ def run_all(
     - evaluate oab_bench
     - evaluate oab_exams
     """
+    import time
+
+    start_time = time.time()
+
     typer.echo("=== Iniciando execução do pipeline completo ===")
 
     typer.echo("\n[1/6] Executando 'pull' para 'oab_bench'...")
@@ -456,4 +460,25 @@ def run_all(
     typer.echo("\n[6/6] Executando 'evaluate' para 'oab_exams'...")
     evaluate(dataset="oab_exams")
 
-    typer.echo("\n=== Pipeline completo finalizado com sucesso! ===")
+    end_time = time.time()
+    total_seconds = int(end_time - start_time)
+    hours = total_seconds // 3600
+    minutes = (total_seconds % 3600) // 60
+    seconds = total_seconds % 60
+
+    parts = []
+    if hours > 0:
+        parts.append(f"{hours} hora{'s' if hours > 1 else ''}")
+    if minutes > 0:
+        parts.append(f"{minutes} minuto{'s' if minutes > 1 else ''}")
+    if seconds > 0 or total_seconds == 0:
+        parts.append(f"{seconds} segundo{'s' if seconds != 1 else ''}")
+
+    if len(parts) > 1:
+        time_str = ", ".join(parts[:-1]) + f" e {parts[-1]}"
+    else:
+        time_str = parts[0]
+
+    typer.echo(
+        f"\n=== Pipeline completo finalizado com sucesso! Tempo de execução: {time_str} ==="
+    )
