@@ -197,6 +197,14 @@ uv run python main.py evaluate oab_exams
 
 # Julgar as respostas dos modelos
 uv run python main.py judgment oab_bench
+
+# Debug Windows
+$env:LLM_DEBUG="1"
+uv run python main.py judgment oab_bench
+
+# Debug Linux/macOS
+export LLM_DEBUG="1"
+uv run python main.py judgment oab_bench
 ```
 
 ---

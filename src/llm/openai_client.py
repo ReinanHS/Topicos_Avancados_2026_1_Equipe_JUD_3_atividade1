@@ -22,14 +22,12 @@ class OpenAIClient(BaseLLMClient):
         """
         self.client = OpenAI(api_key=api_key)
 
-    def generate_response(
+    def _generate_response(
         self, model: str, system_prompt: str, user_prompt: str
     ) -> str:
         """
         Gera uma resposta síncrona da OpenAI usando um modelo específico (single-turn).
         """
-        self._validate_model(model)
-
         response = self.client.chat.completions.create(
             model=model,
             messages=[
@@ -39,13 +37,11 @@ class OpenAIClient(BaseLLMClient):
         )
         return response.choices[0].message.content
 
-    def generate_chat_response(self, model: str, messages: list) -> str:
+    def _generate_chat_response(self, model: str, messages: list) -> str:
         """
         Gera uma resposta síncrona da OpenAI a partir de uma lista
         de mensagens (multi-turn).
         """
-        self._validate_model(model)
-
         response = self.client.chat.completions.create(
             model=model,
             messages=messages,

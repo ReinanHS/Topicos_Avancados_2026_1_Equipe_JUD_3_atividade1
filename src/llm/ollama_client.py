@@ -12,14 +12,12 @@ class OllamaClient(BaseLLMClient):
     def __init__(self):
         self.client = ollama.Client()
 
-    def generate_response(
+    def _generate_response(
         self, model: str, system_prompt: str, user_prompt: str
     ) -> str:
         """
         Gera uma resposta síncrona do Ollama usando um modelo específico (single-turn).
         """
-        self._validate_model(model)
-
         response = self.client.chat(
             model=model,
             messages=[
@@ -29,13 +27,11 @@ class OllamaClient(BaseLLMClient):
         )
         return response["message"]["content"]
 
-    def generate_chat_response(self, model: str, messages: list) -> str:
+    def _generate_chat_response(self, model: str, messages: list) -> str:
         """
         Gera uma resposta síncrona do Ollama a partir de uma lista
         de mensagens (multi-turn).
         """
-        self._validate_model(model)
-
         response = self.client.chat(
             model=model,
             messages=messages,
