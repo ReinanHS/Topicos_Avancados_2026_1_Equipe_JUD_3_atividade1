@@ -1,6 +1,6 @@
 check:
 	uv run ruff check
-
+	uv run ruff format
 install:
 	uv sync
 

@@ -86,18 +86,20 @@ class ExecutionManager:
                 messages.append({"role": "user", "content": turn_prompt})
 
                 try:
-                    resposta = self.ollama_manager.generate_chat_response(model, messages)
+                    resposta = self.ollama_manager.generate_chat_response(
+                        model, messages
+                    )
                 except Exception as e:
                     resposta = f"ERRO: {e}"
 
                 messages.append({"role": "assistant", "content": resposta})
 
-                turns_respostas.append({
-                    "content": resposta
-                })
+                turns_respostas.append({"content": resposta})
 
             q_result["choices"] = [{"index": 0, "turns": turns_respostas}]
-            q_result["ollama_response"] = "\n\n".join([t["content"] for t in turns_respostas])
+            q_result["ollama_response"] = "\n\n".join(
+                [t["content"] for t in turns_respostas]
+            )
 
         else:
             user_prompt = self._render_prompt(dataset, "user_template.minijinja", q)
@@ -107,7 +109,9 @@ class ExecutionManager:
                 if "choices" in q:
                     choices_text = [
                         f"{label}) {text}"
-                        for label, text in zip(q["choices"]["label"], q["choices"]["text"])
+                        for label, text in zip(
+                            q["choices"]["label"], q["choices"]["text"]
+                        )
                     ]
                     user_prompt += "\n" + "\n".join(choices_text)
 
@@ -121,10 +125,14 @@ class ExecutionManager:
             q_result["ollama_response"] = response
 
             if dataset == "oab_exams":
-                resp_str_clean = response.replace("```json", "").replace("```", "").strip()
+                resp_str_clean = (
+                    response.replace("```json", "").replace("```", "").strip()
+                )
                 try:
                     resp_json = json.loads(resp_str_clean)
-                    q_result["objective_answer"] = resp_json.get("resposta_objetiva", "")
+                    q_result["objective_answer"] = resp_json.get(
+                        "resposta_objetiva", ""
+                    )
                 except Exception:
                     q_result["objective_answer"] = ""
 
@@ -278,27 +286,29 @@ class ExecutionManager:
             "choices": [],
             "additional_information": {
                 "difficulty_question": difficulty_result.get("dificuldade"),
-                "basic_legislation": legislation_result.get("legislacao_base")
+                "basic_legislation": legislation_result.get("legislacao_base"),
             },
-            "tstamp": time.time()
+            "tstamp": time.time(),
         }
 
         if dataset == "oab_bench":
             final_answer["choices"] = q_result.get("choices", [])
         elif dataset == "oab_exams":
             final_answer["choices"] = [
-                {
-                    "objective_answer": q_result.get("objective_answer", "")
-                }
+                {"objective_answer": q_result.get("objective_answer", "")}
             ]
         else:
             final_answer["choices"] = q_result.get("choices", [])
 
         if "error" in difficulty_result and difficulty_result["error"]:
-            final_answer["additional_information"]["dificuldade_error"] = difficulty_result["error"]
-        
+            final_answer["additional_information"]["dificuldade_error"] = (
+                difficulty_result["error"]
+            )
+
         if "error" in legislation_result and legislation_result["error"]:
-            final_answer["additional_information"]["legislacao_error"] = legislation_result["error"]
+            final_answer["additional_information"]["legislacao_error"] = (
+                legislation_result["error"]
+            )
 
         return final_answer
 
@@ -310,7 +320,7 @@ class ExecutionManager:
         """
         sub_dir = f"results/{dataset}/model_answer"
         filename = model.replace(":", "-")
-        
+
         output_path = self.storage_manager.save_data(
             results, filename, fmt="json", sub_dir=sub_dir
         )

@@ -31,9 +31,7 @@ class OllamaManager:
         )
         return response["message"]["content"]
 
-    def generate_chat_response(
-        self, model: str, messages: list
-    ) -> str:
+    def generate_chat_response(self, model: str, messages: list) -> str:
         """
         Gera uma resposta síncrona do Ollama usando um modelo específico e uma lista de mensagens (multi-turn).
         """
