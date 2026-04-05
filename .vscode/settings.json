@@ -1,0 +1,16 @@
+{
+  "cSpell.language": "pt_BR,pt,en",
+  "cSpell.words": [
+    "abntex",
+    "bibtex"
+  ],
+  "cSpell.ignoreRegExpList": [],
+  "cSpell.ignorePaths": [
+    ".vscode",
+    ".reinan_cache"
+  ],
+  "markdown.marp.themes": [
+    "https://raw.githubusercontent.com/reinanhs/marp-theme-academic/main/themes/academic.css"
+  ],
+  "markdown.marp.html": "all"
+}

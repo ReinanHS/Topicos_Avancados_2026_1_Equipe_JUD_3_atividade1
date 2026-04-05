@@ -1,0 +1,121 @@
+{
+    "version": "2.0.0",
+    "presentation": {
+        "reveal": "always",
+        "panel": "new"
+    },
+    "tasks": [
+        {
+            "label": "CLI: pull",
+            "type": "shell",
+            "command": "uv run python main.py pull ${input:dataset}",
+            "problemMatcher": [],
+            "group": "build"
+        },
+        {
+            "label": "CLI: infer",
+            "type": "shell",
+            "command": "uv run python main.py infer ${input:dataset} ${input:model_opt} ${input:limit_opt}",
+            "problemMatcher": [],
+            "group": "build"
+        },
+        {
+            "label": "CLI: curate",
+            "type": "shell",
+            "command": "uv run python main.py curate ${input:dataset} --judge ${input:judge_model} ${input:limit_opt}",
+            "problemMatcher": [],
+            "group": "build"
+        },
+        {
+            "label": "CLI: evaluate",
+            "type": "shell",
+            "command": "uv run python main.py evaluate ${input:dataset}",
+            "problemMatcher": [],
+            "group": "build"
+        },
+        {
+            "label": "CLI: judgment",
+            "type": "shell",
+            "command": "uv run python main.py judgment ${input:dataset} --judge ${input:judge_model} ${input:model_opt} ${input:limit_opt}",
+            "problemMatcher": [],
+            "group": "build"
+        },
+        {
+            "label": "CLI: run-all",
+            "type": "shell",
+            "command": "uv run python main.py run-all ${input:limit_opt}",
+            "problemMatcher": [],
+            "group": "build"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "dataset",
+            "type": "pickString",
+            "description": "Selecione o dataset:",
+            "options": [
+                "oab_bench",
+                "oab_exams"
+            ],
+            "default": "oab_bench"
+        },
+        {
+            "id": "model_opt",
+            "type": "pickString",
+            "description": "Selecione o modelo Ollama (ou Todos):",
+            "options": [
+                {
+                    "label": "Todos os modelos",
+                    "value": ""
+                },
+                {
+                    "label": "llama3.2:3b",
+                    "value": "--model llama3.2:3b"
+                },
+                {
+                    "label": "gemma2:2b",
+                    "value": "--model gemma2:2b"
+                },
+                {
+                    "label": "qwen2.5:3b",
+                    "value": "--model qwen2.5:3b"
+                }
+            ],
+            "default": ""
+        },
+        {
+            "id": "limit_opt",
+            "type": "pickString",
+            "description": "Limite de questões:",
+            "options": [
+                {
+                    "label": "Sem limite",
+                    "value": ""
+                },
+                {
+                    "label": "1 questão",
+                    "value": "--limit 1"
+                },
+                {
+                    "label": "2 questões",
+                    "value": "--limit 2"
+                },
+                {
+                    "label": "5 questões",
+                    "value": "--limit 5"
+                },
+                {
+                    "label": "10 questões",
+                    "value": "--limit 10"
+                }
+            ],
+            "default": ""
+        },
+        {
+            "id": "judge_model",
+            "type": "promptString",
+            "description": "Modelo Juiz/Curador:",
+            "default": "gpt-4o-mini"
+        }
+    ]
+}
