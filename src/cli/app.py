@@ -167,8 +167,10 @@ def evaluate(
             typer.echo("\n--- Resultados da Avaliação Cruzada ---")
             for pair, scores in cross_scores.items():
                 typer.echo(f"\n[{pair}]")
-                for metric, score in scores.items():
-                    typer.echo(f"  {metric.upper()}: {score:.4f}")
+                for section, metrics in scores.items():
+                    typer.echo(f"  {section.upper()}:")
+                    for metric, value in metrics.items():
+                        typer.echo(f"    {metric.upper()}: {value:.4f}")
         except Exception as e:
             typer.echo(f"Erro durante a avaliação: {e}", err=True)
             raise typer.Exit(code=1)

@@ -1,5 +1,5 @@
 import itertools
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 
 class CrossModelEvaluator:
@@ -20,73 +20,137 @@ class CrossModelEvaluator:
             self._metrics_cache[name] = evaluate.load(name)
         return self._metrics_cache[name]
 
-    def evaluate(self, dataset_name: str, models: list) -> Dict[str, Dict[str, Any]]:
+    @staticmethod
+    def _extract_turns(answer: dict) -> List[str]:
         """
-        Executa a avaliação cruzada (pairwise) entre os modelos disponíveis.
-
-        Raises:
-            ValueError: Se menos de 2 modelos forem fornecidos.
+        Extrai a lista de conteúdos dos turns de uma resposta.
         """
-        if len(models) < 2:
-            raise ValueError(
-                "São necessários pelo menos 2 modelos para rodar a avaliação cruzada."
-            )
+        choices = answer.get("choices", [])
+        if not choices:
+            return []
+        turns = choices[0].get("turns", [])
+        return [t.get("content", "") for t in turns]
 
+    def _compute_pair_metrics(
+        self, predictions: List[str], references: List[str]
+    ) -> Dict[str, float]:
+        """Calcula BLEU, ROUGE e BERTScore para um par de listas de textos."""
+        if not predictions:
+            return {}
+
+        bleu_score = self._get_metric("bleu").compute(
+            predictions=predictions, references=references
+        )
+        rouge_score = self._get_metric("rouge").compute(
+            predictions=predictions, references=references
+        )
+        bert_score_raw = self._get_metric("bertscore").compute(
+            predictions=predictions, references=references, lang="pt"
+        )
+        bert_f1_mean = (
+            sum(bert_score_raw["f1"]) / len(bert_score_raw["f1"])
+            if bert_score_raw["f1"]
+            else 0.0
+        )
+
+        return {
+            "bleu": bleu_score.get("bleu", 0.0),
+            "rouge1": rouge_score.get("rouge1", 0.0),
+            "rouge2": rouge_score.get("rouge2", 0.0),
+            "rougeL": rouge_score.get("rougeL", 0.0),
+            "bertscore_f1": bert_f1_mean,
+        }
+
+    def _load_model_answers(
+        self, dataset_name: str, models: list
+    ) -> Dict[str, Dict[str, List[str]]]:
+        """
+        Carrega as respostas de cada modelo e organiza por question_id.
+        """
         all_results = {}
         for model in models:
             filename = model.replace(":", "-")
             results = self.storage.load_data(
                 filename, fmt="json", sub_dir=f"results/{dataset_name}/model_answer"
             )
-            model_responses = {
-                res["question_id"]: res.get("ollama_response", "") for res in results
-            }
+            model_responses = {}
+            for res in results:
+                qid = res["question_id"]
+                turns = self._extract_turns(res)
+                model_responses[qid] = turns
             all_results[model] = model_responses
+        return all_results
+
+    @staticmethod
+    def _detect_num_turns(all_results: Dict[str, Dict[str, List[str]]]) -> int:
+        """Detecta o número de turns a partir dos dados carregados."""
+        for model_responses in all_results.values():
+            for turns in model_responses.values():
+                return len(turns)
+        return 0
+
+    def evaluate(self, dataset_name: str, models: list) -> Dict[str, Dict[str, Any]]:
+        """
+        Executa a avaliação cruzada (pairwise) entre os modelos disponíveis.
+        """
+        if len(models) < 2:
+            raise ValueError(
+                "São necessários pelo menos 2 modelos para rodar a avaliação cruzada."
+            )
+
+        all_results = self._load_model_answers(dataset_name, models)
+        num_turns = self._detect_num_turns(all_results)
+
+        if num_turns == 0:
+            return {}
 
         cross_scores = {}
         pairs = list(itertools.combinations(models, 2))
 
         for model_ref, model_pred in pairs:
-            predictions = []
-            references = []
-
-            common_qs = set(all_results[model_ref].keys()).intersection(
-                set(all_results[model_pred].keys())
+            common_qs = set(all_results[model_ref].keys()) & set(
+                all_results[model_pred].keys()
             )
 
-            for q_id in common_qs:
-                ref_text = all_results[model_ref][q_id]
-                pred_text = all_results[model_pred][q_id]
-
-                references.append(ref_text)
-                predictions.append(pred_text)
-
-            if not predictions:
+            if not common_qs:
                 continue
 
-            bleu_score = self._get_metric("bleu").compute(
-                predictions=predictions, references=references
-            )
-            rouge_score = self._get_metric("rouge").compute(
-                predictions=predictions, references=references
-            )
-            bert_score_raw = self._get_metric("bertscore").compute(
-                predictions=predictions, references=references, lang="pt"
-            )
+            turn_scores = {}
 
-            bert_f1_mean = (
-                sum(bert_score_raw["f1"]) / len(bert_score_raw["f1"])
-                if bert_score_raw["f1"]
-                else 0.0
-            )
+            for turn_idx in range(num_turns):
+                predictions = []
+                references = []
+
+                for q_id in common_qs:
+                    ref_turns = all_results[model_ref][q_id]
+                    pred_turns = all_results[model_pred][q_id]
+
+                    if turn_idx < len(ref_turns) and turn_idx < len(pred_turns):
+                        ref_text = ref_turns[turn_idx]
+                        pred_text = pred_turns[turn_idx]
+                        if ref_text and pred_text:
+                            references.append(ref_text)
+                            predictions.append(pred_text)
+
+                metrics = self._compute_pair_metrics(predictions, references)
+                if metrics:
+                    turn_scores[f"turn_{turn_idx + 1}"] = metrics
+
+            if not turn_scores:
+                continue
+
+            metric_keys = list(next(iter(turn_scores.values())).keys())
+            avg_metrics = {}
+            for mk in metric_keys:
+                values = [
+                    turn_scores[t][mk] for t in turn_scores if mk in turn_scores[t]
+                ]
+                avg_metrics[mk] = sum(values) / len(values) if values else 0.0
 
             pair_name = f"{model_ref} vs {model_pred}"
             cross_scores[pair_name] = {
-                "bleu": bleu_score.get("bleu", 0.0),
-                "rouge1": rouge_score.get("rouge1", 0.0),
-                "rouge2": rouge_score.get("rouge2", 0.0),
-                "rougeL": rouge_score.get("rougeL", 0.0),
-                "bertscore_f1": bert_f1_mean,
+                **turn_scores,
+                "average": avg_metrics,
             }
 
         return cross_scores
