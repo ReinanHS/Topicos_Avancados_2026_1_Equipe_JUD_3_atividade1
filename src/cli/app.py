@@ -324,3 +324,95 @@ def judgment(
     except Exception as e:
         typer.echo(f"\nErro durante o julgamento: {e}", err=True)
         raise typer.Exit(code=1)
+
+
+@app.command()
+def curate(
+    dataset: str = typer.Argument(
+        ..., help="Nome do dataset para curadoria (ex: oab_bench)"
+    ),
+    judge: str = typer.Option(
+        "gpt-4o-mini",
+        "--judge",
+        "-j",
+        help="Modelo a ser utilizado como curador (juiz). Padrão: gpt-4o-mini.",
+    ),
+    limit: int = typer.Option(
+        None,
+        "--limit",
+        "-l",
+        help="Limitar a quantidade de questões a serem analisadas pelo curador.",
+    ),
+):
+    """
+    Gera informações base de curadoria (dificuldade, legislação e área)
+    para as questões do dataset, utilizando um modelo juiz LLM.
+    """
+    import time
+
+    from src.datasets.loader_factory import DatasetLoaderFactory
+    from src.execution.executor_factory import ExecutionManagerFactory
+    from src.llm.openai_client import OpenAIClient
+    from src.storage.local_storage import LocalStorage
+
+    if dataset not in DatasetLoaderFactory.available_datasets():
+        typer.echo(
+            f"Erro: Dataset '{dataset}' não reconhecido. "
+            f"Use: {', '.join(DatasetLoaderFactory.available_datasets())}.",
+            err=True,
+        )
+        raise typer.Exit(code=1)
+
+    storage = LocalStorage()
+    loader = DatasetLoaderFactory.create(dataset)
+
+    llm_client = OpenAIClient()
+    if judge not in llm_client.AVAILABLE_MODELS:
+        llm_client.AVAILABLE_MODELS.append(judge)
+
+    execution_manager = ExecutionManagerFactory.create(
+        dataset, loader, storage, llm_client
+    )
+
+    questions = execution_manager.get_questions(limit)
+
+    typer.echo(
+        f"\nIniciando curadoria de {len(questions)} questões usando o juiz {judge}..."
+    )
+    records = []
+
+    with typer.progressbar(questions, label=f"Curadoria ({judge})") as progress:
+        for q in progress:
+            difficulty_result = execution_manager.classify_difficulty(q, judge)
+            legislation_result = execution_manager.define_basic_legislation(q, judge)
+            area_result = execution_manager.define_area_expertise(q, judge)
+
+            record = {
+                "question_id": q.get("question_id", q.get("id", "")),
+                "judge": judge,
+                "curatorship": {
+                    "difficulty_question": difficulty_result.get(
+                        "difficulty_question", "Inconclusivo"
+                    ),
+                    "basic_legislation": legislation_result.get(
+                        "basic_legislation", "Inconclusivo"
+                    ),
+                    "area_expertise": area_result.get("area_expertise", "Inconclusivo"),
+                },
+                "tstamp": time.time(),
+            }
+            records.append(record)
+
+    filename = judge.replace(":", "-")
+    sub_dir_name = "model_curatorship"
+
+    output_path = storage.save_data(
+        records,
+        filename,
+        fmt="json",
+        sub_dir=f"results/{dataset}/{sub_dir_name}",
+    )
+
+    typer.echo(
+        f"\nCuradoria com {judge} finalizada! Resultados salvos em: {output_path}"
+    )

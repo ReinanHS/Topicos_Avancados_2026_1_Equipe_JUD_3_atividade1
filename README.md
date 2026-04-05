@@ -191,6 +191,9 @@ uv run python main.py infer oab_exams --model llama3.2:3b
 uv run python main.py infer oab_exams --model gemma2:2b
 uv run python main.py infer oab_exams --model qwen2.5:3b
 
+# Executar a curadoria no dataset oab_bench
+uv run python main.py curate oab_bench --judge gpt-4o-mini
+
 # Avaliar os resultados das inferências
 uv run python main.py evaluate oab_bench
 uv run python main.py evaluate oab_exams
