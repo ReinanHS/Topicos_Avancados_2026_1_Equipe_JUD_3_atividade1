@@ -98,14 +98,18 @@ def infer(
         )
         results = []
 
-        with typer.progressbar(questions, label=f"Processando ({current_model})") as progress:
+        with typer.progressbar(
+            questions, label=f"Processando ({current_model})"
+        ) as progress:
             for q in progress:
                 q_result = execution_manager.process_full_question(q, current_model)
                 results.append(q_result)
 
         output_path = execution_manager.save_results(results, current_model)
 
-        typer.echo(f"Modelo {current_model} finalizado! Resultados salvos em: {output_path}")
+        typer.echo(
+            f"Modelo {current_model} finalizado! Resultados salvos em: {output_path}"
+        )
 
     typer.echo("\nExecução finalizada com sucesso!")
 

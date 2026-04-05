@@ -34,8 +34,10 @@ class CrossModelEvaluator:
 
         all_results = {}
         for model in models:
-            filename = f"{dataset_name}_{model.replace(':', '-')}_results"
-            results = self.storage.load_data(filename, fmt="json", sub_dir="results")
+            filename = model.replace(":", "-")
+            results = self.storage.load_data(
+                filename, fmt="json", sub_dir=f"results/{dataset_name}/model_answer"
+            )
             model_responses = {
                 res["question_id"]: res.get("ollama_response", "") for res in results
             }

@@ -80,7 +80,7 @@ class LocalStorage:
         Retorna a lista de nomes de modelos que possuem resultados salvos
         em cache para um determinado dataset.
         """
-        target_dir = self.cache_dir / "results" / dataset_name / "model answer"
+        target_dir = self.cache_dir / "results" / dataset_name / "model_answer"
         if not target_dir.exists():
             return []
 

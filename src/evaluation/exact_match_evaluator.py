@@ -21,23 +21,42 @@ class ExactMatchEvaluator:
             self._metrics_cache[name] = evaluate.load(name)
         return self._metrics_cache[name]
 
+    def _build_answer_key_map(self, dataset_name: str) -> Dict[str, str]:
+        """
+        Carrega o dataset original e constrói um mapa question_id -> answerKey.
+        """
+        dataset = self.storage.load_data(dataset_name, fmt="json", sub_dir="dataset")
+        answer_map = {}
+        for item in dataset:
+            q_id = item.get("id", item.get("question_id", ""))
+            answer_key = item.get("answerKey", "")
+            if q_id and answer_key:
+                answer_map[q_id] = answer_key
+        return answer_map
+
     def evaluate(self, dataset_name: str, models: list) -> Dict[str, Dict[str, float]]:
         """
         Executa a avaliação exata para os modelos disponíveis
         usando Acurácia, Precisão, Recall e F1.
         """
+        answer_key_map = self._build_answer_key_map(dataset_name)
         all_results = {}
 
         for model in models:
-            filename = f"{dataset_name}_{model.replace(':', '-')}_results"
-            results = self.storage.load_data(filename, fmt="json", sub_dir="results")
+            filename = model.replace(":", "-")
+            results = self.storage.load_data(
+                filename, fmt="json", sub_dir=f"results/{dataset_name}/model_answer"
+            )
 
             predictions = []
             references = []
 
             for res in results:
-                ref = res.get("answerKey", "")
-                pred = res.get("objective_answer", "")
+                q_id = res.get("question_id", "")
+                ref = answer_key_map.get(q_id, "")
+
+                choices = res.get("choices", [])
+                pred = choices[0].get("objective_answer", "") if choices else ""
 
                 ref_int = self.LETTER_TO_INT.get(ref, -1)
                 pred_int = self.LETTER_TO_INT.get(pred, 0)
