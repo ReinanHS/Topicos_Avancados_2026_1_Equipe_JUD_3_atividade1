@@ -1,7 +1,8 @@
 import ollama
+from src.llm.base_client import BaseLLMClient
 
 
-class OllamaClient:
+class OllamaClient(BaseLLMClient):
     """
     Wrapper do SDK Ollama para integração e execução de LLMs locais.
     """
@@ -10,14 +11,6 @@ class OllamaClient:
 
     def __init__(self):
         self.client = ollama.Client()
-
-    def _validate_model(self, model: str) -> None:
-        """Valida se o modelo informado está na lista de modelos suportados."""
-        if model not in self.AVAILABLE_MODELS:
-            raise ValueError(
-                f"Modelo {model} não suportado. "
-                f"Modelos disponíveis: {', '.join(self.AVAILABLE_MODELS)}"
-            )
 
     def generate_response(
         self, model: str, system_prompt: str, user_prompt: str

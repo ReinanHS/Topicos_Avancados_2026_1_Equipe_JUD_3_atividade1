@@ -40,6 +40,7 @@ class JudgeManager:
         model: str,
         answer_id: str,
         turn: int,
+        prompt_type: str,
     ) -> Dict[str, Any]:
         """
         Constrói um registro de julgamento para um turn específico.
@@ -49,13 +50,16 @@ class JudgeManager:
             "model": model,
             "answer_id": answer_id,
             "judge": self.judge_model,
+            "prompt": prompt_type,
             "judgment": "",
             "score": 0.0,
             "turn": turn,
             "tstamp": time.time(),
         }
 
-    def generate_judgments(self, dataset: str, model: str) -> List[Dict[str, Any]]:
+    def generate_judgments(
+        self, dataset: str, model: str, limit: int = None
+    ) -> List[Dict[str, Any]]:
         """
         Gera os registros de julgamento para todas as questões/turns
         de um modelo específico.
@@ -63,6 +67,9 @@ class JudgeManager:
         Retorna a lista de registros de julgamento.
         """
         answers = self._load_model_answers(dataset, model)
+        if limit is not None:
+            answers = answers[:limit]
+
         judgments: List[Dict[str, Any]] = []
 
         for answer in answers:
@@ -77,6 +84,7 @@ class JudgeManager:
                 continue
 
             turns = choices[0].get("turns", [])
+            prompt_type = "single-turn" if len(turns) == 1 else "multi-turn"
 
             for turn_idx, _turn_content in enumerate(turns):
                 record = self._build_judgment_record(
@@ -84,6 +92,7 @@ class JudgeManager:
                     model=model_name,
                     answer_id=answer_id,
                     turn=turn_idx + 1,
+                    prompt_type=prompt_type,
                 )
                 judgments.append(record)
 
@@ -103,7 +112,7 @@ class JudgeManager:
         )
         return str(output_path)
 
-    def run(self, dataset: str, models: List[str]) -> str:
+    def run(self, dataset: str, models: List[str], limit: int = None) -> str:
         """
         Executa o fluxo completo de geração de julgamentos para todos
         os modelos informados e salva o resultado.
@@ -113,7 +122,7 @@ class JudgeManager:
         all_judgments: List[Dict[str, Any]] = []
 
         for model in models:
-            model_judgments = self.generate_judgments(dataset, model)
+            model_judgments = self.generate_judgments(dataset, model, limit=limit)
             all_judgments.extend(model_judgments)
 
         output_path = self.save_judgments(dataset, all_judgments)

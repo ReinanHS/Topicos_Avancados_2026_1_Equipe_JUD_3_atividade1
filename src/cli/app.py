@@ -238,6 +238,18 @@ def judgment(
         "-j",
         help="Modelo a ser utilizado como juiz. Padrão: gpt-5.2.",
     ),
+    model: str = typer.Option(
+        None,
+        "--model",
+        "-m",
+        help="Modelo do qual as respostas serão julgadas. Se não informado, executa para todos.",
+    ),
+    limit: int = typer.Option(
+        None,
+        "--limit",
+        "-l",
+        help="Limitar a quantidade de respostas a serem julgadas por modelo.",
+    ),
 ):
     """
     Gera registros de julgamento (LLM as a Judge) para as respostas dos modelos.
@@ -267,15 +279,28 @@ def judgment(
         )
         raise typer.Exit(code=1)
 
+    if model:
+        if model not in models:
+            typer.echo(
+                f"Erro: Respostas para o modelo '{model}' não foram encontradas.",
+                err=True,
+            )
+            raise typer.Exit(code=1)
+        models_to_run = [model]
+    else:
+        models_to_run = models
+
     judge_model = judge if judge else DEFAULT_JUDGE_MODEL
     judge_manager = JudgeManager(storage, judge_model=judge_model)
 
-    typer.echo(f"Modelos encontrados ({len(models)}): {', '.join(models)}")
+    typer.echo(
+        f"Modelos selecionados ({len(models_to_run)}): {', '.join(models_to_run)}"
+    )
     typer.echo(f"Modelo juiz: {judge_model}")
     typer.echo("Gerando registros de julgamento...")
 
     try:
-        output_path = judge_manager.run(dataset, models)
+        output_path = judge_manager.run(dataset, models_to_run, limit=limit)
         typer.echo(f"\nJulgamentos salvos com sucesso em: {output_path}")
     except Exception as e:
         typer.echo(f"Erro durante o julgamento: {e}", err=True)
