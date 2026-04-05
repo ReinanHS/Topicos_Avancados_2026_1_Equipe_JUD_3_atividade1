@@ -40,7 +40,7 @@ def pull(
 
 
 @app.command()
-def run(
+def infer(
     dataset: str = typer.Argument(
         ..., help="Nome do dataset para processar (ex: oab_bench, oab_exams)"
     ),
@@ -145,7 +145,7 @@ def evaluate(
                 err=True,
             )
             typer.echo(
-                f"Sugestão: Execute 'uv run python main.py run {dataset} --model <nome_do_modelo>' "
+                f"Sugestão: Execute 'uv run python main.py infer {dataset} --model <nome_do_modelo>' "
                 "para novos modelos."
             )
             raise typer.Exit(code=1)
@@ -169,7 +169,7 @@ def evaluate(
         if len(models) < 1:
             typer.echo(
                 "Erro: Nenhum modelo encontrado para 'oab_exams'. "
-                "Execute o comando 'run' primeiro para gerar os resultados.",
+                "Execute o comando 'infer' primeiro para gerar os resultados.",
                 err=True,
             )
             raise typer.Exit(code=1)
