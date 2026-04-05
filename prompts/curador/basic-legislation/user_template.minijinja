@@ -12,4 +12,4 @@ Analise a questão abaixo e identifique a legislação base.
 
 Responda APENAS com este JSON:
 
-{"question_id": "{{ question_id }}", "legislacao_base": ""}
+{"legislacao_base": ""}

@@ -50,42 +50,33 @@ class ExecutionManager(ABC):
 
     def classify_difficulty(self, q: Dict[str, Any], model: str) -> Dict[str, Any]:
         """
-        Classifica o nível de dificuldade da questão usando o template de curador.
+        Classifica o nível de dificuldade da questão usando os templates de curador.
         """
         prompts_dir = Path(__file__).parent.parent.parent / "prompts"
-        template_path = (
-            prompts_dir / "curador" / "difficulty-level" / "user_template.minijinja"
-        )
+        curador_dir = prompts_dir / "curador" / "difficulty-level"
+        user_template_path = curador_dir / "user_template.minijinja"
+        system_template_path = curador_dir / "system_template.minijinja"
 
         context = self._build_context_for_curador(q)
-
-        if not template_path.exists():
-            return {**q, "error": f"Template não encontrado em {template_path}"}
-
-        user_prompt = self.prompt_renderer.render_from_path(template_path, context)
-
-        system_prompt = (
-            "Você é um curador jurídico especializado em questões do Exame da OAB."
-        )
+        user_prompt = self.prompt_renderer.render_from_path(user_template_path, context)
+        system_prompt = self.prompt_renderer.render_from_path(system_template_path, {})
 
         try:
             response = self.ollama_client.generate_response(
                 model, system_prompt, user_prompt
             )
         except Exception as e:
-            response = f"ERRO: {e}"
+            return {**q, "error": f"ERRO: {e}"}
 
         q_result = q.copy()
-        q_result["ollama_response"] = response
-        q_result["model_used"] = model
-        q_result["task"] = "difficulty-level"
 
         try:
             resp_str_clean = response.replace("```json", "").replace("```", "").strip()
             resp_json = json.loads(resp_str_clean)
-            q_result["dificuldade"] = resp_json.get("dificuldade")
+            dificuldade = resp_json.get("dificuldade")
+            q_result["dificuldade"] = dificuldade if dificuldade else 3
         except Exception:
-            pass
+            q_result["dificuldade"] = 3
 
         return q_result
 

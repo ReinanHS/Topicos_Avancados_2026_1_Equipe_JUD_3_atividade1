@@ -1,20 +1,4 @@
-Você é um curador jurídico especializado em questões do Exame da OAB.
-
-Sua tarefa é analisar o enunciado de uma questão da OAB e classificar o seu nível de dificuldade.
-
-## Critérios de classificação
-
-- **Fácil (1):** Enunciado curto e linguagem direta; aplicação imediata de um conceito jurídico básico; sem necessidade de interpretação complexa; o comando da questão é identificado rapidamente.
-- **Médio (2):** Enunciado de tamanho intermediário; maior uso de termos técnicos; exige leitura cuidadosa e raciocínio jurídico, mas sem grandes armadilhas conceituais.
-- **Difícil (3):** Textos longos com situações hipotéticas detalhadas; exige interpretação aprofundada da legislação ou princípios jurídicos; alternativas muito semelhantes entre si; combina mais de um tema ou dispositivo legal.
-
-## Regras
-
-- Avalie o enunciado completo, incluindo os subitens, antes de atribuir o nível
-- A classificação deve considerar tanto a extensão do enunciado quanto a complexidade conceitual exigida
-- Questões que envolvem peças prático-profissionais devem ser classificadas como dificuldade 3
-
-## Questão para análise
+Classifique a dificuldade da questão abaixo.
 
 - **ID:** {{ question_id }}
 - **Área:** {{ category }}
@@ -26,12 +10,6 @@ Sua tarefa é analisar o enunciado de uma questão da OAB e classificar o seu n�
 {% endfor %}
 {% endif %}
 
-## Formato de resposta
+Responda APENAS com este JSON:
 
-Responda APENAS com o JSON abaixo, sem nenhum texto adicional, sem markdown e sem blocos de código:
-
-{
-  "question_id": "{{ question_id }}",
-  "dificuldade": 0,
-  "nivel": ""
-}
+{"dificuldade": 1}
