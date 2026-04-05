@@ -74,9 +74,9 @@ class ExecutionManager(ABC):
             resp_str_clean = response.replace("```json", "").replace("```", "").strip()
             resp_json = json.loads(resp_str_clean)
             dificuldade = resp_json.get("dificuldade")
-            q_result["dificuldade"] = dificuldade if dificuldade else 3
+            q_result["dificuldade"] = dificuldade
         except Exception:
-            q_result["dificuldade"] = 3
+            q_result["dificuldade"] = "Inconclusivo"
 
         return q_result
 
@@ -107,9 +107,42 @@ class ExecutionManager(ABC):
             resp_str_clean = response.replace("```json", "").replace("```", "").strip()
             resp_json = json.loads(resp_str_clean)
             legislacao = resp_json.get("legislacao_base")
-            q_result["legislacao_base"] = legislacao if legislacao else "Inconclusivo"
+            q_result["legislacao_base"] = legislacao
         except Exception:
             q_result["legislacao_base"] = "Inconclusivo"
+
+        return q_result
+
+    def define_area_expertise(self, q: Dict[str, Any], model: str) -> Dict[str, Any]:
+        """
+        Identifica a área de expertise que fundamenta a questão
+        usando os templates de curador.
+        """
+        prompts_dir = Path(__file__).parent.parent.parent / "prompts"
+        curador_dir = prompts_dir / "curador" / "area-​​expertise"
+        user_template_path = curador_dir / "user_template.minijinja"
+        system_template_path = curador_dir / "system_template.minijinja"
+
+        context = self._build_context_for_curador(q)
+        user_prompt = self.prompt_renderer.render_from_path(user_template_path, context)
+        system_prompt = self.prompt_renderer.render_from_path(system_template_path, {})
+
+        try:
+            response = self.ollama_client.generate_response(
+                model, system_prompt, user_prompt
+            )
+        except Exception as e:
+            return {**q, "error": f"ERRO: {e}"}
+
+        q_result = q.copy()
+
+        try:
+            resp_str_clean = response.replace("```json", "").replace("```", "").strip()
+            resp_json = json.loads(resp_str_clean)
+            area_expertise = resp_json.get("area_direito")
+            q_result["area_direito"] = area_expertise
+        except Exception:
+            q_result["area_direito"] = "Inconclusivo"
 
         return q_result
 
@@ -121,6 +154,7 @@ class ExecutionManager(ABC):
         q_result = self.process_question(q, model)
         difficulty_result = self.classify_difficulty(q, model)
         legislation_result = self.define_basic_legislation(q, model)
+        area_expertise_result = self.define_area_expertise(q, model)
 
         final_answer = {
             "question_id": q.get("question_id", q.get("id", "")),
@@ -130,6 +164,7 @@ class ExecutionManager(ABC):
             "additional_information": {
                 "difficulty_question": difficulty_result.get("dificuldade"),
                 "basic_legislation": legislation_result.get("legislacao_base"),
+                "area_expertise": area_expertise_result.get("area_direito"),
             },
             "tstamp": time.time(),
         }

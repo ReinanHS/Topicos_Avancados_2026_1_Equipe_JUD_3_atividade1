@@ -1,0 +1,14 @@
+Classifique a área do direito da questão abaixo. Escolha uma das áreas da lista.
+
+- **ID:** {{ question_id }}
+- **Enunciado:** {{ statement }}
+{% if turns and turns | length > 0 %}
+- **Subitens:**
+{% for turn in turns %}
+  - {{ loop.index }}. {{ turn }}
+{% endfor %}
+{% endif %}
+
+Responda APENAS com este JSON:
+
+{"area_direito": ""}
