@@ -225,3 +225,58 @@ def evaluate(
         except Exception as e:
             typer.echo(f"Erro durante a avaliação: {e}", err=True)
             raise typer.Exit(code=1)
+
+
+@app.command()
+def judgment(
+    dataset: str = typer.Argument(
+        ..., help="Nome do dataset para julgar (somente oab_bench)."
+    ),
+    judge: str = typer.Option(
+        None,
+        "--judge",
+        "-j",
+        help="Modelo a ser utilizado como juiz. Padrão: gpt-5.2.",
+    ),
+):
+    """
+    Gera registros de julgamento (LLM as a Judge) para as respostas dos modelos.
+    Disponível apenas para o dataset oab_bench.
+    """
+    from src.judgment.judge_manager import DEFAULT_JUDGE_MODEL, JudgeManager
+    from src.storage.local_storage import LocalStorage
+
+    if dataset != "oab_bench":
+        typer.echo(
+            f"Erro: O comando 'judgment' está disponível apenas para o dataset 'oab_bench'. "
+            f"Dataset informado: '{dataset}'.",
+            err=True,
+        )
+        raise typer.Exit(code=1)
+
+    storage = LocalStorage()
+
+    typer.echo(f"Buscando modelos disponíveis para o dataset {dataset}...")
+    models = storage.list_available_models(dataset)
+
+    if not models:
+        typer.echo(
+            "Erro: Nenhum modelo encontrado com respostas salvas. "
+            "Execute o comando 'infer' primeiro para gerar os resultados.",
+            err=True,
+        )
+        raise typer.Exit(code=1)
+
+    judge_model = judge if judge else DEFAULT_JUDGE_MODEL
+    judge_manager = JudgeManager(storage, judge_model=judge_model)
+
+    typer.echo(f"Modelos encontrados ({len(models)}): {', '.join(models)}")
+    typer.echo(f"Modelo juiz: {judge_model}")
+    typer.echo("Gerando registros de julgamento...")
+
+    try:
+        output_path = judge_manager.run(dataset, models)
+        typer.echo(f"\nJulgamentos salvos com sucesso em: {output_path}")
+    except Exception as e:
+        typer.echo(f"Erro durante o julgamento: {e}", err=True)
+        raise typer.Exit(code=1)

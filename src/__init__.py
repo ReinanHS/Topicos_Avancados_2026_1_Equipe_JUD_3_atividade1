@@ -11,6 +11,7 @@ from src.datasets.oab_exams_loader import OABExamsLoader
 from src.evaluation.cross_model_evaluator import CrossModelEvaluator
 from src.evaluation.exact_match_evaluator import ExactMatchEvaluator
 from src.execution.executor_factory import ExecutionManagerFactory
+from src.judgment.judge_manager import JudgeManager
 from src.llm.ollama_client import OllamaClient
 from src.prompts.renderer import PromptRenderer
 from src.storage.local_storage import LocalStorage
@@ -23,6 +24,7 @@ __all__ = [
     "CrossModelEvaluator",
     "ExactMatchEvaluator",
     "ExecutionManagerFactory",
+    "JudgeManager",
     "OllamaClient",
     "PromptRenderer",
     "LocalStorage",
