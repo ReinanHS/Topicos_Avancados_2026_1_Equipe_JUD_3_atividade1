@@ -1,9 +1,9 @@
 import ollama
 
 
-class OllamaManager:
+class OllamaClient:
     """
-    Gerenciador para integração e execução de LLMs locais via Ollama.
+    Wrapper do SDK Ollama para integração e execução de LLMs locais.
     """
 
     AVAILABLE_MODELS = ["llama3.2:3b", "gemma2:2b", "qwen2.5:3b"]
@@ -11,16 +11,21 @@ class OllamaManager:
     def __init__(self):
         self.client = ollama.Client()
 
+    def _validate_model(self, model: str) -> None:
+        """Valida se o modelo informado está na lista de modelos suportados."""
+        if model not in self.AVAILABLE_MODELS:
+            raise ValueError(
+                f"Modelo {model} não suportado. "
+                f"Modelos disponíveis: {', '.join(self.AVAILABLE_MODELS)}"
+            )
+
     def generate_response(
         self, model: str, system_prompt: str, user_prompt: str
     ) -> str:
         """
-        Gera uma resposta síncrona do Ollama usando um modelo específico.
+        Gera uma resposta síncrona do Ollama usando um modelo específico (single-turn).
         """
-        if model not in self.AVAILABLE_MODELS:
-            raise ValueError(
-                f"Modelo {model} não suportado. Modelos disponíveis: {', '.join(self.AVAILABLE_MODELS)}"
-            )
+        self._validate_model(model)
 
         response = self.client.chat(
             model=model,
@@ -33,12 +38,10 @@ class OllamaManager:
 
     def generate_chat_response(self, model: str, messages: list) -> str:
         """
-        Gera uma resposta síncrona do Ollama usando um modelo específico e uma lista de mensagens (multi-turn).
+        Gera uma resposta síncrona do Ollama a partir de uma lista
+        de mensagens (multi-turn).
         """
-        if model not in self.AVAILABLE_MODELS:
-            raise ValueError(
-                f"Modelo {model} não suportado. Modelos disponíveis: {', '.join(self.AVAILABLE_MODELS)}"
-            )
+        self._validate_model(model)
 
         response = self.client.chat(
             model=model,

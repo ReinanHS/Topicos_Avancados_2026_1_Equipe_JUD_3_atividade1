@@ -1,0 +1,190 @@
+import typer
+
+app = typer.Typer(no_args_is_help=True)
+
+
+@app.callback()
+def main_callback():
+    """
+    CLI para manipulação de datasets da OAB.
+    """
+    pass
+
+
+@app.command()
+def pull(
+    dataset: str = typer.Argument(
+        ..., help="Nome do dataset para baixar (ex: oab_bench, oab_exams)"
+    ),
+    output: str = typer.Option(
+        "json", "--output", help="Formato do arquivo de saída (json ou csv)"
+    ),
+):
+    """
+    Baixa as informações do dataset e salva no diretório de armazenamento local em JSON ou CSV.
+    """
+    from src.datasets.loader_factory import DatasetLoaderFactory
+    from src.storage.local_storage import LocalStorage
+
+    loader = DatasetLoaderFactory.create(dataset)
+    storage = LocalStorage()
+
+    questions = loader.load_questions()
+
+    caminho_arquivo = storage.save_data(
+        questions, dataset, fmt=output, sub_dir="dataset"
+    )
+
+    typer.echo(f"Foram selecionadas {len(questions)} questões para o lote.")
+    typer.echo(f"Conjunto de dados salvo com sucesso em: {caminho_arquivo}")
+
+
+@app.command()
+def run(
+    dataset: str = typer.Argument(
+        ..., help="Nome do dataset para processar (ex: oab_bench, oab_exams)"
+    ),
+    model: str = typer.Option(
+        ...,
+        "--model",
+        "-m",
+        help="Modelo do ollama para execução: llama3.2:3b, gemma2:2b, qwen2.5:3b",
+    ),
+    limit: int = typer.Option(
+        None,
+        "--limit",
+        "-l",
+        help="Limitar a quantidade de questões a serem executadas.",
+    ),
+):
+    """
+    Executa a inferência e a classificação de dificuldade nas questões do dataset através do LLM local.
+    """
+    from src.datasets.loader_factory import DatasetLoaderFactory
+    from src.execution.executor_factory import ExecutionManagerFactory
+    from src.llm.ollama_client import OllamaClient
+    from src.storage.local_storage import LocalStorage
+
+    ollama_client = OllamaClient()
+
+    if model not in OllamaClient.AVAILABLE_MODELS:
+        typer.echo(
+            f"Erro: Modelo '{model}' não é suportado pelo nosso OllamaClient.",
+            err=True,
+        )
+        raise typer.Exit(code=1)
+
+    if dataset not in DatasetLoaderFactory.available_datasets():
+        typer.echo(
+            f"Erro: Dataset '{dataset}' não reconhecido. "
+            f"Use: {', '.join(DatasetLoaderFactory.available_datasets())}.",
+            err=True,
+        )
+        raise typer.Exit(code=1)
+
+    loader = DatasetLoaderFactory.create(dataset)
+    storage = LocalStorage()
+    execution_manager = ExecutionManagerFactory.create(
+        dataset, loader, storage, ollama_client
+    )
+
+    questions = execution_manager.get_questions(limit)
+
+    typer.echo(
+        f"Iniciando a execução de {len(questions)} questões no modelo {model}..."
+    )
+    results = []
+
+    with typer.progressbar(questions, label="Processando questões") as progress:
+        for q in progress:
+            q_result = execution_manager.process_full_question(q, model)
+            results.append(q_result)
+
+    output_path = execution_manager.save_results(results, model)
+
+    typer.echo("Execução finalizada com sucesso!")
+    typer.echo(f"Resultados salvos em: {output_path}")
+
+
+@app.command()
+def evaluate(
+    dataset: str = typer.Argument(
+        ..., help="Nome do dataset para avaliar o resultado dos modelos."
+    ),
+):
+    """
+    Avalia as respostas geradas comparando-as de forma cruzada (um modelo como referência para o outro) ou exata.
+    O sistema detecta automaticamente quais modelos já possuem resultados salvos para este dataset.
+    """
+    from src.datasets.loader_factory import DatasetLoaderFactory
+    from src.evaluation.cross_model_evaluator import CrossModelEvaluator
+    from src.evaluation.exact_match_evaluator import ExactMatchEvaluator
+    from src.storage.local_storage import LocalStorage
+
+    if dataset not in DatasetLoaderFactory.available_datasets():
+        typer.echo(
+            f"Erro: Dataset '{dataset}' não reconhecido. "
+            f"Use: {', '.join(DatasetLoaderFactory.available_datasets())}.",
+            err=True,
+        )
+        raise typer.Exit(code=1)
+
+    storage = LocalStorage()
+
+    typer.echo(f"Buscando modelos disponíveis para o dataset {dataset}...")
+    models = storage.list_available_models(dataset)
+
+    if dataset == "oab_bench":
+        if len(models) < 2:
+            typer.echo(
+                f"Foram encontrados resultados para apenas {len(models)} modelo(s): {models}."
+            )
+            typer.echo(
+                "Erro: Para a avaliação cruzada, é necessário primeiro fazer a execução "
+                "para ter os resultados salvos (no mínimo 2 modelos).",
+                err=True,
+            )
+            typer.echo(
+                f"Sugestão: Execute 'uv run python main.py run {dataset} --model <nome_do_modelo>' "
+                "para novos modelos."
+            )
+            raise typer.Exit(code=1)
+
+        typer.echo(f"Modelos encontrados ({len(models)}): {', '.join(models)}")
+        typer.echo("Iniciando a avaliação cruzada (Pairwise Metrics)...")
+
+        try:
+            evaluator = CrossModelEvaluator(storage)
+            cross_scores = evaluator.evaluate(dataset, models)
+            typer.echo("\n--- Resultados da Avaliação Cruzada ---")
+            for pair, scores in cross_scores.items():
+                typer.echo(f"\n[{pair}]")
+                for metric, score in scores.items():
+                    typer.echo(f"  {metric.upper()}: {score:.4f}")
+        except Exception as e:
+            typer.echo(f"Erro durante a avaliação: {e}", err=True)
+            raise typer.Exit(code=1)
+
+    elif dataset == "oab_exams":
+        if len(models) < 1:
+            typer.echo(
+                "Erro: Nenhum modelo encontrado para 'oab_exams'. "
+                "Execute o comando 'run' primeiro para gerar os resultados.",
+                err=True,
+            )
+            raise typer.Exit(code=1)
+
+        typer.echo(f"Modelos encontrados ({len(models)}): {', '.join(models)}")
+        typer.echo("Iniciando a avaliação exata (Acurácia, Precisão, Recall, F1)...")
+
+        try:
+            evaluator = ExactMatchEvaluator(storage)
+            model_scores = evaluator.evaluate(dataset, models)
+            typer.echo("\n--- Resultados da Avaliação ---")
+            for mod, scores in model_scores.items():
+                typer.echo(f"\n[{mod}]")
+                for metric, score in scores.items():
+                    typer.echo(f"  {metric.upper()}: {score:.4f}")
+        except Exception as e:
+            typer.echo(f"Erro durante a avaliação: {e}", err=True)
+            raise typer.Exit(code=1)

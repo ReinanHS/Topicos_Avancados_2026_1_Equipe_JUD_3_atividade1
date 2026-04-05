@@ -1,12 +1,13 @@
-import json
 import csv
+import json
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 
-class StorageManager:
+class LocalStorage:
     """
     Gerencia o armazenamento local de arquivos em um diretório de cache reservado.
+    Suporta leitura e escrita nos formatos JSON e CSV.
     """
 
     def __init__(self, cache_dir: str = ".reinan_cache"):
@@ -21,7 +22,8 @@ class StorageManager:
         sub_dir: str = None,
     ) -> Path:
         """
-        Salva a lista de dicionários num arquivo dentro da pasta de cache, com o formato escolhido.
+        Salva a lista de dicionários num arquivo dentro da pasta de cache,
+        com o formato escolhido (json ou csv).
         """
         target_dir = self.cache_dir
         if sub_dir:
@@ -75,8 +77,8 @@ class StorageManager:
         self, dataset_name: str, sub_dir: str = "results"
     ) -> List[str]:
         """
-        Retorna a lista de nomes de modelos que possuem resultados salvos em cache
-        para um determinado dataset.
+        Retorna a lista de nomes de modelos que possuem resultados salvos
+        em cache para um determinado dataset.
         """
         target_dir = self.cache_dir / "results" / dataset_name / "model answer"
         if not target_dir.exists():
