@@ -45,10 +45,10 @@ def infer(
         ..., help="Nome do dataset para processar (ex: oab_bench, oab_exams)"
     ),
     model: str = typer.Option(
-        ...,
+        None,
         "--model",
         "-m",
-        help="Modelo do ollama para execução: llama3.2:3b, gemma2:2b, qwen2.5:3b",
+        help="Modelo do ollama para execução. Se não informado, executa para todos os modelos disponíveis.",
     ),
     limit: int = typer.Option(
         None,
@@ -59,20 +59,12 @@ def infer(
 ):
     """
     Executa a inferência e a classificação de dificuldade nas questões do dataset através do LLM local.
+    Se --model não for informado, executa para todos os modelos disponíveis.
     """
     from src.datasets.loader_factory import DatasetLoaderFactory
     from src.execution.executor_factory import ExecutionManagerFactory
     from src.llm.ollama_client import OllamaClient
     from src.storage.local_storage import LocalStorage
-
-    ollama_client = OllamaClient()
-
-    if model not in OllamaClient.AVAILABLE_MODELS:
-        typer.echo(
-            f"Erro: Modelo '{model}' não é suportado pelo nosso OllamaClient.",
-            err=True,
-        )
-        raise typer.Exit(code=1)
 
     if dataset not in DatasetLoaderFactory.available_datasets():
         typer.echo(
@@ -82,6 +74,16 @@ def infer(
         )
         raise typer.Exit(code=1)
 
+    if model is not None and model not in OllamaClient.AVAILABLE_MODELS:
+        typer.echo(
+            f"Erro: Modelo '{model}' não é suportado pelo nosso OllamaClient.",
+            err=True,
+        )
+        raise typer.Exit(code=1)
+
+    models_to_run = [model] if model else OllamaClient.AVAILABLE_MODELS
+
+    ollama_client = OllamaClient()
     loader = DatasetLoaderFactory.create(dataset)
     storage = LocalStorage()
     execution_manager = ExecutionManagerFactory.create(
@@ -90,20 +92,22 @@ def infer(
 
     questions = execution_manager.get_questions(limit)
 
-    typer.echo(
-        f"Iniciando a execução de {len(questions)} questões no modelo {model}..."
-    )
-    results = []
+    for current_model in models_to_run:
+        typer.echo(
+            f"\nIniciando a execução de {len(questions)} questões no modelo {current_model}..."
+        )
+        results = []
 
-    with typer.progressbar(questions, label="Processando questões") as progress:
-        for q in progress:
-            q_result = execution_manager.process_full_question(q, model)
-            results.append(q_result)
+        with typer.progressbar(questions, label=f"Processando ({current_model})") as progress:
+            for q in progress:
+                q_result = execution_manager.process_full_question(q, current_model)
+                results.append(q_result)
 
-    output_path = execution_manager.save_results(results, model)
+        output_path = execution_manager.save_results(results, current_model)
 
-    typer.echo("Execução finalizada com sucesso!")
-    typer.echo(f"Resultados salvos em: {output_path}")
+        typer.echo(f"Modelo {current_model} finalizado! Resultados salvos em: {output_path}")
+
+    typer.echo("\nExecução finalizada com sucesso!")
 
 
 @app.command()
