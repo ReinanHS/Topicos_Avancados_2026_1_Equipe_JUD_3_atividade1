@@ -40,7 +40,7 @@ class JudgeManager:
         """Configura o ambiente Jinja2 e carrega os templates de prompts."""
         self.jinja_env = jinja2.Environment(
             loader=jinja2.FileSystemLoader("prompts/judge"),
-            autoescape=jinja2.select_autoescape()
+            autoescape=jinja2.select_autoescape(),
         )
 
         self.tmpl_single_sys = self.jinja_env.get_template(

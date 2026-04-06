@@ -70,6 +70,33 @@ jobs:
           working_directory: docs/pdf
           latexmk_use_xelatex: true
 
+      - name: Ensure marp build dir exists
+        run: mkdir -p docs/dist-slide
+
+      - name: Marp Build (HTML)
+        uses: docker://marpteam/marp-cli:v3.3.0
+        with:
+          args: docs/slide.md --theme docs/assets/marp-google-style.css --allow-local-files -o docs/dist-slide/slide.html
+        env:
+          MARP_USER: root:root
+          LANG: "pt_BR.UTF-8"
+
+      - name: Marp Build (PDF)
+        uses: docker://marpteam/marp-cli:v3.3.0
+        with:
+          args: docs/slide.md --theme docs/assets/marp-google-style.css --allow-local-files -o docs/dist-slide/slide.pdf
+        env:
+          MARP_USER: root:root
+          LANG: "pt_BR.UTF-8"
+
+      - name: Marp Build (PPTX)
+        uses: docker://marpteam/marp-cli:v3.3.0
+        with:
+          args: docs/slide.md --theme docs/assets/marp-google-style.css --allow-local-files -o docs/dist-slide/slide.pptx
+        env:
+          MARP_USER: root:root
+          LANG: "pt_BR.UTF-8"
+
       - name: Build Docusaurus
         env:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
@@ -78,9 +105,13 @@ jobs:
           cd template-documentacao-ia-juridica
           rm -rf docs
           cp -r ../docs docs
+          rm ../docs/slide.md
           npm ci --ignore-scripts
           npm run build
           cp ../docs/pdf/main.pdf build/contribuicao-individual.pdf
+          cp ../docs/dist-slide/slide.html build/apresentacao-marp.html
+          cp ../docs/dist-slide/slide.pdf build/apresentacao-marp.pdf
+          cp ../docs/dist-slide/slide.pptx build/apresentacao-marp.pptx
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

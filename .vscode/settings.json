@@ -10,7 +10,7 @@
     ".reinan_cache"
   ],
   "markdown.marp.themes": [
-    "https://raw.githubusercontent.com/reinanhs/marp-theme-academic/main/themes/academic.css"
+    "docs/assets/marp-google-style.css"
   ],
   "markdown.marp.html": "all"
 }

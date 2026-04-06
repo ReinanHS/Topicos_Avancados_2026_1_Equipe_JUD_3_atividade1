@@ -1,0 +1,460 @@
+/* @theme marp-google-style */
+
+@import 'gaia';
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap');
+
+/* =========================================================
+   Google Cloud Tech — Marp Theme
+   Inspired by Google Cloud presentations & Google brand
+   ========================================================= */
+
+:root {
+  /* Google Brand Colors */
+  --google-blue: #4285F4;
+  --google-red: #EA4335;
+  --google-yellow: #FBBC04;
+  --google-green: #34A853;
+
+  /* Google Cloud Colors */
+  --cloud-blue: #1A73E8;
+  --cloud-dark: #1967D2;
+  --cloud-light: #E8F0FE;
+
+  /* Neutrals */
+  --neutral-900: #202124;
+  --neutral-800: #3C4043;
+  --neutral-700: #5F6368;
+  --neutral-600: #80868B;
+  --neutral-400: #BDC1C6;
+  --neutral-200: #E8EAED;
+  --neutral-100: #F1F3F4;
+  --neutral-50: #F8F9FA;
+  --white: #FFFFFF;
+
+  /* Theme tokens */
+  --color-background: var(--white);
+  --color-foreground: var(--neutral-800);
+  --color-highlight: var(--cloud-blue);
+}
+
+/* =========================================================
+   Base Section (all slides)
+   ========================================================= */
+section {
+  background-color: var(--white);
+  background-image: none;
+  font-family: 'Open Sans', 'Roboto', 'Noto Sans', sans-serif;
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--neutral-800);
+  padding: 90px 72px 60px 72px;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  justify-content: flex-start;
+}
+
+/* Pagination */
+section::after {
+  font-family: 'Open Sans', 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--neutral-600);
+  content: attr(data-marpit-pagination) ' / ' attr(data-marpit-pagination-total);
+  bottom: 24px;
+  right: 48px;
+}
+
+/* =========================================================
+   Typography
+   ========================================================= */
+h1 {
+  font-family: 'Open Sans', 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 2.2em;
+  color: var(--neutral-900);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  border: none;
+}
+
+h2 {
+  font-family: 'Open Sans', 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 1.6em;
+  color: var(--neutral-900);
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  border: none;
+}
+
+h3 {
+  font-family: 'Open Sans', 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 1.3em;
+  color: var(--neutral-800);
+  line-height: 1.25;
+  margin-bottom: 10px;
+}
+
+h4, h5, h6 {
+  font-family: 'Open Sans', 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 1.1em;
+  color: var(--neutral-700);
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+p {
+  color: var(--neutral-800);
+  margin-bottom: 12px;
+}
+
+strong {
+  font-weight: 700;
+  color: var(--neutral-900);
+}
+
+a {
+  color: var(--cloud-blue);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+ul, ol {
+  color: var(--neutral-800);
+  padding-left: 1.4em;
+}
+
+ul ul, ol ol {
+  font-size: 0.92em;
+  color: var(--neutral-700);
+}
+
+li {
+  margin-bottom: 6px;
+}
+
+/* Inline code */
+code {
+  font-family: 'Roboto Mono', 'Source Code Pro', monospace;
+  font-size: 0.88em;
+  background-color: var(--neutral-100);
+  color: var(--neutral-900);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* Code blocks */
+pre {
+  background-color: var(--neutral-900) !important;
+  border-radius: 12px;
+  padding: 24px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+pre code {
+  background-color: transparent;
+  color: #E8EAED;
+  font-size: 0.82em;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   Header Bar — Google-style top accent
+   ========================================================= */
+header {
+  background-color: transparent;
+  color: var(--cloud-blue);
+  font-family: 'Open Sans', 'Roboto', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0;
+  top: 24px;
+  left: 72px;
+  margin-bottom: 16px;
+}
+
+/* Google-colored top strip accent */
+section::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: linear-gradient(
+    to right,
+    var(--google-blue) 0%,
+    var(--google-blue) 25%,
+    var(--google-red) 25%,
+    var(--google-red) 50%,
+    var(--google-yellow) 50%,
+    var(--google-yellow) 75%,
+    var(--google-green) 75%,
+    var(--google-green) 100%
+  );
+}
+
+/* =========================================================
+   Lead / Title Slide — Google Cloud Tech style
+   White bg, decorative yellow circle, left-aligned content
+   ========================================================= */
+section.lead {
+  background-color: var(--white);
+  color: var(--neutral-900);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 80px 80px;
+  overflow: hidden;
+}
+
+/* Thicker color bar on lead */
+section.lead::before {
+  background: linear-gradient(
+    to right,
+    var(--google-blue) 0%,
+    var(--google-blue) 25%,
+    var(--google-red) 25%,
+    var(--google-red) 50%,
+    var(--google-yellow) 50%,
+    var(--google-yellow) 75%,
+    var(--google-green) 75%,
+    var(--google-green) 100%
+  );
+  height: 10px;
+}
+
+/* Large decorative yellow circle — right side accent */
+section.lead::after {
+  content: '';
+  position: absolute;
+  right: -60px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 40% 40%,
+    #FDE293 0%,
+    var(--google-yellow) 60%,
+    #F9AB00 100%
+  );
+  opacity: 0.85;
+  z-index: 0;
+}
+
+section.lead h1 {
+  color: var(--neutral-900);
+  text-align: left;
+  font-size: 2.8em;
+  font-weight: 700;
+  line-height: 1.1;
+  z-index: 1;
+  max-width: 60%;
+}
+section.lead h1 strong {
+  color: var(--cloud-blue);
+  -webkit-text-stroke: 0;
+}
+
+section.lead h2 {
+  color: var(--neutral-900);
+  text-align: left;
+  font-size: 2em;
+  font-weight: 700;
+  line-height: 1.1;
+  z-index: 1;
+  max-width: 60%;
+}
+section.lead h2 strong {
+  color: var(--cloud-blue);
+  -webkit-text-stroke: 0;
+}
+
+section.lead h3 {
+  color: var(--neutral-700);
+  text-align: left;
+  font-size: 1.1em;
+  font-weight: 500;
+  z-index: 1;
+  margin-top: 8px;
+  max-width: 55%;
+}
+section.lead h3 strong {
+  color: var(--cloud-blue);
+}
+
+section.lead h4,
+section.lead h5 {
+  display: inline-block;
+  background-color: var(--cloud-light);
+  color: var(--cloud-blue);
+  font-size: 0.85em;
+  font-weight: 600;
+  padding: 6px 20px;
+  border-radius: 20px;
+  text-align: left;
+  z-index: 1;
+  margin-top: 12px;
+}
+section.lead h4 strong,
+section.lead h5 strong {
+  color: var(--cloud-dark);
+}
+
+section.lead p {
+  text-align: left;
+  color: var(--neutral-700);
+  font-size: 0.85em;
+  z-index: 1;
+  max-width: 55%;
+}
+
+section.lead a {
+  color: var(--cloud-blue);
+}
+
+/* =========================================================
+   Blockquote — footnote / reference style
+   ========================================================= */
+blockquote {
+  max-width: 92%;
+  border-left: 3px solid var(--google-blue);
+  border-top: none;
+  background-color: var(--cloud-light);
+  font-size: 0.6em;
+  color: var(--neutral-700);
+  padding: 8px 16px;
+  border-radius: 0 6px 6px 0;
+  position: absolute;
+  bottom: 28px;
+  margin: 0;
+}
+blockquote::before {
+  content: "";
+}
+blockquote::after {
+  content: "";
+}
+blockquote a {
+  font-size: 1em;
+  color: var(--cloud-blue);
+}
+
+/* =========================================================
+   Images
+   ========================================================= */
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+
+img[alt~="top-right"] {
+  position: absolute;
+  top: 24px;
+  right: 48px;
+  left: auto;
+  width: 140px;
+  opacity: 0.9;
+}
+
+/* =========================================================
+   Image with Font / Caption Slides
+   ========================================================= */
+section.image_with_font {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+section.image_with_font p {
+  text-align: center;
+  font-size: 12px;
+  color: var(--neutral-600);
+  font-style: italic;
+}
+
+section.image_with_font blockquote p {
+  text-align: left;
+  font-size: 12px;
+  font-style: normal;
+}
+
+/* =========================================================
+   Custom <c> element (caption)
+   ========================================================= */
+c {
+  text-align: center;
+  font-size: 12px;
+  display: block;
+  margin-top: -24px;
+  color: var(--neutral-600);
+  font-style: italic;
+}
+
+/* =========================================================
+   Footer
+   ========================================================= */
+footer {
+  font-family: 'Open Sans', 'Roboto', sans-serif;
+  font-size: 13px;
+  color: var(--neutral-600);
+  font-weight: 400;
+}
+
+section.lead footer {
+  color: var(--neutral-600);
+  z-index: 1;
+}
+
+/* =========================================================
+   Tables — Clean Google-style
+   ========================================================= */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.88em;
+}
+
+th {
+  background-color: var(--cloud-light);
+  color: var(--cloud-blue);
+  font-weight: 600;
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 2px solid var(--cloud-blue);
+}
+
+td {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--neutral-200);
+  color: var(--neutral-800);
+}
+
+tr:hover td {
+  background-color: var(--neutral-50);
+}
+
+/* =========================================================
+   Math (KaTeX)
+   ========================================================= */
+.katex {
+  font-size: 1.05em;
+}
