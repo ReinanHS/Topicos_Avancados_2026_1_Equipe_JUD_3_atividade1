@@ -27,6 +27,10 @@
   <a href="https://github.com/reinanhs/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/stargazers">
     <img src="https://img.shields.io/github/stars/reinanhs/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1.svg?style=social" alt="Stars">
   </a>
+  <!-- SonarCloud -->
+  <a href="https://sonarcloud.io/project/overview?id=ReinanHS_Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1">
+    <img src="https://sonarcloud.io/api/project_badges/measure?project=ReinanHS_Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1&metric=code_smells" alt="SonarCloud">
+  </a>
 </p>
 
 </div>
