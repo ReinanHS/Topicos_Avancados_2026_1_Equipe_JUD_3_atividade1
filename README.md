@@ -58,6 +58,19 @@ repositório, recomendamos a leitura de
 [docs-web]: https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/docs
 [docs-as-code-artigo]: https://medium.com/@reinanhs/docs-as-code-um-guia-b%C3%A1sico-para-iniciantes-b65b1e63b53a
 
+## Apresentação
+
+Esta apresentação foi compilada utilizando o [**Marp**](https://marp.app/) (Markdown Presentation Ecosystem), que permite criar slides a partir de Markdown. Para mais informações sobre essa abordagem, consulte o artigo [Standardization of Teaching Materials with Marp and CI/CD: A Study at the Federal Institute of Sergipe](https://doi.org/10.34178/jbth.v7iSuppl2.450).
+
+A apresentação está disponível nos seguintes formatos:
+
+| Formato | Link                                                                                                                         |
+|---------|------------------------------------------------------------------------------------------------------------------------------|
+| HTML    | [apresentacao-marp.html](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/apresentacao-marp.html) |
+| PDF     | [apresentacao-marp.pdf](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/apresentacao-marp.pdf)   |
+| PPTX    | [apresentacao-marp.pptx](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/apresentacao-marp.pptx) |
+
+
 ## ⚖️ Domínio de atuação
 
 A Equipe 3 atua no **Domínio Jurídico**, trabalhando com os seguintes datasets:

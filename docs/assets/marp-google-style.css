@@ -398,18 +398,6 @@ section.image_with_font blockquote p {
 }
 
 /* =========================================================
-   Custom <c> element (caption)
-   ========================================================= */
-c {
-  text-align: center;
-  font-size: 12px;
-  display: block;
-  margin-top: -24px;
-  color: var(--neutral-600);
-  font-style: italic;
-}
-
-/* =========================================================
    Footer
    ========================================================= */
 footer {
