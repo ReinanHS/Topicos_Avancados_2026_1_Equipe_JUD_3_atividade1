@@ -7,13 +7,14 @@ from typing import Any, Dict, List
 
 from src.prompts.renderer import PromptRenderer
 
+_DEFAULT_SYSTEM_PROMPT = (
+    "Você é um assistente prestativo especialista em direito brasileiro."
+)
+
 
 class ExecutionManager(ABC):
     """
     Gerenciador base responsável por orquestrar o processo de inferência.
-
-    Fornece o pipeline padrão:
-      process_question → classify_difficulty → define_basic_legislation → process_full_question
     """
 
     def __init__(self, dataset_loader, storage, ollama_client):
@@ -26,11 +27,6 @@ class ExecutionManager(ABC):
     @abstractmethod
     def dataset_name(self) -> str:
         """Nome do dataset gerenciado por esta implementação."""
-        ...
-
-    @abstractmethod
-    def get_questions(self, limit: int = None) -> List[Dict[str, Any]]:
-        """Carrega as questões do dataset e aplica o limite caso exista."""
         ...
 
     @abstractmethod
@@ -47,6 +43,51 @@ class ExecutionManager(ABC):
     def _format_choices_for_final_answer(self, q_result: Dict[str, Any]) -> List[Any]:
         """Formata as escolhas para a estrutura de resposta final."""
         ...
+
+    def get_questions(self, limit: int = None) -> List[Dict[str, Any]]:
+        """
+        Carrega as questões do dataset e aplica o limite caso exista.
+        """
+        questions = self.dataset_loader.load_questions()
+        if limit is not None and limit > 0:
+            questions = questions[:limit]
+        return questions
+
+    def _resolve_system_prompt(self, q: Dict[str, Any]) -> str:
+        """
+        Renderiza o template de sistema para o dataset atual.
+        """
+        rendered = self.prompt_renderer.render(
+            self.dataset_name, "system_template.minijinja", q
+        )
+        if rendered:
+            return rendered
+        return q.get("system", _DEFAULT_SYSTEM_PROMPT)
+
+    def _parse_json_response(
+        self, response: str, key: str, default: Any = "Inconclusivo"
+    ) -> Any:
+        """
+        Limpa marcadores de code-fence e parseia a resposta JSON do LLM.
+        """
+        cleaned = response.replace("```json", "").replace("```", "").strip()
+        try:
+            data = json.loads(cleaned)
+            return data.get(key, default)
+        except (json.JSONDecodeError, ValueError):
+            return default
+
+    @staticmethod
+    def _attach_errors_to_answer(
+        additional_info: dict, error_mappings: List[tuple]
+    ) -> None:
+        """
+        Anexa erros de curadoria ao dicionário de informações adicionais.
+        """
+        for result, error_key in error_mappings:
+            error_value = result.get("error")
+            if error_value:
+                additional_info[error_key] = error_value
 
     def _execute_curador_task(
         self, q: Dict[str, Any], model: str, task_dir_name: str, result_key: str
@@ -71,21 +112,11 @@ class ExecutionManager(ABC):
             return {**q, "error": f"ERRO: {e}"}
 
         q_result = q.copy()
-
-        try:
-            resp_str_clean = response.replace("```json", "").replace("```", "").strip()
-            resp_json = json.loads(resp_str_clean)
-            value = resp_json.get(result_key)
-            q_result[result_key] = value
-        except Exception:
-            q_result[result_key] = "Inconclusivo"
-
+        q_result[result_key] = self._parse_json_response(response, result_key)
         return q_result
 
     def classify_difficulty(self, q: Dict[str, Any], model: str) -> Dict[str, Any]:
-        """
-        Classifica o nível de dificuldade da questão usando os templates de curador.
-        """
+        """Classifica o nível de dificuldade da questão usando os templates de curador."""
         return self._execute_curador_task(
             q, model, "classify_difficulty", "difficulty_question"
         )
@@ -109,37 +140,35 @@ class ExecutionManager(ABC):
     def process_full_question(self, q: Dict[str, Any], model: str) -> Dict[str, Any]:
         """
         Executa sequencialmente a inferência da questão, a classificação
-        de dificuldade e a identificação da legislação base.
+        de dificuldade, a identificação da legislação base e da área de expertise.
         """
         q_result = self.process_question(q, model)
         difficulty_result = self.classify_difficulty(q, model)
         legislation_result = self.define_basic_legislation(q, model)
         area_expertise_result = self.define_area_expertise(q, model)
 
-        final_answer = {
+        additional_info = {
+            "difficulty_question": difficulty_result.get("difficulty_question"),
+            "basic_legislation": legislation_result.get("basic_legislation"),
+            "area_expertise": area_expertise_result.get("area_expertise"),
+        }
+
+        self._attach_errors_to_answer(
+            additional_info,
+            [
+                (difficulty_result, "dificuldade_error"),
+                (legislation_result, "legislacao_error"),
+            ],
+        )
+
+        return {
             "question_id": q.get("question_id", q.get("id", "")),
             "answer_id": uuid.uuid4().hex,
             "model_id": model,
             "choices": self._format_choices_for_final_answer(q_result),
-            "additional_information": {
-                "difficulty_question": difficulty_result.get("difficulty_question"),
-                "basic_legislation": legislation_result.get("basic_legislation"),
-                "area_expertise": area_expertise_result.get("area_expertise"),
-            },
+            "additional_information": additional_info,
             "tstamp": time.time(),
         }
-
-        if "error" in difficulty_result and difficulty_result["error"]:
-            final_answer["additional_information"]["dificuldade_error"] = (
-                difficulty_result["error"]
-            )
-
-        if "error" in legislation_result and legislation_result["error"]:
-            final_answer["additional_information"]["legislacao_error"] = (
-                legislation_result["error"]
-            )
-
-        return final_answer
 
     def save_results(self, results: List[Dict[str, Any]], model: str) -> Path:
         """Salva os resultados consolidados na subpasta definida para o cache."""
