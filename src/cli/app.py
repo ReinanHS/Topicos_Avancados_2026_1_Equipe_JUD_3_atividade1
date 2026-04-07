@@ -1,6 +1,188 @@
+"""
+Módulo CLI principal — interface de linha de comando baseada em Typer.
+
+Cada comando delega sua lógica pesada para funções auxiliares privadas,
+mantendo a complexidade cognitiva de cada função ≤ 12 (regra S3776 SonarCloud).
+"""
+
 import typer
 
 app = typer.Typer(no_args_is_help=True)
+
+
+def _validate_dataset(dataset: str) -> None:
+    """Valida se o dataset informado é reconhecido pelo sistema."""
+    from src.datasets.loader_factory import DatasetLoaderFactory
+
+    if dataset not in DatasetLoaderFactory.available_datasets():
+        typer.echo(
+            f"Erro: Dataset '{dataset}' não reconhecido. "
+            f"Use: {', '.join(DatasetLoaderFactory.available_datasets())}.",
+            err=True,
+        )
+        raise typer.Exit(code=1)
+
+
+def _validate_minimum_models(models: list, min_count: int, dataset: str) -> None:
+    """Valida se há quantidade mínima de modelos disponíveis."""
+    if len(models) >= min_count:
+        return
+
+    typer.echo(
+        f"Foram encontrados resultados para apenas {len(models)} modelo(s): {models}."
+    )
+    typer.echo(
+        f"Erro: São necessários no mínimo {min_count} modelo(s) com resultados salvos.",
+        err=True,
+    )
+    typer.echo(
+        f"Sugestão: Execute 'uv run python main.py infer {dataset} --model <nome_do_modelo>' "
+        "para novos modelos."
+    )
+    raise typer.Exit(code=1)
+
+
+def _display_cross_scores(cross_scores: dict) -> None:
+    """Exibe os resultados da avaliação cruzada formatados no terminal."""
+    typer.echo("\n--- Resultados da Avaliação Cruzada ---")
+    for pair, scores in cross_scores.items():
+        typer.echo(f"\n[{pair}]")
+        for section, metrics in scores.items():
+            typer.echo(f"  {section.upper()}:")
+            for metric, value in metrics.items():
+                typer.echo(f"    {metric.upper()}: {value:.4f}")
+
+
+def _save_cross_model_metrics(
+    storage, models: list, cross_scores: dict, dataset: str
+) -> None:
+    """Salva as métricas cruzadas de cada modelo em arquivo JSON."""
+    for model in models:
+        model_metrics = {
+            pair: scores for pair, scores in cross_scores.items() if model in pair
+        }
+        filename = model.replace(":", "-")
+        output_path = storage.save_data(
+            [model_metrics],
+            filename,
+            fmt="json",
+            sub_dir=f"results/{dataset}/model_metric",
+        )
+        typer.echo(f"Métricas de {model} salvas em: {output_path}")
+
+
+def _evaluate_oab_bench(storage, models: list, dataset: str) -> None:
+    """Orquestra a avaliação cruzada (pairwise) para o dataset oab_bench."""
+    from src.evaluation.cross_model_evaluator import CrossModelEvaluator
+
+    _validate_minimum_models(models, min_count=2, dataset=dataset)
+
+    typer.echo(f"Modelos encontrados ({len(models)}): {', '.join(models)}")
+    typer.echo("Iniciando a avaliação cruzada (Pairwise Metrics)...")
+
+    try:
+        evaluator = CrossModelEvaluator(storage)
+        cross_scores = evaluator.evaluate(dataset, models)
+        _display_cross_scores(cross_scores)
+        _save_cross_model_metrics(storage, models, cross_scores, dataset)
+    except Exception as e:
+        typer.echo(f"Erro durante a avaliação: {e}", err=True)
+        raise typer.Exit(code=1)
+
+
+def _display_exact_scores(model_scores: dict) -> None:
+    """Exibe os resultados da avaliação exata formatados no terminal."""
+    typer.echo("\n--- Resultados da Avaliação ---")
+    for mod, scores in model_scores.items():
+        typer.echo(f"\n[{mod}]")
+        for metric, score in scores.items():
+            typer.echo(f"  {metric.upper()}: {score:.4f}")
+
+
+def _save_exact_metrics(storage, model_scores: dict, dataset: str) -> None:
+    """Salva as métricas de avaliação exata de cada modelo em arquivo JSON."""
+    for mod, scores in model_scores.items():
+        filename = mod.replace(":", "-")
+        output_path = storage.save_data(
+            [scores],
+            filename,
+            fmt="json",
+            sub_dir=f"results/{dataset}/model_metric",
+        )
+        typer.echo(f"Métricas de {mod} salvas em: {output_path}")
+
+
+def _evaluate_oab_exams(storage, models: list, dataset: str) -> None:
+    """Orquestra a avaliação exata para o dataset oab_exams."""
+    from src.evaluation.exact_match_evaluator import ExactMatchEvaluator
+
+    _validate_minimum_models(models, min_count=1, dataset=dataset)
+
+    typer.echo(f"Modelos encontrados ({len(models)}): {', '.join(models)}")
+    typer.echo("Iniciando a avaliação exata (Acurácia, Precisão, Recall, F1)...")
+
+    try:
+        evaluator = ExactMatchEvaluator(storage)
+        model_scores = evaluator.evaluate(dataset, models)
+        _display_exact_scores(model_scores)
+        _save_exact_metrics(storage, model_scores, dataset)
+    except Exception as e:
+        typer.echo(f"Erro durante a avaliação: {e}", err=True)
+        raise typer.Exit(code=1)
+
+
+def _resolve_models_to_judge(available_models: list, requested_model: str) -> list:
+    """Resolve a lista de modelos a serem julgados."""
+    if not available_models:
+        typer.echo(
+            "Erro: Nenhum modelo encontrado com respostas salvas. "
+            "Execute o comando 'infer' primeiro para gerar os resultados.",
+            err=True,
+        )
+        raise typer.Exit(code=1)
+
+    if not requested_model:
+        return available_models
+
+    if requested_model not in available_models:
+        typer.echo(
+            f"Erro: Respostas para o modelo '{requested_model}' não foram encontradas.",
+            err=True,
+        )
+        raise typer.Exit(code=1)
+
+    return [requested_model]
+
+
+def _process_model_judgments(
+    judge_manager,
+    models_to_run: list,
+    dataset: str,
+    limit,
+    q_map: dict,
+    ref_map: dict,
+) -> list:
+    """Processa os julgamentos para cada modelo, exibindo barra de progresso."""
+    all_judgments = []
+
+    for current_model in models_to_run:
+        typer.echo(f"\nCarregando respostas do modelo {current_model}...")
+        answers = judge_manager.load_model_answers(dataset, current_model)
+        if limit is not None:
+            answers = answers[:limit]
+
+        typer.echo(f"Iniciando julgamento de {len(answers)} questões...")
+
+        with typer.progressbar(
+            answers, label=f"Julgando ({current_model})"
+        ) as progress:
+            for answer in progress:
+                judgments = judge_manager.process_answer(
+                    answer, current_model, q_map, ref_map
+                )
+                all_judgments.extend(judgments)
+
+    return all_judgments
 
 
 @app.callback()
@@ -59,20 +241,13 @@ def infer(
 ):
     """
     Executa a inferência e a classificação de dificuldade nas questões do dataset através do LLM local.
-    Se --model não for informado, executa para todos os modelos disponíveis.
     """
-    from src.datasets.loader_factory import DatasetLoaderFactory
     from src.execution.executor_factory import ExecutionManagerFactory
+    from src.datasets.loader_factory import DatasetLoaderFactory
     from src.llm.ollama_client import OllamaClient
     from src.storage.local_storage import LocalStorage
 
-    if dataset not in DatasetLoaderFactory.available_datasets():
-        typer.echo(
-            f"Erro: Dataset '{dataset}' não reconhecido. "
-            f"Use: {', '.join(DatasetLoaderFactory.available_datasets())}.",
-            err=True,
-        )
-        raise typer.Exit(code=1)
+    _validate_dataset(dataset)
 
     if model is not None and model not in OllamaClient.AVAILABLE_MODELS:
         typer.echo(
@@ -128,111 +303,30 @@ def evaluate(
         ..., help="Nome do dataset para avaliar o resultado dos modelos."
     ),
 ):
-    """
-    Avalia as respostas geradas comparando-as de forma cruzada (um modelo como referência para o outro) ou exata.
-    O sistema detecta automaticamente quais modelos já possuem resultados salvos para este dataset.
-    """
-    from src.datasets.loader_factory import DatasetLoaderFactory
-    from src.evaluation.cross_model_evaluator import CrossModelEvaluator
-    from src.evaluation.exact_match_evaluator import ExactMatchEvaluator
+    """Avalia as respostas geradas comparando-as de forma cruzada ou exata."""
     from src.storage.local_storage import LocalStorage
 
-    if dataset not in DatasetLoaderFactory.available_datasets():
-        typer.echo(
-            f"Erro: Dataset '{dataset}' não reconhecido. "
-            f"Use: {', '.join(DatasetLoaderFactory.available_datasets())}.",
-            err=True,
-        )
-        raise typer.Exit(code=1)
+    _validate_dataset(dataset)
 
     storage = LocalStorage()
 
     typer.echo(f"Buscando modelos disponíveis para o dataset {dataset}...")
     models = storage.list_available_models(dataset)
 
-    if dataset == "oab_bench":
-        if len(models) < 2:
-            typer.echo(
-                f"Foram encontrados resultados para apenas {len(models)} modelo(s): {models}."
-            )
-            typer.echo(
-                "Erro: Para a avaliação cruzada, é necessário primeiro fazer a execução "
-                "para ter os resultados salvos (no mínimo 2 modelos).",
-                err=True,
-            )
-            typer.echo(
-                f"Sugestão: Execute 'uv run python main.py infer {dataset} --model <nome_do_modelo>' "
-                "para novos modelos."
-            )
-            raise typer.Exit(code=1)
+    evaluator_map = {
+        "oab_bench": _evaluate_oab_bench,
+        "oab_exams": _evaluate_oab_exams,
+    }
 
-        typer.echo(f"Modelos encontrados ({len(models)}): {', '.join(models)}")
-        typer.echo("Iniciando a avaliação cruzada (Pairwise Metrics)...")
+    evaluator_fn = evaluator_map.get(dataset)
+    if not evaluator_fn:
+        typer.echo(
+            f"Erro: Avaliação não implementada para o dataset '{dataset}'.",
+            err=True,
+        )
+        raise typer.Exit(code=1)
 
-        try:
-            evaluator = CrossModelEvaluator(storage)
-            cross_scores = evaluator.evaluate(dataset, models)
-            typer.echo("\n--- Resultados da Avaliação Cruzada ---")
-            for pair, scores in cross_scores.items():
-                typer.echo(f"\n[{pair}]")
-                for section, metrics in scores.items():
-                    typer.echo(f"  {section.upper()}:")
-                    for metric, value in metrics.items():
-                        typer.echo(f"    {metric.upper()}: {value:.4f}")
-
-            for model in models:
-                model_metrics = {}
-                for pair, scores in cross_scores.items():
-                    if model in pair:
-                        model_metrics[pair] = scores
-
-                filename = model.replace(":", "-")
-                output_path = storage.save_data(
-                    [model_metrics],
-                    filename,
-                    fmt="json",
-                    sub_dir=f"results/{dataset}/model_metric",
-                )
-                typer.echo(f"Métricas de {model} salvas em: {output_path}")
-
-        except Exception as e:
-            typer.echo(f"Erro durante a avaliação: {e}", err=True)
-            raise typer.Exit(code=1)
-
-    elif dataset == "oab_exams":
-        if len(models) < 1:
-            typer.echo(
-                "Erro: Nenhum modelo encontrado para 'oab_exams'. "
-                "Execute o comando 'infer' primeiro para gerar os resultados.",
-                err=True,
-            )
-            raise typer.Exit(code=1)
-
-        typer.echo(f"Modelos encontrados ({len(models)}): {', '.join(models)}")
-        typer.echo("Iniciando a avaliação exata (Acurácia, Precisão, Recall, F1)...")
-
-        try:
-            evaluator = ExactMatchEvaluator(storage)
-            model_scores = evaluator.evaluate(dataset, models)
-            typer.echo("\n--- Resultados da Avaliação ---")
-            for mod, scores in model_scores.items():
-                typer.echo(f"\n[{mod}]")
-                for metric, score in scores.items():
-                    typer.echo(f"  {metric.upper()}: {score:.4f}")
-
-            for mod, scores in model_scores.items():
-                filename = mod.replace(":", "-")
-                output_path = storage.save_data(
-                    [scores],
-                    filename,
-                    fmt="json",
-                    sub_dir=f"results/{dataset}/model_metric",
-                )
-                typer.echo(f"Métricas de {mod} salvas em: {output_path}")
-
-        except Exception as e:
-            typer.echo(f"Erro durante a avaliação: {e}", err=True)
-            raise typer.Exit(code=1)
+    evaluator_fn(storage, models, dataset)
 
 
 @app.command()
@@ -279,24 +373,7 @@ def judgment(
     typer.echo(f"Buscando modelos disponíveis para o dataset {dataset}...")
     models = storage.list_available_models(dataset)
 
-    if not models:
-        typer.echo(
-            "Erro: Nenhum modelo encontrado com respostas salvas. "
-            "Execute o comando 'infer' primeiro para gerar os resultados.",
-            err=True,
-        )
-        raise typer.Exit(code=1)
-
-    if model:
-        if model not in models:
-            typer.echo(
-                f"Erro: Respostas para o modelo '{model}' não foram encontradas.",
-                err=True,
-            )
-            raise typer.Exit(code=1)
-        models_to_run = [model]
-    else:
-        models_to_run = models
+    models_to_run = _resolve_models_to_judge(models, model)
 
     judge_model = judge if judge else DEFAULT_JUDGE_MODEL
     judge_manager = JudgeManager(storage, judge_model=judge_model)
@@ -305,30 +382,14 @@ def judgment(
         f"Modelos selecionados ({len(models_to_run)}): {', '.join(models_to_run)}"
     )
     typer.echo(f"Modelo juiz: {judge_model}")
+
     try:
         q_map, ref_map = judge_manager.prepare_dataset_context(dataset)
-        all_models_judgments = []
-
-        for current_model in models_to_run:
-            typer.echo(f"\nCarregando respostas do modelo {current_model}...")
-            answers = judge_manager.load_model_answers(dataset, current_model)
-            if limit is not None:
-                answers = answers[:limit]
-
-            typer.echo(f"Iniciando julgamento de {len(answers)} questões...")
-
-            with typer.progressbar(
-                answers, label=f"Julgando ({current_model})"
-            ) as progress:
-                for answer in progress:
-                    judgments = judge_manager.process_answer(
-                        answer, current_model, q_map, ref_map
-                    )
-                    all_models_judgments.extend(judgments)
-
-        output_path = judge_manager.save_judgments(dataset, all_models_judgments)
+        all_judgments = _process_model_judgments(
+            judge_manager, models_to_run, dataset, limit, q_map, ref_map
+        )
+        output_path = judge_manager.save_judgments(dataset, all_judgments)
         typer.echo(f"\nJulgamentos salvos com sucesso em: {output_path}")
-
     except Exception as e:
         typer.echo(f"\nErro durante o julgamento: {e}", err=True)
         raise typer.Exit(code=1)
@@ -363,13 +424,7 @@ def curate(
     from src.llm.openai_client import OpenAIClient
     from src.storage.local_storage import LocalStorage
 
-    if dataset not in DatasetLoaderFactory.available_datasets():
-        typer.echo(
-            f"Erro: Dataset '{dataset}' não reconhecido. "
-            f"Use: {', '.join(DatasetLoaderFactory.available_datasets())}.",
-            err=True,
-        )
-        raise typer.Exit(code=1)
+    _validate_dataset(dataset)
 
     storage = LocalStorage()
     loader = DatasetLoaderFactory.create(dataset)
