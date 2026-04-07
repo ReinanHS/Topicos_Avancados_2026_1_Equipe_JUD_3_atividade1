@@ -109,6 +109,68 @@ class JudgeManager:
             "tstamp": time.time(),
         }
 
+    @staticmethod
+    def _extract_turn_content(turn: Any) -> str:
+        """Extrai o conteúdo textual de um turno, seja ele um dict ou string."""
+        if isinstance(turn, dict):
+            return turn.get("content", "")
+        return str(turn)
+
+    @staticmethod
+    def _safe_get(items: list, index: int, default: Any = "") -> Any:
+        """Acessa um item da lista por índice, retornando um valor padrão se ausente."""
+        if index < len(items):
+            return items[index]
+        return default
+
+    def _build_single_turn_prompts(
+        self,
+        val: float,
+        turn_content: Any,
+        stmt: str,
+        q_turns: List[str],
+        r_info: List[str],
+    ) -> Tuple[str, str]:
+        """Constrói os prompts de sistema e usuário para avaliação single-turn."""
+        sys_prompt = self.tmpl_single_sys.render(value=val)
+
+        q_text = stmt + "\n" + q_turns[0] if q_turns else stmt
+        ref_text = self._safe_get(r_info, 0)
+        ans_content = self._extract_turn_content(turn_content)
+
+        usr_prompt = self.tmpl_single_usr.render(
+            question=q_text, ref_answer_1=ref_text, answer=ans_content
+        )
+        return sys_prompt, usr_prompt
+
+    def _build_multi_turn_prompts(
+        self,
+        val: float,
+        stmt: str,
+        q_turns: List[str],
+        r_info: List[str],
+        turns: List[Any],
+    ) -> Tuple[str, str]:
+        """Constrói os prompts de sistema e usuário para avaliação multi-turn."""
+        sys_prompt = self.tmpl_multi_sys.render(value=val)
+
+        q1 = stmt + "\n" + q_turns[0] if q_turns else stmt
+        q2 = self._safe_get(q_turns, 1)
+        ref1 = self._safe_get(r_info, 0)
+        ref2 = self._safe_get(r_info, 1)
+        ans1 = self._extract_turn_content(self._safe_get(turns, 0, {}))
+        ans2 = self._extract_turn_content(self._safe_get(turns, 1, {}))
+
+        usr_prompt = self.tmpl_multi_usr.render(
+            question_1=q1,
+            question_2=q2,
+            ref_answer_1=ref1,
+            ref_answer_2=ref2,
+            answer_1=ans1,
+            answer_2=ans2,
+        )
+        return sys_prompt, usr_prompt
+
     def _build_prompts(
         self,
         prompt_type: str,
@@ -119,54 +181,12 @@ class JudgeManager:
         r_info: List[str],
         turns: List[Any],
     ) -> Tuple[str, str]:
-        """Renderiza os templates (sistema e usuário) com base no contexto do turno."""
+        """Renderiza os templates (sistema e usuário) com base no tipo de turno."""
         if prompt_type == "single-turn":
-            sys_prompt = self.tmpl_single_sys.render(value=val)
-            q_text = stmt + "\n" + q_turns[0] if q_turns else stmt
-            ref_text = r_info[0] if r_info else ""
-            ans_content = (
-                turn_content.get("content", "")
-                if isinstance(turn_content, dict)
-                else str(turn_content)
+            return self._build_single_turn_prompts(
+                val, turn_content, stmt, q_turns, r_info
             )
-
-            usr_prompt = self.tmpl_single_usr.render(
-                question=q_text, ref_answer_1=ref_text, answer=ans_content
-            )
-            return sys_prompt, usr_prompt
-
-        sys_prompt = self.tmpl_multi_sys.render(value=val)
-
-        q1 = stmt + "\n" + q_turns[0] if len(q_turns) > 0 else stmt
-        q2 = q_turns[1] if len(q_turns) > 1 else ""
-        ref1 = r_info[0] if len(r_info) > 0 else ""
-        ref2 = r_info[1] if len(r_info) > 1 else ""
-
-        ans1 = (
-            turns[0].get("content", "")
-            if len(turns) > 0 and isinstance(turns[0], dict)
-            else str(turns[0])
-            if len(turns) > 0
-            else ""
-        )
-        ans2 = (
-            turns[1].get("content", "")
-            if len(turns) > 1 and isinstance(turns[1], dict)
-            else str(turns[1])
-            if len(turns) > 1
-            else ""
-        )
-
-        usr_prompt = self.tmpl_multi_usr.render(
-            question_1=q1,
-            question_2=q2,
-            ref_answer_1=ref1,
-            ref_answer_2=ref2,
-            answer_1=ans1,
-            answer_2=ans2,
-        )
-
-        return sys_prompt, usr_prompt
+        return self._build_multi_turn_prompts(val, stmt, q_turns, r_info, turns)
 
     def _execute_evaluation(
         self, sys_prompt: str, usr_prompt: str, record: Dict[str, Any]
