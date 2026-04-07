@@ -32,6 +32,21 @@ packages = ["src"]
 
 [dependency-groups]
 dev = [
+    "complexipy>=5.2.0",
     "py2puml>=0.11.0",
     "ruff>=0.15.7",
 ]
+
+[tool.complexipy]
+paths = ["src", "tests"]
+max-complexity-allowed = 10
+snapshot-create = false
+snapshot-ignore = false
+quiet = false
+ignore-complexity = false
+failed = false
+color = "auto"
+sort = "asc"
+exclude = []
+output-csv = false
+output-json = true

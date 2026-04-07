@@ -123,3 +123,5 @@ plot_melhor_rota.png
 plot_convergencia.png
 .reinan_cache/
 dist/
+.complexipy_cache
+complexipy_results_*
