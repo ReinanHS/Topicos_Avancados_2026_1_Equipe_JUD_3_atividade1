@@ -232,6 +232,10 @@ uv run python main.py run-all
 
 # Executar o fluxo completo do pipeline com limite de 2 questões
 uv run python main.py run-all --limit 2
+
+# Gerar relatório
+uv run python main.py report oab_bench
+uv run python main.py report oab_exams
 ```
 
 ---

@@ -426,6 +426,28 @@ def curate(
     )
 
 
+@app.command()
+def report(
+    dataset: str = typer.Argument(
+        "oab_bench", help="Nome do dataset para o qual gerar o relatório."
+    ),
+):
+    """
+    Processa os resultados e gera diversos gráficos de métricas.
+    """
+    from src.reporting.chart_generator_factory import ChartGeneratorFactory
+
+    typer.echo(f"Inicializando a geração de relatórios e gráficos para {dataset}...")
+
+    try:
+        generator = ChartGeneratorFactory.create(dataset)
+        generator.generate_all_charts()
+        typer.echo("Operação concluída com sucesso!")
+    except Exception as e:
+        typer.echo(f"Erro durante a geração dos gráficos: {e}", err=True)
+        raise typer.Exit(code=1)
+
+
 @app.command("run-all")
 def run_all(
     limit: int = typer.Option(
