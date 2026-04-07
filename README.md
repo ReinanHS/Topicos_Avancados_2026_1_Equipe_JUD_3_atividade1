@@ -1,23 +1,23 @@
+Português | [English](./README-EN.md)
+
 <div align="center">
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/1/1c/Ufs_principal_positiva-nova.png" alt="ufs-logo" width="20%">
 
 <h1>Tópicos Avançados ES e SI</h1>
 
-<h3>Atividade Avaliativa 1 — Curadoria de Datasets e Inferência Básica com LLMs</h3>
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/reinanhs/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1?machine=standardLinux2gb)
+<p>Atividade Avaliativa 1: Curadoria de Datasets e Inferência Básica com LLMs</p>
 
 <p align="center">
   <!-- Python version -->
-  <img src="https://img.shields.io/badge/python-3.12%2B-blue.svg" alt="Python 3.12+">
+  <img src="https://img.shields.io/badge/Python-3.12%2B-blue.svg" alt="Python 3.12+">
   <!-- License -->
   <a href="LICENSE">
-    <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="Licença MIT">
+    <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="Licença MIT">
   </a>
-  <!-- PDF -->
-  <a href="https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/contribuicao-individual.pdf">
-    <img src="https://img.shields.io/badge/Contribui%C3%A7%C3%A3o%20individual-PDF-red.svg?logo=libreofficewriter" alt="PDF">
+  <!-- Quality Gate Status -->
+  <a href="https://sonarcloud.io/project/overview?id=ReinanHS_Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1">
+    <img src="https://sonarcloud.io/api/project_badges/measure?project=ReinanHS_Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1&metric=alert_status" alt="Quality Gate Status">
   </a>
   <!-- Last commit -->
   <a href="https://github.com/reinanhs/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/commits/main">
@@ -33,43 +33,85 @@
   </a>
 </p>
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/reinanhs/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1?machine=standardLinux2gb)
+
+<p align="center">
+  <a href="https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/docs">Documentação</a>
+  ·
+  <a href="https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/apresentacao-marp.html">Apresentação</a>
+  ·
+  <a href="https://youtu.be/lcOxhH8N3Bo">Vídeo de demonstração</a>
+  ·
+  <a href="https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/contribuicao-individual.pdf">Tutorial em PDF</a>
+</p>
+
 </div>
+
+<details>
+<summary>Sumário (Clique para expandir)</summary>
+
+- [📚 Sobre](#-sobre)
+- [📖 Documentação](#-documentação)
+  - [Como acessar](#como-acessar)
+- [📹 Apresentação](#-apresentação)
+- [⚖️ Domínio de atuação](#️-domínio-de-atuação)
+- [👥 Colaboradores](#-colaboradores)
+- [Ambiente de execução](#ambiente-de-execução)
+  - [Configuração de hardware](#configuração-de-hardware)
+  - [Modelos de linguagem selecionados](#modelos-de-linguagem-selecionados)
+- [Instruções de execução](#instruções-de-execução)
+  - [Pré-requisitos](#pré-requisitos)
+  - [Instalação e execução](#instalação-e-execução)
+- [📄 Licença](#-licença)
+</details>
 
 ## 📚 Sobre
 
-Repositório da **Equipe 3 (Jurídica)** para a primeira atividade avaliativa da disciplina **Tópicos Avançados em Engenharia de Software e Sistemas de Informação I**. O projeto consiste na curadoria de datasets jurídicos e na realização de inferência básica utilizando Modelos de Linguagem (LLMs), com foco em questões do Exame da OAB (Ordem dos Advogados do Brasil).
+Este repositório contém as contribuições individuais do aluno Reinan Gabriel para a primeira atividade avaliativa da disciplina **Tópicos Avançados em Engenharia de Software e Sistemas de Informação I** (UFS 2026.1).
 
-## Onde está a documentação
+O projeto abrange duas frentes principais:
 
-A documentação completa não fica concentrada neste `README.md`. Toda a
-documentação do projeto está disponível na pasta `docs/`, e a leitura deve
-começar por [`docs/intro.md`][docs-intro].
+- **Curadoria de datasets jurídicos:** classificação de nível de dificuldade e identificação da legislação-base em questões dos datasets [OAB Bench][oab-bench] e [OAB Exams][oab-exams].
+- **Inferência com LLMs locais:** execução de modelos compactos (Llama 3.2, Gemma 2 e Qwen 2.5) via Ollama sobre questões do Exame da OAB, com avaliação automática por métricas BLEU, ROUGE e BERTScore.
 
-Para facilitar a navegação, também recomendamos acessar a versão web já
-compilada da documentação em [documentação publicada][docs-web]. Veja o exemplo da imagem abaixo: 
+[oab-bench]: https://huggingface.co/datasets/maritaca-ai/oab-bench
+[oab-exams]: https://huggingface.co/datasets/eduagarcia/oab_exams
 
-![Exemplo de documentação publicada](docs/assets/presentation-documentation.gif)
+## 📖 Documentação
 
-> Se você quiser entender melhor a abordagem Docs-as-Code utilizada neste
-repositório, recomendamos a leitura de
-[Docs-as-Code: um guia básico para iniciantes][docs-as-code-artigo].
+Este repositório utiliza a abordagem **Docs-as-Code**. Nele, a documentação reside junto ao código no diretório `docs/` e segue o mesmo fluxo de versionamento, revisão e CI/CD. Essa prática é recomendada pelo [Google Style Guide para documentação](https://github.com/google/styleguide/tree/gh-pages/docguide). O guia defende que engenheiros usem as mesmas ferramentas do código para a documentação e destaca que o Markdown é superior a formatos opacos por ser portável e legível.
+
+### Como acessar
+
+- **No repositório:** comece pela introdução em [`docs/intro.md`][docs-intro].
+- **Na web:** acesse a [documentação publicada][docs-web], compilada automaticamente a cada push na branch `main` pelo [Docusaurus][docusaurus].
+
+![Exemplo da documentação publicada](docs/assets/presentation-documentation.gif)
+
+> Para uma introdução mais detalhada a essa abordagem, leia o artigo [Docs-as-Code: um guia básico para iniciantes][docs-as-code-artigo].
 
 [docs-intro]: docs/intro.md
 [docs-web]: https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/docs
 [docs-as-code-artigo]: https://medium.com/@reinanhs/docs-as-code-um-guia-b%C3%A1sico-para-iniciantes-b65b1e63b53a
+[docusaurus]: https://docusaurus.io/
 
-## Apresentação
+## 📹 Apresentação
 
-Esta apresentação foi compilada utilizando o [**Marp**](https://marp.app/) (Markdown Presentation Ecosystem), que permite criar slides a partir de Markdown. Para mais informações sobre essa abordagem, consulte o artigo [Standardization of Teaching Materials with Marp and CI/CD: A Study at the Federal Institute of Sergipe](https://doi.org/10.34178/jbth.v7iSuppl2.450).
+O vídeo a seguir mostra os resultados coletados pela equipe, incluindo as contribuições de Reinan Gabriel:
+
+[![Vídeo no YouTube](https://gitlab.com/reinanhs/repo-slide-presentation/-/wikis/uploads/c5e58833db92ec50619f8b302ae8f480/baixados.png)](https://youtu.be/lcOxhH8N3Bo)
+
+- **Assista ao vídeo completo:** [https://youtu.be/lcOxhH8N3Bo](https://youtu.be/lcOxhH8N3Bo)
+
+Os slides foram criados com o [**Marp**](https://marp.app/) (Markdown Presentation Ecosystem), uma ferramenta que converte Markdown em apresentações. Para mais detalhes sobre essa abordagem, consulte o artigo [Standardization of Teaching Materials with Marp and CI/CD: A Study at the Federal Institute of Sergipe](https://doi.org/10.34178/jbth.v7iSuppl2.450).
 
 A apresentação está disponível nos seguintes formatos:
 
-| Formato | Link                                                                                                                         |
-|---------|------------------------------------------------------------------------------------------------------------------------------|
-| HTML    | [apresentacao-marp.html](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/apresentacao-marp.html) |
-| PDF     | [apresentacao-marp.pdf](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/apresentacao-marp.pdf)   |
-| PPTX    | [apresentacao-marp.pptx](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/apresentacao-marp.pptx) |
-
+| Formato | Link |
+|---------|------|
+| HTML | [apresentacao-marp.html](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/apresentacao-marp.html) |
+| PDF | [apresentacao-marp.pdf](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/apresentacao-marp.pdf) |
+| PPTX | [apresentacao-marp.pptx](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/apresentacao-marp.pptx) |
 
 ## ⚖️ Domínio de atuação
 
@@ -103,14 +145,6 @@ Este repositório contém as contribuições realizadas pelo aluno **Reinan Gabr
   </tr>
 </table>
 </div>
-
-## 📹 Vídeo demonstrativo
-
-Recomendamos assistir ao vídeo abaixo, que apresenta os resultados coletados por todos os integrantes da equipe, incluindo o aluno Renan Gabriel.
-
-[![Youtube Video](https://gitlab.com/reinanhs/repo-slide-presentation/-/wikis/uploads/c5e58833db92ec50619f8b302ae8f480/baixados.png)](https://youtu.be/lcOxhH8N3Bo)
-
-- 📹 **Assista ao vídeo completo:** [https://youtu.be/lcOxhH8N3Bo](https://youtu.be/lcOxhH8N3Bo)
 
 ---
 
