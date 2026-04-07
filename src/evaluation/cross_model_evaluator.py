@@ -1,6 +1,6 @@
 import itertools
 import re
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 
 
 class CrossModelEvaluator:
@@ -136,6 +136,53 @@ class CrossModelEvaluator:
                 return len(turns)
         return 0
 
+    def _collect_turn_texts(
+        self,
+        source_responses: Dict[str, List[str]],
+        target_responses: Dict[str, List[str]],
+        common_question_ids: set,
+        turn_idx: int,
+    ) -> Tuple[List[str], List[str]]:
+        """
+        Coleta os textos de predição e referência para um turn específico.
+        """
+        predictions = []
+        references = []
+
+        for q_id in common_question_ids:
+            src_turns = source_responses[q_id]
+            tgt_turns = target_responses[q_id]
+
+            if turn_idx >= len(src_turns) or turn_idx >= len(tgt_turns):
+                continue
+
+            src_text = src_turns[turn_idx]
+            tgt_text = tgt_turns[turn_idx]
+
+            if not src_text or not tgt_text:
+                continue
+
+            predictions.append(src_text)
+            references.append(tgt_text)
+
+        return predictions, references
+
+    @staticmethod
+    def _compute_average_metrics(
+        turn_scores: Dict[str, Dict[str, float]],
+    ) -> Dict[str, float]:
+        """
+        Calcula a média de cada métrica entre todos os turns.
+        """
+        metric_keys = list(next(iter(turn_scores.values())).keys())
+        avg_metrics = {}
+
+        for mk in metric_keys:
+            values = [turn_scores[t][mk] for t in turn_scores if mk in turn_scores[t]]
+            avg_metrics[mk] = sum(values) / len(values) if values else 0.0
+
+        return avg_metrics
+
     def _compute_turn_scores(
         self,
         source_responses: Dict[str, List[str]],
@@ -153,20 +200,9 @@ class CrossModelEvaluator:
         turn_scores = {}
 
         for turn_idx in range(num_turns):
-            predictions = []
-            references = []
-
-            for q_id in common_qs:
-                src_turns = source_responses[q_id]
-                tgt_turns = target_responses[q_id]
-
-                if turn_idx < len(src_turns) and turn_idx < len(tgt_turns):
-                    src_text = src_turns[turn_idx]
-                    tgt_text = tgt_turns[turn_idx]
-                    if src_text and tgt_text:
-                        predictions.append(src_text)
-                        references.append(tgt_text)
-
+            predictions, references = self._collect_turn_texts(
+                source_responses, target_responses, common_qs, turn_idx
+            )
             metrics = self._compute_pair_metrics(predictions, references)
             if metrics:
                 turn_scores[f"turn_{turn_idx + 1}"] = metrics
@@ -174,13 +210,53 @@ class CrossModelEvaluator:
         if not turn_scores:
             return {}
 
-        metric_keys = list(next(iter(turn_scores.values())).keys())
-        avg_metrics = {}
-        for mk in metric_keys:
-            values = [turn_scores[t][mk] for t in turn_scores if mk in turn_scores[t]]
-            avg_metrics[mk] = sum(values) / len(values) if values else 0.0
-
+        avg_metrics = self._compute_average_metrics(turn_scores)
         return {**turn_scores, "average": avg_metrics}
+
+    def _evaluate_cross_model_pairs(
+        self,
+        all_results: Dict[str, Dict[str, List[str]]],
+        models: list,
+        num_turns: int,
+    ) -> Dict[str, Dict[str, Any]]:
+        """
+        Avalia todos os pares de modelos entre si (pairwise).
+        """
+        cross_scores = {}
+        pairs = list(itertools.combinations(models, 2))
+
+        for model_ref, model_pred in pairs:
+            scores = self._compute_turn_scores(
+                all_results[model_pred], all_results[model_ref], num_turns
+            )
+            if scores:
+                cross_scores[f"{model_ref} vs {model_pred}"] = scores
+
+        return cross_scores
+
+    def _evaluate_against_guidelines(
+        self,
+        all_results: Dict[str, Dict[str, List[str]]],
+        dataset_name: str,
+        models: list,
+        num_turns: int,
+    ) -> Dict[str, Dict[str, Any]]:
+        """
+        Avalia cada modelo contra as guidelines de referência.
+        """
+        guideline_map = self._load_guideline_references(dataset_name)
+        if not guideline_map:
+            return {}
+
+        guideline_scores = {}
+        for model in models:
+            scores = self._compute_turn_scores(
+                all_results[model], guideline_map, num_turns
+            )
+            if scores:
+                guideline_scores[f"{model} vs guideline"] = scores
+
+        return guideline_scores
 
     def evaluate(self, dataset_name: str, models: list) -> Dict[str, Dict[str, Any]]:
         """
@@ -198,23 +274,9 @@ class CrossModelEvaluator:
         if num_turns == 0:
             return {}
 
-        cross_scores = {}
+        cross_scores = self._evaluate_cross_model_pairs(all_results, models, num_turns)
+        guideline_scores = self._evaluate_against_guidelines(
+            all_results, dataset_name, models, num_turns
+        )
 
-        pairs = list(itertools.combinations(models, 2))
-        for model_ref, model_pred in pairs:
-            scores = self._compute_turn_scores(
-                all_results[model_pred], all_results[model_ref], num_turns
-            )
-            if scores:
-                cross_scores[f"{model_ref} vs {model_pred}"] = scores
-
-        guideline_map = self._load_guideline_references(dataset_name)
-        if guideline_map:
-            for model in models:
-                scores = self._compute_turn_scores(
-                    all_results[model], guideline_map, num_turns
-                )
-                if scores:
-                    cross_scores[f"{model} vs guideline"] = scores
-
-        return cross_scores
+        return {**cross_scores, **guideline_scores}
