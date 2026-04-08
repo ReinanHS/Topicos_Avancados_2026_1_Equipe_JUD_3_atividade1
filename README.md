@@ -184,6 +184,7 @@ O **gemma2:2b** obteve a maior acurácia nas questões objetivas, enquanto o **q
 - [Clique aqui para visualizar os resultados][branch_results]
 
 [branch_results]: https://github.com/ReinanHS/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/tree/results
+
 ---
 
 ## Instruções de execução
