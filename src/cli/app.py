@@ -545,6 +545,12 @@ def run_all(
         "-l",
         help="Limitar a quantidade de questões a serem executadas no comando infer.",
     ),
+    judge: str = typer.Option(
+        "gpt-4o-mini",
+        "--judge",
+        "-j",
+        help="Modelo a ser utilizado como curador (juiz). Padrão: gpt-4o-mini.",
+    ),
 ):
     """
     Executa o fluxo completo do pipeline para os datasets:
@@ -554,6 +560,11 @@ def run_all(
     - infer oab_exams
     - evaluate oab_bench
     - evaluate oab_exams
+    - judgment oab_bench
+    - curate oab_bench
+    - curate oab_exams
+    - report oab_bench
+    - report oab_exams
     """
     import time
 
@@ -561,23 +572,38 @@ def run_all(
 
     typer.echo("=== Iniciando execução do pipeline completo ===")
 
-    typer.echo("\n[1/6] Executando 'pull' para 'oab_bench'...")
+    typer.echo("\n[01/11] Executando 'pull' para 'oab_bench'...")
     pull(dataset="oab_bench", output="json")
 
-    typer.echo("\n[2/6] Executando 'pull' para 'oab_exams'...")
+    typer.echo("\n[02/11] Executando 'pull' para 'oab_exams'...")
     pull(dataset="oab_exams", output="json")
 
-    typer.echo("\n[3/6] Executando 'infer' para 'oab_bench'...")
+    typer.echo("\n[03/11] Executando 'infer' para 'oab_bench'...")
     infer(dataset="oab_bench", model=None, limit=limit)
 
-    typer.echo("\n[4/6] Executando 'infer' para 'oab_exams'...")
+    typer.echo("\n[04/11] Executando 'infer' para 'oab_exams'...")
     infer(dataset="oab_exams", model=None, limit=limit)
 
-    typer.echo("\n[5/6] Executando 'evaluate' para 'oab_bench'...")
+    typer.echo("\n[05/11] Executando 'evaluate' para 'oab_bench'...")
     evaluate(dataset="oab_bench")
 
-    typer.echo("\n[6/6] Executando 'evaluate' para 'oab_exams'...")
+    typer.echo("\n[06/11] Executando 'evaluate' para 'oab_exams'...")
     evaluate(dataset="oab_exams")
+
+    typer.echo("\n[07/11] Executando 'judgment' para 'oab_bench'...")
+    judgment(dataset="oab_bench", judge=judge)
+
+    typer.echo("\n[08/11] Executando 'curate' para 'oab_bench'...")
+    curate(dataset="oab_bench", judge=judge)
+
+    typer.echo("\n[09/11] Executando 'curate' para 'oab_exams'...")
+    curate(dataset="oab_exams", judge=judge)
+
+    typer.echo("\n[10/11] Executando 'report' para 'oab_bench'...")
+    report(dataset="oab_bench")
+
+    typer.echo("\n[11/11] Executando 'report' para 'oab_exams'...")
+    report(dataset="oab_exams")
 
     end_time = time.time()
     total_seconds = int(end_time - start_time)

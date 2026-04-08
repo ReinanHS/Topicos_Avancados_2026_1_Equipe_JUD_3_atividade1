@@ -49,4 +49,4 @@ color = "auto"
 sort = "asc"
 exclude = []
 output-csv = false
-output-json = true
+output-json = false
