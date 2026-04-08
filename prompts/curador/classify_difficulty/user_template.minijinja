@@ -10,6 +10,6 @@ Classifique a dificuldade da questão abaixo.
 {% endfor %}
 {% endif %}
 
-Responda APENAS com este JSON:
+Responda APENAS com este JSON que tem o campo difficulty_question com o valor 1, 2 ou 3:
 
 {"difficulty_question": 1}
