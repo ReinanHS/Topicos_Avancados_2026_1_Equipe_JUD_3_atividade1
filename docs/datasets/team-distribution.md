@@ -32,7 +32,7 @@ intervalo de questões objetivas:
 
 | Dataset | Início | Fim | Total | Responsável |
 |---|---|---|---|---|
-| OAB Exams | 1846 | 1968 | 123 | Reinan Souza |
+| OAB Exams | 1846 | 1968 | 122 | Reinan Souza |
 
 Esse intervalo também foi definido na distribuição oficial da atividade para a
 Equipe 3.

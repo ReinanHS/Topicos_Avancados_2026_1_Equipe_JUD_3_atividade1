@@ -16,32 +16,126 @@ no código e indicar onde estão os componentes principais da aplicação.
 ├── CONTRIBUTING.md
 ├── LICENSE
 ├── Makefile
+├── README-EN.md
 ├── README.md
+├── SECURITY.md
+├── VERSION
 ├── docs
-│   ├── activity_description.pdf
-│   └── pdf
-│       └── main.tex
 ├── main.py
 ├── prompts
-│   ├── curador
-│   │   ├── basic-legislation
-│   │   │   └── user_template.minijinja
-│   │   └── difficulty-level
-│   │       └── user_template.minijinja
-│   ├── oab_bench
-│   │   ├── system_template.minijinja
-│   │   └── user_template.minijinja
-│   └── oab_exams
-│       ├── system_template.minijinja
-│       └── user_template.minijinja
+│   ├── curador
+│   │   ├── area_expertise
+│   │   │   ├── system_template.minijinja
+│   │   │   └── user_template.minijinja
+│   │   ├── basic_legislation
+│   │   │   ├── system_template.minijinja
+│   │   │   └── user_template.minijinja
+│   │   └── classify_difficulty
+│   │       ├── system_template.minijinja
+│   │       └── user_template.minijinja
+│   ├── judge
+│   │   ├── multi-turn
+│   │   │   ├── system_template.minijinja
+│   │   │   └── user_template.minijinja
+│   │   └── single-turn
+│   │       ├── system_template.minijinja
+│   │       └── user_template.minijinja
+│   ├── oab_bench
+│   │   ├── system_template.minijinja
+│   │   └── user_template.minijinja
+│   └── oab_exams
+│       ├── system_template.minijinja
+│       └── user_template.minijinja
 ├── pyproject.toml
+├── sonar-project.properties
 ├── src
-│   ├── __init__.py
-│   ├── dataset_manager.py
-│   ├── evaluation_manager.py
-│   ├── execution_manager.py
-│   ├── ollama_manager.py
-│   └── storage_manager.py
+│   ├── __init__.py
+│   ├── cli
+│   │   ├── __init__.py
+│   │   │   ├── __init__.py
+│   │   │   └── app.py
+│   │   └── app.py
+│   ├── datasets
+│   │   ├── __init__.py
+│   │   │   ├── __init__.py
+│   │   │   ├── base.py
+│   │   │   ├── loader_factory.py
+│   │   │   ├── oab_bench_loader.py
+│   │   │   └── oab_exams_loader.py
+│   │   ├── base.py
+│   │   ├── loader_factory.py
+│   │   ├── oab_bench_loader.py
+│   │   └── oab_exams_loader.py
+│   ├── evaluation
+│   │   ├── __init__.py
+│   │   │   ├── __init__.py
+│   │   │   ├── cross_model_evaluator.py
+│   │   │   └── exact_match_evaluator.py
+│   │   ├── cross_model_evaluator.py
+│   │   └── exact_match_evaluator.py
+│   ├── execution
+│   │   ├── __init__.py
+│   │   │   ├── __init__.py
+│   │   │   ├── base.py
+│   │   │   ├── executor_factory.py
+│   │   │   ├── oab_bench_executor.py
+│   │   │   └── oab_exams_executor.py
+│   │   ├── base.py
+│   │   ├── executor_factory.py
+│   │   ├── oab_bench_executor.py
+│   │   └── oab_exams_executor.py
+│   ├── judgment
+│   │   ├── __init__.py
+│   │   │   ├── __init__.py
+│   │   │   └── judge_manager.py
+│   │   └── judge_manager.py
+│   ├── llm
+│   │   ├── __init__.py
+│   │   │   ├── __init__.py
+│   │   │   ├── base_client.py
+│   │   │   ├── ollama_client.py
+│   │   │   └── openai_client.py
+│   │   ├── base_client.py
+│   │   ├── ollama_client.py
+│   │   └── openai_client.py
+│   ├── prompts
+│   │   ├── __init__.py
+│   │   │   ├── __init__.py
+│   │   │   └── renderer.py
+│   │   └── renderer.py
+│   ├── publishing
+│   │   ├── __init__.py
+│   │   │   ├── __init__.py
+│   │   │   ├── publisher.py
+│   │   │   └── readme_generator.py
+│   │   ├── publisher.py
+│   │   ├── readme_generator.py
+│   │   └── templates
+│   │       └── readme.md.jinja
+│   ├── reporting
+│   │   ├── __init__.py
+│   │   │   ├── __init__.py
+│   │   │   ├── base_chart_generator.py
+│   │   │   ├── chart_generator.py
+│   │   │   ├── chart_generator_factory.py
+│   │   │   ├── oab_bench_chart_generator.py
+│   │   │   └── oab_exams_chart_generator.py
+│   │   ├── base_chart_generator.py
+│   │   ├── chart_generator_factory.py
+│   │   ├── oab_bench_chart_generator.py
+│   │   └── oab_exams_chart_generator.py
+│   └── storage
+│       ├── __init__.py
+│       ├── __pycache__
+│       │   ├── __init__.py
+│       │   ├── csv_serializer.py
+│       │   ├── file_serializer.py
+│       │   ├── json_serializer.py
+│       │   └── local_storage.py
+│       ├── csv_serializer.py
+│       ├── file_serializer.py
+│       ├── json_serializer.py
+│       └── local_storage.py
 └── uv.lock
 ````
 

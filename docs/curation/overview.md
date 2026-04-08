@@ -35,8 +35,9 @@ Nesta implementação, a curadoria concentrou-se em duas tarefas principais:
    dificuldade
 2. **Identificação de legislação base**: a principal referência normativa
    relacionada à questão é identificada
+3. **Identificação de área de expertise**: a área de expertise relacionada à questão é identificada
 
-Essas duas informações foram utilizadas como metadados adicionais para apoiar a
+Essas três informações foram utilizadas como metadados adicionais para apoiar a
 organização e a interpretação das questões do domínio jurídico.
 
 ## Abordagem utilizada
