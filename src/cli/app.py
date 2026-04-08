@@ -503,6 +503,40 @@ def report(
         raise typer.Exit(code=1)
 
 
+def _publish_results(branch: str) -> None:
+    """Orquestra a publicação dos resultados em uma branch externa."""
+    from src.publishing.publisher import ResultsPublisher
+
+    publisher = ResultsPublisher(
+        repo_url="https://github.com/ReinanHS/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1.git",
+        branch=branch,
+        src_dir=".reinan_cache",
+        exclude_dir="dataset",
+    )
+
+    try:
+        publisher.publish()
+    except Exception as e:
+        typer.echo(f"Erro durante a publicação: {e}", err=True)
+        raise typer.Exit(code=1)
+
+
+@app.command()
+def publish(
+    branch: str = typer.Option(
+        "results",
+        "--branch",
+        "-b",
+        help="Nome da branch de destino onde os arquivos estáticos serão publicados.",
+    ),
+):
+    """
+    Publica os resultados estáticos (pasta '.reinan_cache', exceto o 'dataset') em uma branch separada (ex: gh-pages).
+    """
+    typer.echo(f"Iniciando publicação de resultados na branch '{branch}'...")
+    _publish_results(branch)
+
+
 @app.command("run-all")
 def run_all(
     limit: int = typer.Option(

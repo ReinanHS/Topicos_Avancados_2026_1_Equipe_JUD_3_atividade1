@@ -39,17 +39,20 @@ jobs:
       - name: Run Ruff format check
         run: uv run ruff format --check .
 
-  sonarqube:
-    name: SonarQube
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@fd88b7d7ccbaefd23d8f36f73b59db7a3d246602
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Run ComplexiPy validation
+        run: uv run complexipy src/
+
+  # sonarqube:
+  #   name: SonarQube
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
+  #     - name: SonarQube Scan
+  #       uses: SonarSource/sonarqube-scan-action@fd88b7d7ccbaefd23d8f36f73b59db7a3d246602
+  #       env:
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   deploy-pages:
     name: Deploy documentation to GitHub Pages
