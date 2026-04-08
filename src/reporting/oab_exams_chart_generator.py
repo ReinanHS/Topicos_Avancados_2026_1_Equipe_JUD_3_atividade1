@@ -253,7 +253,7 @@ class OabExamsChartGenerator(BaseChartGenerator):
 
         models = list(stats.keys())
         difficulties = self._get_difficulty_categories(stats, models)
-        label_map = {1: "Fácil", 2: "Médio", 3: "Difícil"}
+        label_map = {1: "Nivel 1", 2: "Nivel 2", 3: "Nivel 3"}
         diff_labels = [label_map.get(d, d) for d in difficulties]
 
         x = np.arange(len(models))

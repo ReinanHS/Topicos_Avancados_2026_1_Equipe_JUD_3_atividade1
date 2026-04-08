@@ -67,4 +67,3 @@ individualmente por Reinan no repositório sob sua responsabilidade.
 
 - [Guia rápido](./getting-started/quick-start)
 - [Datasets](./datasets/overview)
-- [Resultados](./results/overview)
