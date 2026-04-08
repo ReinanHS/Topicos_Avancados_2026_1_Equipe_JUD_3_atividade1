@@ -50,11 +50,11 @@ Português | [English](./README-EN.md)
 <details>
 <summary>Sumário (Clique para expandir)</summary>
 
-- [📚 Sobre](#-sobre)
-- [📖 Documentação](#-documentação)
+- [Sobre](#sobre)
+- [Documentação](#documentação)
   - [Como acessar](#como-acessar)
-- [📹 Apresentação](#-apresentação)
-- [👥 Colaboradores](#-colaboradores)
+- [Apresentação](#apresentação)
+- [Colaboradores](#colaboradores)
 - [Ambiente de execução](#ambiente-de-execução)
   - [Configuração de hardware](#configuração-de-hardware)
   - [Modelos de linguagem](#modelos-de-linguagem)
@@ -66,12 +66,12 @@ Português | [English](./README-EN.md)
 - [Contribuições](#contribuições)
 - [Changelog](#changelog)
 - [Segurança](#segurança)
-- [📄 Licença](#-licença)
+- [Licença](#licença)
 - [Cite](#cite)
 - [Referências](#referências)
 </details>
 
-## 📚 Sobre
+## Sobre
 
 Este repositório contém as contribuições individuais do aluno Reinan Gabriel para a primeira atividade avaliativa da disciplina **Tópicos Avançados em Engenharia de Software e Sistemas de Informação I** (UFS 2026.1).
 
@@ -83,7 +83,7 @@ O projeto abrange duas frentes principais:
 [oab-bench]: https://huggingface.co/datasets/maritaca-ai/oab-bench
 [oab-exams]: https://huggingface.co/datasets/eduagarcia/oab_exams
 
-## 📖 Documentação
+## Documentação
 
 Este repositório utiliza a abordagem **Docs-as-Code**. Nele, a documentação reside junto ao código no diretório `docs/` e segue o mesmo fluxo de versionamento, revisão e CI/CD. Essa prática é recomendada pelo [Google Style Guide para documentação](https://github.com/google/styleguide/tree/gh-pages/docguide). O guia defende que engenheiros usem as mesmas ferramentas do código para a documentação e destaca que o Markdown é superior a formatos opacos por ser portável e legível.
 
@@ -101,7 +101,7 @@ Este repositório utiliza a abordagem **Docs-as-Code**. Nele, a documentação r
 [docs-as-code-artigo]: https://medium.com/@reinanhs/docs-as-code-um-guia-b%C3%A1sico-para-iniciantes-b65b1e63b53a
 [docusaurus]: https://docusaurus.io/
 
-## 📹 Apresentação
+## Apresentação
 
 O vídeo a seguir mostra os resultados coletados pela equipe, incluindo as contribuições de Reinan Gabriel:
 
@@ -117,7 +117,7 @@ A apresentação está disponível nos seguintes formatos:
 | PDF | [apresentacao-marp.pdf](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/apresentacao-marp.pdf) |
 | PPTX | [apresentacao-marp.pptx](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/apresentacao-marp.pptx) |
 
-## 👥 Colaboradores
+## Colaboradores
 
 Este repositório contém as contribuições realizadas pelo aluno **Reinan Gabriel** no contexto da **Atividade Avaliativa 1** da disciplina **Tópicos Avançados em Engenharia de Software e Sistemas de Informação I**, ministrada na Universidade Federal de Sergipe (UFS), semestre 2026.1.
 
@@ -166,8 +166,6 @@ O projeto utiliza **três modelos** de organizações distintas para diversifica
 | 3 | Qwen 2.5 3B  | Alibaba Cloud | 3,09B      | Q4_K_M      |
 
 - [Documentação sobre os modelos de linguagem](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/docs/inference/models)
-
----
 
 ---
 

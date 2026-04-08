@@ -50,11 +50,11 @@
 <details>
 <summary>Table of Contents (Click to expand)</summary>
 
-- [📚 About](#-about)
-- [📖 Documentation](#-documentation)
+- [About](#about)
+- [Documentation](#documentation)
   - [How to access](#how-to-access)
-- [📹 Presentation](#-presentation)
-- [👥 Contributors](#-contributors)
+- [Presentation](#presentation)
+- [Contributors](#contributors)
 - [Execution environment](#execution-environment)
   - [Hardware configuration](#hardware-configuration)
   - [Language models](#language-models)
@@ -66,12 +66,12 @@
 - [Contributions](#contributions)
 - [Changelog](#changelog)
 - [Security](#security)
-- [📄 License](#-license)
+- [License](#-license)
 - [Citation](#citation)
 - [References](#references)
 </details>
 
-## 📚 About
+## About
 
 This repository contains the individual contributions of student Reinan Gabriel to the first assessment activity of the course **Advanced Topics in Software Engineering and Information Systems I** (UFS 2026.1).
 
@@ -83,7 +83,7 @@ The project covers two main fronts:
 [oab-bench]: https://huggingface.co/datasets/maritaca-ai/oab-bench
 [oab-exams]: https://huggingface.co/datasets/eduagarcia/oab_exams
 
-## 📖 Documentation
+## Documentation
 
 This repository adopts the **Docs-as-Code** approach. In this model, the documentation lives alongside the code in the `docs/` directory and follows the same versioning, review, and CI/CD workflow. This practice is recommended by the [Google Style Guide for documentation](https://github.com/google/styleguide/tree/gh-pages/docguide). The guide advocates that engineers use the same tools for code and documentation and highlights that Markdown is superior to opaque formats because it is portable and readable.
 
@@ -101,7 +101,7 @@ This repository adopts the **Docs-as-Code** approach. In this model, the documen
 [docs-as-code-artigo]: https://medium.com/@reinanhs/docs-as-code-um-guia-b%C3%A1sico-para-iniciantes-b65b1e63b53a
 [docusaurus]: https://docusaurus.io/
 
-## 📹 Presentation
+## Presentation
 
 The following video shows the results collected by the team, including the contributions of Reinan Gabriel:
 
@@ -117,7 +117,7 @@ The presentation is available in the following formats:
 | PDF | [apresentacao-marp.pdf](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/apresentacao-marp.pdf) |
 | PPTX | [apresentacao-marp.pptx](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/apresentacao-marp.pptx) |
 
-## 👥 Contributors
+## Contributors
 
 This repository contains the contributions made by student **Reinan Gabriel** in the context of **Assessment Activity 1** of the course **Advanced Topics in Software Engineering and Information Systems I**, taught at the Federal University of Sergipe (UFS), semester 2026.1.
 
@@ -166,8 +166,6 @@ The project uses **three models** from different organizations to diversify arch
 | 3 | Qwen 2.5 3B  | Alibaba Cloud | 3.09B      | Q4_K_M       |
 
 - [Documentation about the language models](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/docs/inference/models)
-
----
 
 ---
 
