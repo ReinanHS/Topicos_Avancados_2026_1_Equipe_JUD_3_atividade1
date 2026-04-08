@@ -54,15 +54,19 @@ Português | [English](./README-EN.md)
 - [📖 Documentação](#-documentação)
   - [Como acessar](#como-acessar)
 - [📹 Apresentação](#-apresentação)
-- [⚖️ Domínio de atuação](#️-domínio-de-atuação)
 - [👥 Colaboradores](#-colaboradores)
 - [Ambiente de execução](#ambiente-de-execução)
   - [Configuração de hardware](#configuração-de-hardware)
-  - [Modelos de linguagem selecionados](#modelos-de-linguagem-selecionados)
+  - [Modelos de linguagem](#modelos-de-linguagem)
 - [Instruções de execução](#instruções-de-execução)
   - [Pré-requisitos](#pré-requisitos)
   - [Instalação e execução](#instalação-e-execução)
+- [Arquitetura](#arquitetura)
+- [Contribuições](#contribuições)
+- [Changelog](#changelog)
+- [Segurança](#segurança)
 - [📄 Licença](#-licença)
+- [Cite](#cite)
 </details>
 
 ## 📚 Sobre
@@ -84,7 +88,7 @@ Este repositório utiliza a abordagem **Docs-as-Code**. Nele, a documentação r
 ### Como acessar
 
 - **No repositório:** comece pela introdução em [`docs/intro.md`][docs-intro].
-- **Na web:** acesse a [documentação publicada][docs-web], compilada automaticamente a cada push na branch `main` pelo [Docusaurus][docusaurus].
+- **Na web:** acesse a [documentação publicada][docs-web], compilada automaticamente a cada push na branch `main`.
 
 ![Exemplo da documentação publicada](docs/assets/presentation-documentation.gif)
 
@@ -103,8 +107,6 @@ O vídeo a seguir mostra os resultados coletados pela equipe, incluindo as contr
 
 - **Assista ao vídeo completo:** [https://youtu.be/lcOxhH8N3Bo](https://youtu.be/lcOxhH8N3Bo)
 
-Os slides foram criados com o [**Marp**](https://marp.app/) (Markdown Presentation Ecosystem), uma ferramenta que converte Markdown em apresentações. Para mais detalhes sobre essa abordagem, consulte o artigo [Standardization of Teaching Materials with Marp and CI/CD: A Study at the Federal Institute of Sergipe](https://doi.org/10.34178/jbth.v7iSuppl2.450).
-
 A apresentação está disponível nos seguintes formatos:
 
 | Formato | Link |
@@ -112,22 +114,6 @@ A apresentação está disponível nos seguintes formatos:
 | HTML | [apresentacao-marp.html](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/apresentacao-marp.html) |
 | PDF | [apresentacao-marp.pdf](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/apresentacao-marp.pdf) |
 | PPTX | [apresentacao-marp.pptx](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/apresentacao-marp.pptx) |
-
-## ⚖️ Domínio de atuação
-
-A Equipe 3 atua no **Domínio Jurídico**, trabalhando com os seguintes datasets:
-
-| Dataset | Tipo | Quantidade | Fonte |
-|---|---|---|---|
-| **J1 — OAB Bench** | Questões Abertas | 210 questões | [maritaca-ai/oab-bench](https://huggingface.co/datasets/maritaca-ai/oab-bench/viewer?row=0) |
-| **J2 — OAB Exams** | Múltipla Escolha | 2210 questões | [eduagarcia/oab_exams](https://huggingface.co/datasets/eduagarcia/oab_exams) |
-
-Para uma visão geral dos datasets, consulte as documentações abaixo. Elas
-apresentam as principais informações sobre os dois datasets do domínio jurídico
-utilizados neste repositório:
-
-- [Visão geral dos datasets](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/docs/datasets/overview)
-- [Visualização dos dados dos datasets](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/resultados/datasets)
 
 ## 👥 Colaboradores
 
@@ -150,12 +136,9 @@ Este repositório contém as contribuições realizadas pelo aluno **Reinan Gabr
 
 ## Ambiente de execução
 
-
-
 ### Configuração de hardware
 
-Os experimentos de inferência foram executados em uma máquina local com a
-configuração de GPU descrita abaixo:
+A equipe executou os experimentos de inferência em uma máquina local com a seguinte GPU:
 
 | Componente                | Especificação           |
 |---------------------------|-------------------------|
@@ -166,23 +149,21 @@ configuração de GPU descrita abaixo:
 | **Data do driver**        | 20/01/2026              |
 | **Versão do DirectX**     | 12 (FL 12.1)            |
 
-Como a GPU possui **4 GB de VRAM dedicada**, os modelos selecionados para os
-experimentos foram LLMs compactos, com até aproximadamente **3B parâmetros**,
-em versões quantizadas compatíveis com a memória disponível.
+A GPU possui **4 GB de VRAM dedicada**. Essa restrição limitou a seleção a LLMs compactos de até **3B parâmetros** em versões quantizadas.
 
 - [Detalhes da configuração de hardware](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/docs/inference/hardware)
 
-### Modelos de linguagem selecionados
+### Modelos de linguagem
 
-Foram escolhidos **três modelos de linguagem** de diferentes organizações para garantir diversidade de arquiteturas e bases de treinamento na comparação. Todos os modelos são executados localmente via [Ollama](https://ollama.com/).
+O projeto utiliza **três modelos** de organizações distintas para diversificar arquiteturas e bases de treinamento. O [Ollama](https://ollama.com/) executa todos os modelos de forma local.
 
-| # | Modelo       | Desenvolvedor | Parâmetros | Quantização | Tamanho (download) | Contexto máximo | Comando Ollama           |
-|---|--------------|---------------|------------|-------------|--------------------|-----------------|--------------------------|
-| 1 | Llama 3.2 3B | Meta          | 3,21B      | Q4_K_M      | ~2,0 GB            | 128K tokens     | `ollama run llama3.2:3b` |
-| 2 | Gemma 2 2B   | Google        | 2,61B      | Q4_0        | ~1,6 GB            | 8K tokens       | `ollama run gemma2:2b`   |
-| 3 | Qwen 2.5 3B  | Alibaba Cloud | 3,09B      | Q4_K_M      | ~1,9 GB            | 32K tokens      | `ollama run qwen2.5:3b`  |
+| # | Modelo       | Desenvolvedor | Parâmetros | Quantização |
+|---|--------------|---------------|------------|-------------|
+| 1 | Llama 3.2 3B | Meta          | 3,21B      | Q4_K_M      |
+| 2 | Gemma 2 2B   | Google        | 2,61B      | Q4_0        |
+| 3 | Qwen 2.5 3B  | Alibaba Cloud | 3,09B      | Q4_K_M      |
 
-- [Documentação sobre os modelos de linguagem selecionados](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/docs/inference/models)
+- [Documentação sobre os modelos de linguagem](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/docs/inference/models)
 
 ---
 
@@ -190,27 +171,25 @@ Foram escolhidos **três modelos de linguagem** de diferentes organizações par
 
 ### Pré-requisitos
 
-Antes de instalar e executar o projeto, verifique se o ambiente possui as ferramentas necessárias. Esta página lista os requisitos obrigatórios e os itens recomendados para uma execução mais estável dos modelos locais.
+Verifique se o seu ambiente possui as seguintes ferramentas:
 
-| Requisito                                     | Versão mínima | Descrição                                            |
-|-----------------------------------------------|---------------|------------------------------------------------------|
-| [Python](https://www.python.org/downloads/)   | 3.12+         | Linguagem principal utilizada no projeto             |
-| [UV](https://docs.astral.sh/uv/#installation) | 0.10+         | Gerenciador de dependências e ambientes Python       |
-| [Ollama](https://ollama.com/download)         | 0.19+       | Runtime para execução local dos modelos de linguagem |
-| [Git](https://git-scm.com/install)            | 2.x           | Ferramenta de controle de versão                     |
+| Requisito                                     | Versão mínima | Descrição                                      |
+|-----------------------------------------------|---------------|-------------------------------------------------|
+| [Python](https://www.python.org/downloads/)   | 3.12+         | Linguagem principal do projeto                  |
+| [UV](https://docs.astral.sh/uv/#installation) | 0.10+         | Gerenciador de dependências e ambientes Python  |
+| [Ollama](https://ollama.com/download)         | 0.19+         | Runtime para execução local dos modelos         |
+| [Git](https://git-scm.com/install)            | 2.x           | Controle de versão                              |
 
 - [Documentação sobre os pré-requisitos](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/docs/getting-started/prerequisites)
 
 ### Instalação e execução
 
-Consulte as documentações abaixo para preparar o ambiente, instalar as
-dependências e baixar os modelos usados nas execuções locais:
+Para instruções completas, consulte os guias:
 
 - [Instalação e execução](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/docs/getting-started/installation)
 - [Guia rápido](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/docs/getting-started/quick-start)
 
-Se preferir uma visão resumida, siga os passos abaixo para executar o projeto
-localmente:
+Para executar o projeto de forma local, siga os passos:
 
 ```bash
 # (Opcional) Criar e ativar um ambiente virtual
@@ -222,64 +201,173 @@ source .venv/bin/activate
 # Ativação no Windows (PowerShell)
 # .venv\Scripts\activate
 
-# Instalar as dependências do projeto
+# Instalar as dependências
 uv sync
 
 # Executar o script principal
-uv run python main.py
-
-# Baixar os datasets
-uv run python main.py pull oab_bench
-uv run python main.py pull oab_exams
-
-# Executar a inferência no dataset oab_bench
-uv run python main.py infer oab_bench --model llama3.2:3b
-uv run python main.py infer oab_bench --model gemma2:2b
-uv run python main.py infer oab_bench --model qwen2.5:3b
-
-# Executar a inferência no dataset oab_exams
-uv run python main.py infer oab_exams --model llama3.2:3b
-uv run python main.py infer oab_exams --model gemma2:2b
-uv run python main.py infer oab_exams --model qwen2.5:3b
-
-# Executar a curadoria
-uv run python main.py curate oab_bench --judge gpt-4o-mini
-uv run python main.py curate oab_exams --judge gpt-4o-mini
-
-# Avaliar os resultados das inferências
-uv run python main.py evaluate oab_bench
-uv run python main.py evaluate oab_exams
-
-# Julgar as respostas dos modelos
-uv run python main.py judgment oab_bench --judge gpt-4o-mini
-
-# Debug Windows
-$env:LLM_DEBUG="1"
-uv run python main.py judgment oab_bench
-
-# Debug Linux/macOS
-export LLM_DEBUG="1"
-uv run python main.py judgment oab_bench
-
-# Executar o fluxo completo do pipeline
-uv run python main.py run-all
-
-# Executar o fluxo completo do pipeline com limite de 2 questões
-uv run python main.py run-all --limit 2
-
-# Gerar relatório
-uv run python main.py report oab_bench
-uv run python main.py report oab_exams
+uv run reinan-cli --help
 ```
 
 ---
 
-## 📄 Licença
+## Arquitetura
 
-Este projeto está licenciado sob a Licença MIT — veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+O diagrama a seguir ilustra as classes do projeto e seus relacionamentos:
+
+```mermaid
+classDiagram
+direction LR
+
+namespace datasets {
+    class DatasetLoader {
+        <<abstract>>
+    }
+
+    class DatasetLoaderFactory
+
+    class OABBenchLoader
+    class OABExamsLoader
+}
+
+namespace evaluation {
+    class CrossModelEvaluator {
+        storage: None
+        _metrics_cache: None
+    }
+
+    class ExactMatchEvaluator {
+        storage: None
+        _metrics_cache: None
+    }
+}
+
+namespace execution {
+    class ExecutionManager {
+        <<abstract>>
+        dataset_loader: None
+        storage: None
+        ollama_client: None
+        prompt_renderer: None
+    }
+
+    class ExecutionManagerFactory
+    class OABBenchExecutionManager
+    class OABExamsExecutionManager
+}
+
+namespace judgment {
+    class JudgeManager {
+        storage: LocalStorage
+        judge_model: str
+        llm: None
+    }
+}
+
+namespace llm {
+    class BaseLLMClient {
+        <<abstract>>
+        AVAILABLE_MODELS: List[str]
+    }
+
+    class OllamaClient {
+        max_retries: int
+        client: None
+    }
+
+    class OpenAIClient {
+        client: None
+    }
+}
+
+namespace prompts {
+    class PromptRenderer {
+        prompts_root: None
+        prompts_root: Path
+    }
+}
+
+namespace reporting {
+    class BaseChartGenerator {
+        <<abstract>>
+        dataset: str
+        storage: None
+        outputs_dir: None
+    }
+
+    class ChartGeneratorFactory
+    class OabBenchChartGenerator
+    class OabExamsChartGenerator
+}
+
+namespace storage {
+    class LocalStorage {
+        cache_dir: None
+        _serializers: Dict[str, FileSerializer]
+    }
+
+    class FileSerializer {
+        <<abstract>>
+    }
+
+    class CsvSerializer
+    class JsonSerializer
+}
+
+DatasetLoader <|-- OABBenchLoader
+DatasetLoader <|-- OABExamsLoader
+
+ExecutionManager <|-- OABBenchExecutionManager
+ExecutionManager <|-- OABExamsExecutionManager
+
+BaseLLMClient <|-- OllamaClient
+BaseLLMClient <|-- OpenAIClient
+
+BaseChartGenerator <|-- OabBenchChartGenerator
+BaseChartGenerator <|-- OabExamsChartGenerator
+
+FileSerializer <|-- CsvSerializer
+FileSerializer <|-- JsonSerializer
+
+JudgeManager *-- LocalStorage
+LocalStorage *-- FileSerializer
+```
+
+---
+
+## Contribuições
+
+Consulte o arquivo [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Changelog
+
+Consulte o arquivo [CHANGELOG.md](CHANGELOG.md).
+
+## Segurança
+
+Consulte o arquivo [SECURITY.md](SECURITY.md).
+
+## Licença
+
+Este projeto utiliza a Licença MIT. Consulte o arquivo [LICENSE](LICENSE) para os termos completos.
+
+## Citação
+
+Para citar este repositório, use a entrada BibTeX:
+
+```bibtex
+@software{reinan_hs_2026_1_equipe_jud_3_atividade1,
+  author       = {Souza, Reinan Gabriel},
+  title        = {Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1},
+  year         = {2026},
+  month        = {4},
+  publisher    = {GitHub},
+  url          = {https://github.com/ReinanHS/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1},
+  version      = {1.0.0}
+}
+```
 
 ---
 
 <div align="center">
-  <sub>Desenvolvido com dedicação pela Equipe 3 — Domínio Jurídico | UFS — 2026.1</sub>
+  <sub>Desenvolvido pela Equipe 3 (Domínio Jurídico) | UFS 2026.1</sub>
 </div>
