@@ -38,7 +38,7 @@ Português | [English](./README-EN.md)
 <p align="center">
   <a href="https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/docs">Documentação</a>
   ·
-  <a href="https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/apresentacao-marp.html">Apresentação</a>
+  <a href="https://github.com/ReinanHS/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/tree/results">Resultados</a>
   ·
   <a href="https://youtu.be/lcOxhH8N3Bo">Vídeo de demonstração</a>
   ·
@@ -61,6 +61,7 @@ Português | [English](./README-EN.md)
 - [Instruções de execução](#instruções-de-execução)
   - [Pré-requisitos](#pré-requisitos)
   - [Instalação e execução](#instalação-e-execução)
+- [Resultados](#resultados)
 - [Arquitetura](#arquitetura)
 - [Contribuições](#contribuições)
 - [Changelog](#changelog)
@@ -166,6 +167,25 @@ O projeto utiliza **três modelos** de organizações distintas para diversifica
 
 - [Documentação sobre os modelos de linguagem](https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/docs/inference/models)
 
+---
+
+---
+
+## Resultados
+
+A tabela abaixo apresenta um resumo do desempenho dos modelos avaliados nas duas frentes do projeto. Para as questões objetivas (OAB Exams), foi utilizada a acurácia como métrica principal. Para as questões dissertativas (OAB Bench), foram considerados o BERTScore F1 médio contra a guideline e o score atribuído pelo modelo juiz (GPT-4o-mini).
+
+| Modelo          | Acurácia (OAB Exams) | BERTScore F1 vs Guideline | Score do Juiz |
+|-----------------|----------------------|---------------------------|---------------|
+| **gemma2:2b**   | 0.4344               | 0.6569                    | 0.120         |
+| **llama3.2:3b** | 0.3607               | 0.6632                    | 0.139         |
+| **qwen2.5:3b**  | 0.4180               | 0.6513                    | 0.189         |
+
+O **gemma2:2b** obteve a maior acurácia nas questões objetivas, enquanto o **qwen2.5:3b** se destacou na avaliação qualitativa do juiz para questões dissertativas. Os resultados completos, com gráficos detalhados e análises por questão, estão disponíveis na [branch `results`][branch_results].
+
+- [Clique aqui para visualizar os resultados][branch_results]
+
+[branch_results]: https://github.com/ReinanHS/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/tree/results
 ---
 
 ## Instruções de execução
