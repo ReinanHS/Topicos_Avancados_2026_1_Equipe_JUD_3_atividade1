@@ -181,9 +181,11 @@ A tabela abaixo apresenta um resumo do desempenho dos modelos avaliados nas duas
 
 O **gemma2:2b** obteve a maior acurácia nas questões objetivas, enquanto o **qwen2.5:3b** se destacou na avaliação qualitativa do juiz para questões dissertativas. Os resultados completos, com gráficos detalhados e análises por questão, estão disponíveis na [branch `results`][branch_results].
 
-- [Clique aqui para visualizar os resultados][branch_results]
+- [Clique aqui para visualizar os resultados pelo GitHub Pages][resultados]
+- [Clique aqui para visualizar os resultados pelo GitHub][branch_results]
 
 [branch_results]: https://github.com/ReinanHS/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/tree/results
+[resultados]: https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/resultados
 
 ---
 

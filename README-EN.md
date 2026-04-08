@@ -181,9 +181,11 @@ The table below presents a summary of the performance of the evaluated models ac
 
 **gemma2:2b** achieved the highest accuracy on multiple-choice questions, while **qwen2.5:3b** stood out in the judge’s qualitative evaluation for discursive questions. The complete results, including detailed charts and per-question analyses, are available in the [branch `results`][branch_results].
 
-- [Click here to view the results][branch_results]
+- [Click here to view the results by GitHub Pages][resultados]
+- [Click here to view the results by GitHub][branch_results]
 
 [branch_results]: https://github.com/ReinanHS/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/tree/results
+[resultados]: https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/resultados
 
 ---
 
