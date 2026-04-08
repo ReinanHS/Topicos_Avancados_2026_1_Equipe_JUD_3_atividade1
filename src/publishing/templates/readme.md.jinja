@@ -12,9 +12,9 @@ O dataset OAB Exams contém questões objetivas com gabarito oficial, permitindo
 
 | Modelo | Acurácia | Precisão | Recall | F1 Score |
 |---|---|---|---|---|
-{% for model, metrics in oab_exams_metrics.items() %}
+{%- for model, metrics in oab_exams_metrics.items() %}
 | **{{ model }}** | {{ "%.4f"|format(metrics.accuracy) if metrics.accuracy else "N/A" }} | {{ "%.4f"|format(metrics.precision) if metrics.precision else "N/A" }} | {{ "%.4f"|format(metrics.recall) if metrics.recall else "N/A" }} | {{ "%.4f"|format(metrics.f1) if metrics.f1 else "N/A" }} |
-{% endfor %}
+{%- endfor %}
 
 ### Comparação visual das métricas exatas
 
@@ -44,19 +44,19 @@ O dataset OAB Bench trabalha com questões dissertativas que não possuem gabari
 
 ### Métricas de similaridade (Média)
 
-{% for model, model_data in oab_bench_metrics.items() %}
+{%- for model, model_data in oab_bench_metrics.items() %}
 #### 🔹 Modelo Principal: {{ model }}
 | Comparação | BLEU | ROUGE-1 | ROUGE-2 | ROUGE-L | BERTScore F1 |
 |---|---|---|---|---|---|
-{% for pair, data in model_data.items() %}
-{% if 'average' in data %}
+{%- for pair, data in model_data.items() %}
+{%- if 'average' in data %}
 | **{{ pair }}** | {{ "%.4f"|format(data['average']['bleu']) }} | {{ "%.4f"|format(data['average']['rouge1']) }} | {{ "%.4f"|format(data['average']['rouge2']) }} | {{ "%.4f"|format(data['average']['rougeL']) }} | {{ "%.4f"|format(data['average']['bertscore_f1']) }} |
-{% else %}
+{%- else %}
 | **{{ pair }}** | N/A | N/A | N/A | N/A | N/A |
-{% endif %}
-{% endfor %}
+{%- endif %}
+{%- endfor %}
 
-{% endfor %}
+{%- endfor %}
 
 ### Heatmap de similaridade semântica (BERTScore F1)
 
