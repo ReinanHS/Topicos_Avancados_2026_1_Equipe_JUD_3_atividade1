@@ -503,6 +503,22 @@ def report(
         raise typer.Exit(code=1)
 
 
+@app.command(name="build-readme")
+def build_readme():
+    """
+    Gera o arquivo README.md consolidado das execuções dentro da pasta .reinan_cache.
+    Este arquivo será publicado na branch de visualização dos resultados.
+    """
+    from src.publishing.readme_generator import ReadmeGenerator
+
+    try:
+        generator = ReadmeGenerator()
+        generator.generate()
+    except Exception as e:
+        typer.echo(f"Erro durante a geração do README.md: {e}", err=True)
+        raise typer.Exit(code=1)
+
+
 def _publish_results(branch: str) -> None:
     """Orquestra a publicação dos resultados em uma branch externa."""
     from src.publishing.publisher import ResultsPublisher
@@ -565,6 +581,7 @@ def run_all(
     - curate oab_exams
     - report oab_bench
     - report oab_exams
+    - build-readme
     """
     import time
 
@@ -572,38 +589,41 @@ def run_all(
 
     typer.echo("=== Iniciando execução do pipeline completo ===")
 
-    typer.echo("\n[01/11] Executando 'pull' para 'oab_bench'...")
+    typer.echo("\n[01/12] Executando 'pull' para 'oab_bench'...")
     pull(dataset="oab_bench", output="json")
 
-    typer.echo("\n[02/11] Executando 'pull' para 'oab_exams'...")
+    typer.echo("\n[02/12] Executando 'pull' para 'oab_exams'...")
     pull(dataset="oab_exams", output="json")
 
-    typer.echo("\n[03/11] Executando 'infer' para 'oab_bench'...")
+    typer.echo("\n[03/12] Executando 'infer' para 'oab_bench'...")
     infer(dataset="oab_bench", model=None, limit=limit)
 
-    typer.echo("\n[04/11] Executando 'infer' para 'oab_exams'...")
+    typer.echo("\n[04/12] Executando 'infer' para 'oab_exams'...")
     infer(dataset="oab_exams", model=None, limit=limit)
 
-    typer.echo("\n[05/11] Executando 'evaluate' para 'oab_bench'...")
+    typer.echo("\n[05/12] Executando 'evaluate' para 'oab_bench'...")
     evaluate(dataset="oab_bench")
 
-    typer.echo("\n[06/11] Executando 'evaluate' para 'oab_exams'...")
+    typer.echo("\n[06/12] Executando 'evaluate' para 'oab_exams'...")
     evaluate(dataset="oab_exams")
 
-    typer.echo("\n[07/11] Executando 'judgment' para 'oab_bench'...")
+    typer.echo("\n[07/12] Executando 'judgment' para 'oab_bench'...")
     judgment(dataset="oab_bench", judge=judge)
 
-    typer.echo("\n[08/11] Executando 'curate' para 'oab_bench'...")
+    typer.echo("\n[08/12] Executando 'curate' para 'oab_bench'...")
     curate(dataset="oab_bench", judge=judge)
 
-    typer.echo("\n[09/11] Executando 'curate' para 'oab_exams'...")
+    typer.echo("\n[09/12] Executando 'curate' para 'oab_exams'...")
     curate(dataset="oab_exams", judge=judge)
 
-    typer.echo("\n[10/11] Executando 'report' para 'oab_bench'...")
+    typer.echo("\n[10/12] Executando 'report' para 'oab_bench'...")
     report(dataset="oab_bench")
 
-    typer.echo("\n[11/11] Executando 'report' para 'oab_exams'...")
+    typer.echo("\n[11/12] Executando 'report' para 'oab_exams'...")
     report(dataset="oab_exams")
+
+    typer.echo("\n[12/12] Executando 'build-readme'...")
+    build_readme()
 
     end_time = time.time()
     total_seconds = int(end_time - start_time)
