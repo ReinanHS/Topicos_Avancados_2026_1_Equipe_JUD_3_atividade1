@@ -157,3 +157,34 @@ O gráfico de dispersão mostra a relação entre a similaridade com a guideline
 ![Correlação BERTScore vs Nota do Juiz]({{ chart }})
 {% endif %}
 {% endfor %}
+
+## Estrutura de diretórios da branch `results`
+
+A branch `results` organiza todos os artefatos gerados pelo pipeline de avaliação. Abaixo está a descrição de cada diretório:
+
+```
+├── debug/                          # Logs de depuração das chamadas aos LLMs
+│   ├── gemma2_2b/
+│   ├── llama3.2_3b/
+│   ├── qwen2.5_3b/
+│   └── gpt-4o-mini/
+└── results/
+    ├── oab_bench/                  # Resultados das questões dissertativas
+    │   ├── charts/                 # Gráficos gerados automaticamente
+    │   ├── model_answer/           # Respostas brutas de cada modelo (JSON)
+    │   ├── model_judgment/         # Avaliações do modelo juiz (GPT-4o-mini)
+    │   └── model_metric/           # Métricas calculadas por modelo (JSON)
+    └── oab_exams/                  # Resultados das questões objetivas
+        ├── charts/                 # Gráficos gerados automaticamente
+        ├── model_answer/           # Respostas brutas de cada modelo (JSON)
+        └── model_metric/           # Métricas calculadas por modelo (JSON)
+```
+
+O diretório **`debug/`** contém os registros detalhados de cada chamada feita aos modelos de linguagem, incluindo o prompt de sistema, o prompt do usuário e a resposta gerada. Essa pasta só é populada quando a variável de ambiente `LLM_DEBUG=1` está ativa, sendo útil para inspecionar o comportamento dos modelos durante a inferência e o julgamento.
+
+Dentro de **`results/`**, cada dataset possui sua própria estrutura com os seguintes subdiretórios:
+
+- **`model_answer/`** são respostas brutas geradas por cada modelo, salvas em formato JSON.
+- **`model_metric/`** são métricas calculadas automaticamente pelo comando `evaluate`.
+- **`model_judgment/`** são avaliações qualitativas produzidas pelo modelo juiz (presente apenas no OAB Bench).
+- **`charts/`** são gráficos gerados a partir das métricas coletadas.
