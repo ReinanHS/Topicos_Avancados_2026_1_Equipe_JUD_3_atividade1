@@ -67,6 +67,7 @@ Português | [English](./README-EN.md)
 - [Segurança](#segurança)
 - [📄 Licença](#-licença)
 - [Cite](#cite)
+- [Referências](#referências)
 </details>
 
 ## 📚 Sobre
@@ -365,6 +366,20 @@ Para citar este repositório, use a entrada BibTeX:
   version      = {1.0.0}
 }
 ```
+
+## Referências
+
+As referências a seguir representam as principais fontes utilizadas durante o desenvolvimento deste projeto, abrangendo desde práticas de documentação até metodologias de avaliação de modelos de linguagem.
+
+- [Docs-as-Code: um guia básico para iniciantes](https://medium.com/@reinanhs/docs-as-code-um-guia-b%C3%A1sico-para-iniciantes-b65b1e63b53a)
+- [Standardization of Teaching Materials with Marp and CI/CD: A Study at the Federal Institute of Sergipe](https://doi.org/10.34178/jbth.v7iSuppl2.450)
+- [Google Developer Documentation Style Guide](https://github.com/google/styleguide/tree/gh-pages/docguide)
+- [Best Practices and Methods for LLM Evaluation](https://www.databricks.com/br/blog/best-practices-and-methods-llm-evaluation)
+- [LLM Evaluation Metrics: Everything You Need for LLM Evaluation](https://www.confident-ai.com/blog/llm-evaluation-metrics-everything-you-need-for-llm-evaluation)
+- [LLM Evaluation: A Comprehensive Survey](https://arxiv.org/html/2504.21202v1)
+- [OAB Bench](https://github.com/maritaca-ai/oab-bench)
+- [OAB Exams](https://huggingface.co/datasets/eduagarcia/oab_exams)
+- [Ollama](https://ollama.com/)
 
 ---
 
