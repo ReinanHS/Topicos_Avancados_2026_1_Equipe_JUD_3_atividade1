@@ -40,9 +40,9 @@
   ·
   <a href="https://github.com/ReinanHS/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/tree/results">Results</a>
   ·
-  <a href="https://youtu.be/lcOxhH8N3Bo">Demo video</a>
-  ·
-  <a href="https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/contribuicao-individual.pdf">PDF tutorial</a>
+  <a href="https://youtu.be/pKandNqXIuw">Demo video</a>
+  <!-- ·
+  <a href="https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/contribuicao-individual.pdf">PDF tutorial</a> -->
 </p>
 
 </div>
@@ -105,9 +105,9 @@ This repository adopts the **Docs-as-Code** approach. In this model, the documen
 
 The following video shows the results collected by the team, including the contributions of Reinan Gabriel:
 
-[![Video on YouTube](https://gitlab.com/reinanhs/repo-slide-presentation/-/wikis/uploads/c5e58833db92ec50619f8b302ae8f480/baixados.png)](https://youtu.be/lcOxhH8N3Bo)
+[![Video on YouTube](https://gitlab.com/reinanhs/repo-slide-presentation/-/wikis/uploads/c5e58833db92ec50619f8b302ae8f480/baixados.png)](https://youtu.be/pKandNqXIuw)
 
-- **Watch the full video:** [https://youtu.be/lcOxhH8N3Bo](https://youtu.be/lcOxhH8N3Bo)
+- **Watch the full video:** [https://youtu.be/pKandNqXIuw](https://youtu.be/pKandNqXIuw)
 
 The presentation is available in the following formats:
 

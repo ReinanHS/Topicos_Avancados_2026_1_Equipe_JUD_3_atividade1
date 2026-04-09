@@ -608,13 +608,13 @@ def run_all(
     evaluate(dataset="oab_exams")
 
     typer.echo("\n[07/12] Executando 'judgment' para 'oab_bench'...")
-    judgment(dataset="oab_bench", judge=judge, model=None, limit=None)
+    judgment(dataset="oab_bench", judge=judge, model=None, limit=limit)
 
     typer.echo("\n[08/12] Executando 'curate' para 'oab_bench'...")
-    curate(dataset="oab_bench", judge=judge, limit=None)
+    curate(dataset="oab_bench", judge=judge, limit=limit)
 
     typer.echo("\n[09/12] Executando 'curate' para 'oab_exams'...")
-    curate(dataset="oab_exams", judge=judge, limit=None)
+    curate(dataset="oab_exams", judge=judge, limit=limit)
 
     typer.echo("\n[10/12] Executando 'report' para 'oab_bench'...")
     report(dataset="oab_bench")

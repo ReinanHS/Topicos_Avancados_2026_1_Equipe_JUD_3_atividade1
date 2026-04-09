@@ -7,189 +7,148 @@ math: katex
 
 <!-- _class: lead -->
 
+# Atividade 01
+
 ## Curadoria de Datasets e Inferência Básica com LLMs
 
-**Domínio Jurídico - Equipe 3**
+**Domínio Jurídico: Equipe 3**
 
-**AUTOR**: Reinan Gabriel Dos Santos Souza
+Tópicos Avançados em Engenharia de Software e Sistemas de Informação I
+Mestrado em Ciências da Computação — Procc/UFS
 
-<!-- _footer: '06 de abril de 2026' -->
-
----
-
-![bg left:40% 80%](https://www.qrtag.net/api/qr_1280.png?url=https://reinanhs.github.io/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1/docs)
-
-**Material utilizado na apresentação**
-
-Todos os materiais relacionados à apresentação estão disponíveis digitalmente no repositório do **GitHub**. Para acessar esses recursos, basta escanear o **QR Code** ao lado.
+<!-- _footer: 'Abril de 2026' -->
 
 ---
 
-<!-- _header: Sumário -->
+<!-- _header: INTEGRANTES DA EQUIPE -->
 
-- Contexto e problema
-- Objetivo
-- Datasets utilizados
-- Arquitetura do pipeline
-- Modelos selecionados
-- Métricas de avaliação
-- Resultados
-- Conclusão
-- Trabalhos futuros
-
----
-
-<!-- _header: CONTEXTO E PROBLEMA -->
-
-1. **Avaliar LLMs compactos** no domínio jurídico brasileiro é desafiador;
-2. **Questões da OAB** exigem raciocínio jurídico complexo;
-3. **Questões abertas não possuem gabarito** oficial, dificultando a avaliação;
-4. **Modelos com ≤ 3B parâmetros** têm recursos limitados para tarefas especializadas.
+| Membro          | Questões abertas | Múltipla escolha |
+|-----------------|------------------|------------------|
+| Fernanda Mirely | 141 a 152        | 1477 a 1599      |
+| Éricles         | 153 a 164        | 1600 a 1722      |
+| Júlia           | 165 a 176        | 1723 a 1845      |
+| Reinan Gabriel  | 177 a 188        | 1846 a 1968      |
+| Mikaela         | 189 a 200        | 1969 a 2091      |
+| Victor Leonardo | 201 a 210        | 2092 a 2210      |
 
 ---
 
-<!-- _header: OBJETIVO -->
+<!-- _header: DATASETS UTILIZADOS -->
 
-Avaliar o desempenho de **três modelos de linguagem compactos** em tarefas do domínio jurídico brasileiro, utilizando dois datasets de questões da OAB.
+| Dataset            | Identificador           | Tipo             | Total          |
+|--------------------|-------------------------|------------------|----------------|
+| **OAB Bench** | `maritaca-ai/oab-bench` | Questões Abertas | 210 questões   |
+| **OAB Exams** | `eduagarcia/oab_exams`  | Múltipla Escolha | 2.210 questões |
 
-| Dataset            | Tipo             | Quantidade                    |
-|--------------------|------------------|-------------------------------|
-| **J1 — OAB Bench** | Questões Abertas | 12 questões (lote 177–188)    |
-| **J2 — OAB Exams** | Múltipla Escolha | 122 questões (lote 1846–1968) |
-
-> Fontes: `maritaca-ai/oab-bench` e `eduagarcia/oab_exams` no HuggingFace.
-
----
-
-<!-- _header: ARQUITETURA DO PIPELINE -->
-
-O projeto foi organizado em **4 etapas** principais:
-
-1. **Curadoria**: classificação de dificuldade e identificação da legislação base
-2. **Inferência**: execução dos modelos sobre os datasets
-3. **Avaliação**: cálculo de métricas automáticas
-4. **Análise**: interpretação dos resultados obtidos
-
-A CLI centralizada expõe os comandos: `pull`, `run` e `evaluate`.
+- **OAB Bench**: Questões dissertativas da **2ª fase** da OAB, com enunciado, subitens e
+  guidelines de correção (benchmark da Maritaca AI)
+- **OAB Exams**: Questões objetivas da **1ª fase** da OAB (provas de 2010 a 2018), com
+  4 alternativas e gabarito oficial (dataset de Eduardo Garcia)
 
 ---
 
-<!-- _header: ESTRUTURA DO PROJETO -->
+<!-- _header: METODOLOGIA: VISÃO GERAL -->
 
-```text
-src/
-├── dataset_manager.py    — Carregamento via HuggingFace
-├── ollama_manager.py     — Integração com LLMs locais (Ollama)
-├── execution_manager.py  — Orquestração do pipeline
-├── evaluation_manager.py — Métricas (BLEU, ROUGE, BERTScore, F1)
-└── storage_manager.py    — Persistência em JSON/CSV
+O trabalho foi dividido em **4 etapas** executadas individualmente:
 
-prompts/                  — Templates .minijinja por tarefa
-```
+1. **Curadoria e classificação criativa**
+   - Nível de dificuldade (3 níveis cognitivos)
+   - Área de especialidade jurídica
+   - Legislação base de referência
 
-> Gerenciamento de dependências com `uv` e linting com `ruff`.
+2. **Inferência com LLMs**
+   - Cada membro selecionou **3 modelos** de linguagem
+   - Submissão das questões abertas e objetivas aos modelos
+
+3. **Avaliação automática**
+   - Métricas automáticas para comparar as respostas geradas
 
 ---
 
-<!-- _header: MODELOS SELECIONADOS -->
+<!-- _header: CURADORIA: CLASSIFICAÇÃO DE DIFICULDADE -->
 
-Três modelos compactos executados localmente via **Ollama**:
+A classificação foi baseada no **tipo de operação cognitiva** exigida pela questão, não no tamanho do enunciado.
 
-| Modelo        | Parâmetros |
-|---------------|------------|
-| `gemma2:2b`   | ~2 bilhões |
-| `llama3.2:3b` | ~3 bilhões |
-| `qwen2.5:3b`  | ~3 bilhões |
+| Nível | Nome técnico                   | Critérios                                      |
+|-------|--------------------------------|------------------------------------------------|
+| **1** | Recuperação factual direta     | Memorização de artigo de lei ou conceito exato |
+| **2** | Raciocínio lógico-dedutivo     | Caso concreto + aplicação de regra clara       |
+| **3** | Hermenêutica jurídica complexa | Interpretação profunda, cruzamento de leis     |
 
-```bash
-uv run python main.py run oab_bench --model gemma2:2b
-uv run python main.py run oab_exams --model gemma2:2b
+---
+
+<!-- _header: CURADORIA: LEGISLAÇÃO BASE E ÁREA DE EXPERTISE -->
+
+### Legislação base
+Identifica a **principal referência normativa** associada à questão:
+- Ex: *Constituição Federal, Art. 5º*, *Código Penal, Art. 121*, *Lei nº 14.133/2021*
+
+### Área de expertise
+Identifica a **área do direito** relacionada à questão:
+- Ex: *Direito Constitucional*, *Direito Administrativo*, *Direito Penal*
+
+### Exemplo de saída da curadoria
+
+```json
+{
+  "difficulty_question": 2,
+  "basic_legislation": "Constituição Federal, Art. 71, III",
+  "area_expertise": "Direito Administrativo"
+}
 ```
 
 ---
 
-<!-- _header: MÉTRICAS DE AVALIAÇÃO -->
+<!-- _header: CURADORIA: ABORDAGEM AUTOMATIZADA -->
 
-**Questões abertas (J1)** — Avaliação cruzada entre modelos:
+A curadoria foi realizada de forma **automatizada e reprodutível**:
 
-- **BLEU** — sobreposição de n-gramas
-- **ROUGE** (1, 2, L) — cobertura de n-gramas
-- **BERTScore F1** — similaridade semântica via embeddings
+- Prompts estruturados definem o formato de saída esperado (JSON)
+- Mesma configuração aplicada a **todos os integrantes**
 
-**Questões objetivas (J2)** — Avaliação exata contra gabarito:
-
-- **Acurácia**, **Precisão**, **Recall**, **F1-Score**
-
----
-
-<!-- _header: RESULTADOS — AVALIAÇÃO CRUZADA (OAB Bench) -->
-
-Métricas de similaridade entre pares de modelos (12 questões abertas):
-
-| Par de Modelos            | BLEU       | ROUGE-1    | ROUGE-L    | BERTScore F1 |
-|---------------------------|------------|------------|------------|--------------|
-| gemma2:2b vs llama3.2:3b  | 0,1474     | 0,5094     | 0,2627     | 0,7665       |
-| gemma2:2b vs qwen2.5:3b   | 0,1413     | 0,5063     | 0,2440     | 0,7588       |
-| llama3.2:3b vs qwen2.5:3b | **0,1515** | **0,5222** | **0,2620** | **0,7672**   |
-
-> Todos os pares com BERTScore F1 > 0,75 — boa concordância semântica apesar da baixa sobreposição lexical.
+| # | Operação                      | Saída                                |
+|---|-------------------------------|--------------------------------------|
+| 1 | Resposta à questão            | Texto discursivo ou letra (A–D)      |
+| 2 | Classificação de dificuldade  | Valor 1, 2 ou 3                      |
+| 3 | Identificação de legislação   | Referência normativa principal       |
+| 4 | Identificação da área         | Área de expertise jurídica           |
 
 ---
 
-<!-- _header: RESULTADOS — AVALIAÇÃO EXATA (OAB Exams) -->
+<!-- _header: INFERÊNCIA: MODELOS UTILIZADOS -->
 
-Desempenho dos modelos em 122 questões de múltipla escolha:
-
-| Modelo        | Acurácia   | Precisão   | Recall     | F1         |
-|---------------|------------|------------|------------|------------|
-| **gemma2:2b** | **0,4508** | **0,4846** | **0,4532** | **0,4457** |
-| qwen2.5:3b    | 0,4016     | 0,4344     | 0,4064     | 0,4059     |
-| llama3.2:3b   | 0,3852     | 0,3896     | 0,3845     | 0,3781     |
-
-> Nenhum modelo ultrapassou 50% — resultado esperado para modelos ≤ 3B em questões jurídicas complexas.
+Cada integrante selecionou **3 modelos** compactos.
 
 ---
 
-<!-- _header: PRINCIPAIS DESCOBERTAS -->
+<!-- _header: MÉTRICAS DE AVALIAÇÃO: QUESTÕES ABERTAS (J1) -->
 
-- O **gemma2:2b** foi o melhor modelo mesmo com menos parâmetros;
-- O par **llama3.2 vs qwen2.5** gerou respostas mais similares entre si;
-- **BERTScore** se mostrou mais adequado que BLEU para capturar similaridade semântica em textos jurídicos;
-- A curadoria automatizada (dificuldade + legislação) via LLM funcionou como etapa complementar.
+**OAB Bench**: sem gabarito oficial → avaliação **cruzada** entre modelos
 
----
+Duas estratégias complementares:
+1. **Modelo vs Modelo**: compara respostas entre cada par de modelos
+2. **Modelo vs Guideline**: compara respostas contra as guidelines do dataset
 
-<!-- _header: CONCLUSÃO -->
-
-- Pipeline reprodutível e modular para avaliação de LLMs no domínio jurídico.
-- Modelos compactos (≤ 3B) ainda não atingem desempenho satisfatório na OAB.
-- Métricas semânticas (BERTScore) complementam métricas lexicais (BLEU/ROUGE).
-- Documentação completa publicada via Docs-as-Code com Docusaurus.
-
----
-
-<!-- _header: TRABALHOS FUTUROS -->
-
-- Testar modelos com mais parâmetros (7B, 13B) para comparação.
-- Aplicar técnicas de **fine-tuning** no domínio jurídico.
-- Incorporar **RAG** com legislação brasileira como contexto.
-- Expandir a avaliação para outros exames jurídicos além da OAB.
+| Métrica          | O que mede                                        | Escala |
+|------------------|---------------------------------------------------|--------|
+| **BLEU**         | Sobreposição de n-gramas (precisão lexical)       | 0 a 1  |
+| **ROUGE-1**      | Sobreposição de unigramas (cobertura vocabular)   | 0 a 1  |
+| **ROUGE-2**      | Sobreposição de bigramas (estrutura local)        | 0 a 1  |
+| **ROUGE-L**      | Maior subsequência comum (estrutura global)       | 0 a 1  |
+| **BERTScore F1** | Similaridade semântica via embeddings contextuais | 0 a 1  |
 
 ---
 
-<!-- _header: PRINCIPAIS REFERÊNCIAS -->
+<!-- _header: MÉTRICAS DE AVALIAÇÃO: QUESTÕES OBJETIVAS (J2) -->
 
-**Databricks (2024)**. Best Practices and Methods for LLM Evaluation. Disponível em: https://www.databricks.com/br/blog/best-practices-and-methods-llm-evaluation.
-**Confident AI (2024)**. LLM Evaluation Metrics. Disponível em: https://www.confident-ai.com/blog/llm-evaluation-metrics-everything-you-need-for-llm-evaluation.
-**Zhao, H. et al. (2025)**. LLM Evaluation: A Comprehensive Survey. arXiv. Disponível em: https://arxiv.org/html/2504.21202v1.
+**OAB Exams**: com gabarito oficial → avaliação **exata**
 
----
+| Métrica      | O que mede                                                 |
+|--------------|------------------------------------------------------------|
+| **Acurácia** | Proporção de respostas corretas sobre o total              |
+| **Precisão** | Quantas vezes o modelo acertou ao escolher uma alternativa |
+| **Recall**   | Quantas questões da classe correta foram identificadas     |
+| **F1-Score** | Média harmônica entre precisão e recall                    |
 
-<!-- _class: lead -->
-
-## Obrigado!
-
-**Reinan Gabriel Dos Santos Souza**
-
-Repositório: https://github.com/reinanhs/Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1
-Vídeo: https://youtu.be/lcOxhH8N3Bo
+- As letras (A, B, C, D) são convertidas para inteiros antes do cálculo
+- Estratégia **macro**: calcula a métrica por classe e tira a média simples
