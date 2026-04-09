@@ -1,0 +1,1954 @@
+[
+    {
+        "question_id": "2016-21_36",
+        "answer_id": "51f45effe4894481a777ea3865fb4db9",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Lei nº 12.651/2012 e Lei nú 9.474/1997",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1775596832.186375
+    },
+    {
+        "question_id": "2016-21_37",
+        "answer_id": "9bc8af4928094670a994bc237230ac01",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775596840.1084654
+    },
+    {
+        "question_id": "2016-21_38",
+        "answer_id": "39ebe6a215674b6d9dce8f63beb500bd",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil (art. 484, 606, 649 e 652, II)",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775596848.6134918
+    },
+    {
+        "question_id": "2016-21_39",
+        "answer_id": "fead6fe78a374557aba2c1c391ca482f",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 8.537/1992 (Modo de Separação Conjugada)",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775596858.1566226
+    },
+    {
+        "question_id": "2016-21_40",
+        "answer_id": "017606a0b0ec4aadbd0db9daa930f266",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775596868.289014
+    },
+    {
+        "question_id": "2016-21_41",
+        "answer_id": "ae9083f827354152af4d9c8991cf7dfb",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775596878.3721466
+    },
+    {
+        "question_id": "2016-21_42",
+        "answer_id": "865695f0661e489b84436ac2dd4a9e2b",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil (artigos 187, 194, 822 e 823)",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775596889.0230215
+    },
+    {
+        "question_id": "2016-21_43",
+        "answer_id": "68a8106a35f94a75b4d719d6888a01f4",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil de 2002 (art. 226, § 3º e 1.637)",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775596898.8358727
+    },
+    {
+        "question_id": "2016-21_44",
+        "answer_id": "a54ab2ff4a77402c8781d262f19628f1",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Estatuto da Crianªce e do Adolescente (Lei nº 8.562/1992)",
+            "area_expertise": "Direito da Criança e do Adolescente"
+        },
+        "tstamp": 1775596909.5929394
+    },
+    {
+        "question_id": "2016-21_45",
+        "answer_id": "fa8bb2a11941442d8af6f209f7391ee6",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil e Lei nº 8.069/1990 (Estatuto da Criança e do Adolescente)",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775596918.8699992
+    },
+    {
+        "question_id": "2016-21_46",
+        "answer_id": "575d7c918ba34081aa9f54539f4f8a6b",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Defesa do Consumidor (Lei nº 8.078/1990)",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775596929.6873224
+    },
+    {
+        "question_id": "2016-21_47",
+        "answer_id": "becec6cc4348400f9c9e2a848c5f8346",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil de 2002, Lei nº 4.122/1991 e Súmula do STJ",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775596942.2871854
+    },
+    {
+        "question_id": "2016-21_48",
+        "answer_id": "2499eeca291745828e8c724cc72b41e7",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil de 2002 (art. 1.034) e Lei nº 9.532/1997 (revisão do Código Civil)",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1775596951.8260508
+    },
+    {
+        "question_id": "2016-21_49",
+        "answer_id": "aa90d219a4c144e1a3c5be55e3233e9b",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 11.1017/2005",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1775596962.9501789
+    },
+    {
+        "question_id": "2016-21_50",
+        "answer_id": "aa25ffc9787e45eb8a64870a2b910fdc",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1775596971.9275167
+    },
+    {
+        "question_id": "2016-21_51",
+        "answer_id": "f3fc714af98f41bd818c1fd1ad82ab0a",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil - Artigos 1.234 e 523",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1775596981.147291
+    },
+    {
+        "question_id": "2016-21_52",
+        "answer_id": "69abf0295e7a412a916f4118ca7575ae",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Lei nº 6.938/1997 - Código de Defesa do Consumidor",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1775596989.976595
+    },
+    {
+        "question_id": "2016-21_53",
+        "answer_id": "698330f92f864709808997acd35556c4",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código de Processo Civil de 2010 (Lei nº 12.410/2011)",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775596998.1418183
+    },
+    {
+        "question_id": "2016-21_54",
+        "answer_id": "23057df908464c1ebae9624117b54df8",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597007.5942996
+    },
+    {
+        "question_id": "2016-21_55",
+        "answer_id": "e0747879e41d40008f41bedf32f860d4",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1775597018.9682417
+    },
+    {
+        "question_id": "2016-21_56",
+        "answer_id": "ca727b7afef24e04a074ad998b5a08b7",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código de Processo Civil (Artigos 533, 534 e 537)",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775597029.1374338
+    },
+    {
+        "question_id": "2016-21_57",
+        "answer_id": "2fdbdddda35c4463a7c0dae7e1d20787",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Civil (Lei nº 9.504/1997)",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597038.4963827
+    },
+    {
+        "question_id": "2016-21_58",
+        "answer_id": "dece0b59d9784648b0f6327167b12550",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Civil (CPV) - Artigos 522 a 524 e Lei nº 9.868/1998",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597048.8531969
+    },
+    {
+        "question_id": "2016-21_59",
+        "answer_id": "5a001b7d6f4e4462a6b7b70a55d2652f",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código Penal - art. 108, parágrafo único",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775597058.092117
+    },
+    {
+        "question_id": "2016-21_60",
+        "answer_id": "a7a529d50a874e8ea4671339a20d39a9",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775597067.8610668
+    },
+    {
+        "question_id": "2016-21_61",
+        "answer_id": "13b81b9ea0024952bdee1c7f15b500dd",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597078.2252216
+    },
+    {
+        "question_id": "2016-21_62",
+        "answer_id": "59a0128ea4b64832b52775d1e3724c55",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Penal, artigos 157 e 183",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775597086.5268974
+    },
+    {
+        "question_id": "2016-21_63",
+        "answer_id": "c377061db37b4863b2a4f874236ab404",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nâo 9.506/1998 - Código de Processo Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597097.485347
+    },
+    {
+        "question_id": "2016-21_64",
+        "answer_id": "fde87551b13b439e83765256a4d8c37f",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 8.437/1992, artigos 33 e 39, Lei nº 9.430/1997, artigo 12 e Lei nº 12.527/2011",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775597108.6466668
+    },
+    {
+        "question_id": "2016-21_65",
+        "answer_id": "bba953e8defc44b58e7eee5608da67cb",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nú 9.514/1998 - Busca e Apreensão de Documentos e Coisas",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775597119.3062217
+    },
+    {
+        "question_id": "2016-21_66",
+        "answer_id": "6cd04149d7344c4bb3d5027f2d939b2e",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775597129.1168537
+    },
+    {
+        "question_id": "2016-21_67",
+        "answer_id": "5ec02492e82a484f8d8c127e43168fac",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775597141.1310775
+    },
+    {
+        "question_id": "2016-21_68",
+        "answer_id": "863d4d9981844e2087816d71a7b8ab06",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Civil de 2019 (Lei nº 13.967/2019)",
+            "area_expertise": "Direito Processual Penal"
+        },
+        "tstamp": 1775597149.9298246
+    },
+    {
+        "question_id": "2016-21_69",
+        "answer_id": "fcf6aa965e9c4e63a97012bbd4579060",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775597159.6916614
+    },
+    {
+        "question_id": "2016-21_70",
+        "answer_id": "a9121edc123840efb5c148cca99e73a0",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nâo 8.037/1990 e artigo 12 da Lei nâo 11.101/2005",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775597169.2563965
+    },
+    {
+        "question_id": "2016-21_71",
+        "answer_id": "13dd1acfb8a74788bc1b8a18c4f92ae6",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "CLT",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775597179.7324102
+    },
+    {
+        "question_id": "2016-21_72",
+        "answer_id": "30e6dad4c9cd490b8341a657f8e08daf",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei n® 7.707/1989 - Estatuto da OAB",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775597190.7335124
+    },
+    {
+        "question_id": "2016-21_73",
+        "answer_id": "5585423b36204e41a565746cdeaee379",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775597199.044691
+    },
+    {
+        "question_id": "2016-21_74",
+        "answer_id": "f5f83eebb22e47c1a7d22f4f9b6e8372",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 7.853/1990, artigo 13, § 1º, e Lei nº 11.940/2009",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775597209.1169128
+    },
+    {
+        "question_id": "2016-21_75",
+        "answer_id": "fc9808ae8a594969a996b499fb045e82",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "CLT (Código da Contratação do Trabalho) - artigo 14, § 2º",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775597218.6470377
+    },
+    {
+        "question_id": "2016-21_76",
+        "answer_id": "c8e0acfc30bd47a29cf4bc41396ce27d",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 1,
+            "basic_legislation": "Lei nº 9.472/1997 e Código de Processo Civil",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775597227.2651546
+    },
+    {
+        "question_id": "2016-21_77",
+        "answer_id": "f47f3042617d4bc9b25d189003a7efcd",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 11.817/2008 e Lei nº 9.372/1996",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775597235.6740952
+    },
+    {
+        "question_id": "2016-21_78",
+        "answer_id": "9ead21850b2547f79540c95a38626c4e",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "CLT e Código de Processo Civil (CPC)",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1775597244.6658413
+    },
+    {
+        "question_id": "2016-21_79",
+        "answer_id": "f6c39920a02e46a38a493fdaae88daa0",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "CLT e Código de Processo Civil (CPC)",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775597253.721285
+    },
+    {
+        "question_id": "2016-21_80",
+        "answer_id": "67f06867c60d4d64990ba9cb2c2fd2bb",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 11.812/2008 e Código Civil de 1910",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775597263.244794
+    },
+    {
+        "question_id": "2017-22_1",
+        "answer_id": "e4e54328264c4b0d9f68eb6fe5067d47",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Ética e Disciplina da OAB",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597272.349115
+    },
+    {
+        "question_id": "2017-22_2",
+        "answer_id": "41a292e2edb046e49977acd562b0690b",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Ética Profissional e Estatuto da OAB"
+        },
+        "tstamp": 1775597283.3008943
+    },
+    {
+        "question_id": "2017-22_3",
+        "answer_id": "7cb585f09e2648bbbf749d56a13e24a8",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Ética e Disciplina da OAB",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775597293.7333589
+    },
+    {
+        "question_id": "2017-22_4",
+        "answer_id": "72e4425a52944c0e9cc9aa3548e48584",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Lei n\\u00A0 8.906/94",
+            "area_expertise": "Direito Constitucional"
+        },
+        "tstamp": 1775597302.478032
+    },
+    {
+        "question_id": "2017-22_5",
+        "answer_id": "f0ef894896d5430293ab697fbd7eaafb",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Estatuto da OAB",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775597313.597267
+    },
+    {
+        "question_id": "2017-22_6",
+        "answer_id": "82a33d2bd3f7403fb5e966f75257cc53",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito da Criança e do Adolescente"
+        },
+        "tstamp": 1775597322.0849795
+    },
+    {
+        "question_id": "2017-22_7",
+        "answer_id": "52dfa0b58ecf4518b086b05a551ae53b",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Lei nº 8.112/1990 e sua regulamentação específica",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1775597332.3009508
+    },
+    {
+        "question_id": "2017-22_8",
+        "answer_id": "1a1605c819bd40a5b0a2e8eceabf5587",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direitos Humanos"
+        },
+        "tstamp": 1775597340.3217354
+    },
+    {
+        "question_id": "2017-22_9",
+        "answer_id": "8dd90e6ecb564446abf6c8d67e2bae35",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Ética e Disciplina da OAB",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597352.439444
+    },
+    {
+        "question_id": "2017-22_10",
+        "answer_id": "3c95a100ad714e5cae20726e54f2126f",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Regulamento Geral do Estatuto da Advocacia e da OAB",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1775597364.5421393
+    },
+    {
+        "question_id": "2017-22_11",
+        "answer_id": "92249a69f36546709f2cf1c6ccec57b8",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Bobbio, N. Teoria do Ordenamento Jurídico.",
+            "area_expertise": "Direito Constitucional"
+        },
+        "tstamp": 1775597373.7383664
+    },
+    {
+        "question_id": "2017-22_12",
+        "answer_id": "1b8715c1427d461eaec91780316c34cf",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "D",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1775597383.2943578
+    },
+    {
+        "question_id": "2017-22_13",
+        "answer_id": "21f36e876d774c6fa233950247de4f10",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Constituição Federal",
+            "area_expertise": "Direito Constitucional"
+        },
+        "tstamp": 1775597392.10052
+    },
+    {
+        "question_id": "2017-22_14",
+        "answer_id": "e554c49f76454d3c99462e3e834d1b36",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal",
+            "area_expertise": "Direito Constitucional"
+        },
+        "tstamp": 1775597402.843629
+    },
+    {
+        "question_id": "2017-22_15",
+        "answer_id": "77162aa2270a41368130d78eddae9813",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil e Constituição Federal",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597413.9238276
+    },
+    {
+        "question_id": "2017-22_16",
+        "answer_id": "3d2242b865094f59be1b15387f896087",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal e Lei nº 8.112/1990",
+            "area_expertise": "Direito Constitucional"
+        },
+        "tstamp": 1775597425.0697727
+    },
+    {
+        "question_id": "2017-22_17",
+        "answer_id": "f49b4d64c8b54acc81cbbbc4680a3f2f",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1775597435.4379368
+    },
+    {
+        "question_id": "2017-22_18",
+        "answer_id": "756474bfd5114834aa86ab6af82d42c7",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Constituição Federal e Código de Processo Civil",
+            "area_expertise": "Direito Constitucional"
+        },
+        "tstamp": 1775597445.6789181
+    },
+    {
+        "question_id": "2017-22_19",
+        "answer_id": "cf44886da6d9476bb1c237a03d62eb1d",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal",
+            "area_expertise": "Direito Processual Civil"
+        },
+        "tstamp": 1775597458.1018357
+    },
+    {
+        "question_id": "2017-22_20",
+        "answer_id": "eaae97c44bec46bda638e9eaf5897155",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Convenção Interamericana sobre o Desaparecimento Forçado de Pessoas",
+            "area_expertise": "Direito Constitucional"
+        },
+        "tstamp": 1775597471.2034273
+    },
+    {
+        "question_id": "2017-22_21",
+        "answer_id": "e83ae17e3cf2421784cc1158843cfc23",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Convenção Americana dos Direitos Humanos e a legislação brasileira",
+            "area_expertise": "Direitos Humanos"
+        },
+        "tstamp": 1775597482.5188968
+    },
+    {
+        "question_id": "2017-22_22",
+        "answer_id": "6a6e9c29b30143e99ea207be42264de3",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Convençó Americana sobre Direitos Humanos",
+            "area_expertise": "Direitos Humanos"
+        },
+        "tstamp": 1775597494.2284744
+    },
+    {
+        "question_id": "2017-22_23",
+        "answer_id": "08d763faf7904301a6984cd0a29f503d",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil (art. 1.618) e Convenção entre a República Federativa do Brasil e [País de Origem]",
+            "area_expertise": "Direito Internacional"
+        },
+        "tstamp": 1775597503.4348059
+    },
+    {
+        "question_id": "2017-22_24",
+        "answer_id": "2da827a4cd4a44b68eb0472ee14b3eb0",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Constituição Federal, Art. 116",
+            "area_expertise": "Direito da Criança e do Adolescente"
+        },
+        "tstamp": 1775597512.5016227
+    },
+    {
+        "question_id": "2017-22_25",
+        "answer_id": "a2784b12b6a74531a5879c28347bebbc",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal (art. 196)",
+            "area_expertise": "Direito Tributário"
+        },
+        "tstamp": 1775597520.7209704
+    },
+    {
+        "question_id": "2017-22_26",
+        "answer_id": "378311b8061d4127bea953adad8fe692",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal, art. 25, IV; Código Municipal, arts. 124 a 128 (ou Lei específica do Município X)",
+            "area_expertise": "Direito Tributário"
+        },
+        "tstamp": 1775597530.0454302
+    },
+    {
+        "question_id": "2017-22_27",
+        "answer_id": "598a2b6461ba4fee8ce8b52f83cad290",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Tributário Nacional - Artigo 111",
+            "area_expertise": "Direito Tributário"
+        },
+        "tstamp": 1775597538.541484
+    },
+    {
+        "question_id": "2017-22_28",
+        "answer_id": "52f59a0eb754490d8c1e44cd72d73eaa",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 9.253/1996 (Nova Reserva)",
+            "area_expertise": "Direito Tributário"
+        },
+        "tstamp": 1775597548.3108475
+    },
+    {
+        "question_id": "2017-22_29",
+        "answer_id": "00a2e3fe262745fca18a5618f8df77b3",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 1,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1775597558.855969
+    },
+    {
+        "question_id": "2017-22_30",
+        "answer_id": "43dcee5ed86a46adbc2f169f79ffd7d4",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "CF/Art. 37, § 4º, inciso IV e Lei nº 9.514/1998",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1775597567.6687136
+    },
+    {
+        "question_id": "2017-22_31",
+        "answer_id": "84e625691b674a83b9d6c0d608a64974",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1775597575.8784177
+    },
+    {
+        "question_id": "2017-22_32",
+        "answer_id": "29e53e8da1444813a1cc0738fecf91c7",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei n® 9.790/1998 - Artigos 29 a 34 e Lei nê 8.112/1990 - Artigo 25, inciso IV",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1775597586.29407
+    },
+    {
+        "question_id": "2017-22_33",
+        "answer_id": "447f0544946f420ca6e938c5b216dfe3",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775597596.372847
+    },
+    {
+        "question_id": "2017-22_34",
+        "answer_id": "9beaf48202ec45a7b809eeebeea99f20",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 9.532/1997 (Institui o regime jurídico das relações processuais no sistema do direito administrativo)",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1775597607.1509786
+    },
+    {
+        "question_id": "2017-22_35",
+        "answer_id": "02de474650e34ac8b64ea6a4e20671e8",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 6.938/1981, artigos 24 e 25, Alinhas 4 e 7",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1775597617.6216695
+    },
+    {
+        "question_id": "2017-22_36",
+        "answer_id": "91f293e309d94de9b9dc1a3878691c74",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 9.472/1997 (Agrotoxicos) e Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597627.1303747
+    },
+    {
+        "question_id": "2017-22_37",
+        "answer_id": "77573694407a4b4f8ba9d7eeaf56cba9",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 9.514/1998 - Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597635.9232402
+    },
+    {
+        "question_id": "2017-22_38",
+        "answer_id": "5bc2f896309845f9b489a988a4de9e57",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil de 2002, artigos 571, 577, 581 e 606",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597645.7699351
+    },
+    {
+        "question_id": "2017-22_39",
+        "answer_id": "cf93bf57d0dc4e63bcbac3679b45f730",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil (artigos 484 e 606)",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597655.1942017
+    },
+    {
+        "question_id": "2017-22_40",
+        "answer_id": "29aa0753e02a43a8a42262856333bd08",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597665.8565774
+    },
+    {
+        "question_id": "2017-22_41",
+        "answer_id": "b60759c6e68b4adf9b26952e311bcb40",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597676.2283618
+    },
+    {
+        "question_id": "2017-22_42",
+        "answer_id": "d5ff66fb3f7b473ca84820843892f533",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil de 2002 (art. 1.573)",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597684.5637083
+    },
+    {
+        "question_id": "2017-22_43",
+        "answer_id": "a4b9f46f607c4d1abf426bde05dfed64",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597693.408889
+    },
+    {
+        "question_id": "2017-22_44",
+        "answer_id": "0b94b63faca6412d8a2bcfc50867f5cf",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "ECA (Estatuto da Crianê e do Adolescente)",
+            "area_expertise": "Direitos Humanos"
+        },
+        "tstamp": 1775597703.3814275
+    },
+    {
+        "question_id": "2017-22_45",
+        "answer_id": "e385addf63824a2d9aa88bf49bc4172e",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775597712.8812907
+    },
+    {
+        "question_id": "2017-22_46",
+        "answer_id": "41ead3b846e0474481370464e11b09d2",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Defesa do Consumidor (Lei nº 8.078/1990)",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597725.432121
+    },
+    {
+        "question_id": "2017-22_47",
+        "answer_id": "84ad15d0d6c54b42bc15a43726f2cccd",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597736.9874732
+    },
+    {
+        "question_id": "2017-22_48",
+        "answer_id": "30e4b7162cd3465299683b2bac35221f",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 10.406/2002 (CÃodigo Civil)",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1775597745.7199526
+    },
+    {
+        "question_id": "2017-22_49",
+        "answer_id": "8613ef647b4c4943a369f9e335712be4",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil (Art. 185 e 927-A)",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1775597756.3832924
+    },
+    {
+        "question_id": "2017-22_50",
+        "answer_id": "7759c790869e4449be8da62a0c4f4ea7",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597765.5034614
+    },
+    {
+        "question_id": "2017-22_51",
+        "answer_id": "082590b5082d4bb3bb366ae1874b2a5d",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Civil de 2019",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597775.9079976
+    },
+    {
+        "question_id": "2017-22_52",
+        "answer_id": "1cc6634dd9c7466db7c4238590cb62a9",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código Civil de 2002 (art. 666)",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597786.450725
+    },
+    {
+        "question_id": "2017-22_53",
+        "answer_id": "3bb25073811c4a08b41151e9db9e6e1d",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Lei n® 5.175/2016 e Lei nâo 9.472/1997",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597796.3413227
+    },
+    {
+        "question_id": "2017-22_54",
+        "answer_id": "b241a2d7a3d64ccb9e98a71cb382121d",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil, artigos 476 e 477",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597807.401095
+    },
+    {
+        "question_id": "2017-22_55",
+        "answer_id": "62e3d08c43114929928b3f76de85caac",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597817.0872085
+    },
+    {
+        "question_id": "2017-22_56",
+        "answer_id": "78ea83c5cc38490ba030b96f3382fead",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Civil",
+            "area_expertise": "Direito Processual Civil"
+        },
+        "tstamp": 1775597826.8657537
+    },
+    {
+        "question_id": "2017-22_57",
+        "answer_id": "0878f9dfdbce4e5394de031c9c7c1849",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597836.7081118
+    },
+    {
+        "question_id": "2017-22_58",
+        "answer_id": "80aa55465aa34707933eac8984bd0533",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597846.4117029
+    },
+    {
+        "question_id": "2017-22_59",
+        "answer_id": "b92be28a8c7a4612859cf30d703b4fff",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Tributário"
+        },
+        "tstamp": 1775597857.0241973
+    },
+    {
+        "question_id": "2017-22_60",
+        "answer_id": "ede5667c78e34eeb9f8684ace0d34f2b",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Penal",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775597867.192171
+    },
+    {
+        "question_id": "2017-22_61",
+        "answer_id": "3c4c5e20391c48569e6bbb87c079d844",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": "Inconclusivo",
+            "basic_legislation": "Código Penal, Lei nº 8.069/90 (Estatuto da Criança e do Adolescente) e Código Civil",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775597879.0555396
+    },
+    {
+        "question_id": "2017-22_62",
+        "answer_id": "5ce6b8fafd474e1aaa9198843eda1310",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775597891.6654413
+    },
+    {
+        "question_id": "2017-22_63",
+        "answer_id": "b09d5d89a1644a24864d78e7885f11c7",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Penal (art. 33 e 33-A)",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775597900.2013748
+    },
+    {
+        "question_id": "2017-22_64",
+        "answer_id": "82af517a0fdd49deb8de3df93db8b83f",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código Penal",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775597912.4349232
+    },
+    {
+        "question_id": "2017-22_65",
+        "answer_id": "4d49835a9d7e440c8952f94e555fbf3d",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775597921.8323267
+    },
+    {
+        "question_id": "2017-22_66",
+        "answer_id": "82fbeeb6063e4a0ab30970c28fda35c0",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Penal (Lei nº 7.210/1984)",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775597932.8742704
+    },
+    {
+        "question_id": "2017-22_67",
+        "answer_id": "f889cc2ce9e84ed882d04b6c5ce826e2",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Processual Penal"
+        },
+        "tstamp": 1775597943.8847196
+    },
+    {
+        "question_id": "2017-22_68",
+        "answer_id": "4a41d67c668c4b18a3480f8efb2b2c74",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Processual Civil"
+        },
+        "tstamp": 1775597952.3249578
+    },
+    {
+        "question_id": "2017-22_69",
+        "answer_id": "18a0048d9cfc4bab9b2018943c03c589",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775597961.3005066
+    },
+    {
+        "question_id": "2017-22_70",
+        "answer_id": "70da064fb22f44979ef52afc0c5dc578",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "CLT - Art. 557, §2º",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1775597969.1121526
+    },
+    {
+        "question_id": "2017-22_71",
+        "answer_id": "9b66cfeeb99f499a925691c7c9252d07",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nâo 7.853, de 18 de novembro de 1989",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775597978.735574
+    },
+    {
+        "question_id": "2017-22_72",
+        "answer_id": "1ff2b658c659443bb5d5114558a52c98",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "CLT - Artigo 593, Código Tributário Nacional (CTN) Artigo 23 e Lei nº 8.112/1990",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775597988.2322862
+    },
+    {
+        "question_id": "2017-22_73",
+        "answer_id": "1203bdce6a0040389be47d8d0e8dcb54",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição da República",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775597996.2805052
+    },
+    {
+        "question_id": "2017-22_74",
+        "answer_id": "de9bde4f4e8a4906aa741398c690f8b2",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 7.997/1999 e Lei nº 11.770/2009",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775598005.4894693
+    },
+    {
+        "question_id": "2017-22_75",
+        "answer_id": "eb96241cd19c4022801f3f161a675ad6",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nâo 12.527/2011",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775598014.188638
+    },
+    {
+        "question_id": "2017-22_76",
+        "answer_id": "463ea507b1764167842bdb2ecde7cb5c",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "CLT",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775598022.6783578
+    },
+    {
+        "question_id": "2017-22_77",
+        "answer_id": "31196cbcb35c45cd9293ff626f0a1bdb",
+        "model_id": "llama3.2:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 11.936/2009 e Súmula 334 do TST",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775598032.8634737
+    }
+]

@@ -1,0 +1,1954 @@
+[
+    {
+        "question_id": "2016-21_36",
+        "answer_id": "e5ddc0b6a87e4ba1bbc1b08878696b9b",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "",
+            "area_expertise": "Direito Ambiental"
+        },
+        "tstamp": 1775598981.8608892
+    },
+    {
+        "question_id": "2016-21_37",
+        "answer_id": "2694db633dd64f53b44b514868abe7ea",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775598990.083095
+    },
+    {
+        "question_id": "2016-21_38",
+        "answer_id": "402a456c9c944672999ac6d8a5922dec",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito do Consumidor"
+        },
+        "tstamp": 1775598997.596903
+    },
+    {
+        "question_id": "2016-21_39",
+        "answer_id": "c5eecc8904ef42e896ba4e8ce7da042f",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775599005.614715
+    },
+    {
+        "question_id": "2016-21_40",
+        "answer_id": "9b127d51a328462eb28b27e414b01be4",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775599015.2803533
+    },
+    {
+        "question_id": "2016-21_41",
+        "answer_id": "76edad346f2b4936bfbf082d16433fbd",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775599023.4472106
+    },
+    {
+        "question_id": "2016-21_42",
+        "answer_id": "178f80fe25ca486093ce31dde59caf3a",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "CF",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775599032.9829862
+    },
+    {
+        "question_id": "2016-21_43",
+        "answer_id": "36aca1d4fd8444e8815539f51109d1c5",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775599042.054313
+    },
+    {
+        "question_id": "2016-21_44",
+        "answer_id": "ee40009db70141c88f4a42bf96b6f1f1",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Estatuto da Criança e do Adolescente",
+            "area_expertise": "Direito da Criança e do Adolescente"
+        },
+        "tstamp": 1775599051.488521
+    },
+    {
+        "question_id": "2016-21_45",
+        "answer_id": "1d71fd374346456d87eaae7a33f8a92c",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Lei nº 9.615/1998",
+            "area_expertise": "Direito do Consumidor"
+        },
+        "tstamp": 1775599059.8024974
+    },
+    {
+        "question_id": "2016-21_46",
+        "answer_id": "b340934e438b4fdfa6f08549e4adfd70",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 8.137/1990 (Código de Defesa do Consumidor - CDC)",
+            "area_expertise": "Direito do Consumidor"
+        },
+        "tstamp": 1775599070.424129
+    },
+    {
+        "question_id": "2016-21_47",
+        "answer_id": "d9d69def85b348cd9e512c343dca3369",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito do Consumidor"
+        },
+        "tstamp": 1775599081.8531916
+    },
+    {
+        "question_id": "2016-21_48",
+        "answer_id": "c84aaf21608d4705b7bbe2f96cf06c83",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1775599089.6661727
+    },
+    {
+        "question_id": "2016-21_49",
+        "answer_id": "e0faea494e41405081bd72eecf3695a2",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1775599099.833185
+    },
+    {
+        "question_id": "2016-21_50",
+        "answer_id": "7f8c7131db1f4b5cac7d7737a17f83b3",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1775599107.9593706
+    },
+    {
+        "question_id": "2016-21_51",
+        "answer_id": "907c0b6a6d1642da81762a7d475e0ef8",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1775599116.3340638
+    },
+    {
+        "question_id": "2016-21_52",
+        "answer_id": "85052dac6f1046e296b4d2035f019a23",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1775599124.0639362
+    },
+    {
+        "question_id": "2016-21_53",
+        "answer_id": "6803725e55e44c58afdd310c52b34d58",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "b"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775599131.1807556
+    },
+    {
+        "question_id": "2016-21_54",
+        "answer_id": "c3aaffb763294155977216db80c66ae3",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Processual Civil"
+        },
+        "tstamp": 1775599140.4120607
+    },
+    {
+        "question_id": "2016-21_55",
+        "answer_id": "347ef52e6b83409c8a65e9aad589525f",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Processual Civil"
+        },
+        "tstamp": 1775599149.7681417
+    },
+    {
+        "question_id": "2016-21_56",
+        "answer_id": "286a19b9b68c47219a2656b17561a7ef",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Processual Civil"
+        },
+        "tstamp": 1775599158.8932908
+    },
+    {
+        "question_id": "2016-21_57",
+        "answer_id": "4b0683f7bd1948549ea30821d3acc61d",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 1,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Processual Civil"
+        },
+        "tstamp": 1775599167.3820875
+    },
+    {
+        "question_id": "2016-21_58",
+        "answer_id": "3ca00061d2184d12882df923beb98f54",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775599176.3789904
+    },
+    {
+        "question_id": "2016-21_59",
+        "answer_id": "33fdf4998cb7462db416f60760485a41",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Lei nº 8.112/1987",
+            "area_expertise": "Direito Internacional"
+        },
+        "tstamp": 1775599185.4400444
+    },
+    {
+        "question_id": "2016-21_60",
+        "answer_id": "c285e27c509a40edb509edc8f728c80d",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775599194.0761833
+    },
+    {
+        "question_id": "2016-21_61",
+        "answer_id": "2e9d664bd6f54dddb2d135aa5d262cdb",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775599202.7072608
+    },
+    {
+        "question_id": "2016-21_62",
+        "answer_id": "6829a67aaf9e45638e37116d4ffbbc74",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775599210.5298145
+    },
+    {
+        "question_id": "2016-21_63",
+        "answer_id": "b523fd648ddb44019cff75da394c906e",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Processual Civil"
+        },
+        "tstamp": 1775599220.376846
+    },
+    {
+        "question_id": "2016-21_64",
+        "answer_id": "1c74e9fdd7214b7a825f059b4b054e9b",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775599228.3126435
+    },
+    {
+        "question_id": "2016-21_65",
+        "answer_id": "a7950767e8154043a6fdbb30f724cba3",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Processual Penal"
+        },
+        "tstamp": 1775599237.6936023
+    },
+    {
+        "question_id": "2016-21_66",
+        "answer_id": "0c81b48bbbcd49f1865d20e7bc5e3973",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Processual do Trabalho"
+        },
+        "tstamp": 1775599246.4344087
+    },
+    {
+        "question_id": "2016-21_67",
+        "answer_id": "66b43aab46aa4c80a3c1283685be43d5",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775599255.7585046
+    },
+    {
+        "question_id": "2016-21_68",
+        "answer_id": "ff1d37a3354843ce8ee6d821d9e4c110",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "",
+            "area_expertise": "Direito Tributário"
+        },
+        "tstamp": 1775599263.356832
+    },
+    {
+        "question_id": "2016-21_69",
+        "answer_id": "c42b061387d544ae83ee6bbbf8b65ebb",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Inconclusivo"
+        },
+        "tstamp": 1775599271.7346094
+    },
+    {
+        "question_id": "2016-21_70",
+        "answer_id": "ee48f70295d741cdba4e1f0e1ee39d0c",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Lei nº 8.213/1991",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775599280.1730487
+    },
+    {
+        "question_id": "2016-21_71",
+        "answer_id": "e3649082270a494cbdd41d5481a29db0",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Consolidação das Leis do Trabalho (CLT)",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775599289.5539525
+    },
+    {
+        "question_id": "2016-21_72",
+        "answer_id": "036bba84d61e4dcc99fc3372e149e0d8",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "",
+            "area_expertise": "Direito Processual do Trabalho"
+        },
+        "tstamp": 1775599298.547428
+    },
+    {
+        "question_id": "2016-21_73",
+        "answer_id": "1f6e855a18aa482db7555db4366bd57e",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775599306.1530395
+    },
+    {
+        "question_id": "2016-21_74",
+        "answer_id": "c48107a729994c2787e3292e3e1d4de0",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 8.036/1990",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775599315.1027858
+    },
+    {
+        "question_id": "2016-21_75",
+        "answer_id": "6427239f2d9d4ab19f2a131c844b0136",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "CLT",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775599323.402407
+    },
+    {
+        "question_id": "2016-21_76",
+        "answer_id": "c8b11837929c41a090a7a7d08050aac1",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 1,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775599331.3038626
+    },
+    {
+        "question_id": "2016-21_77",
+        "answer_id": "46c1e7608a274e6d86b0f3abd5d9a9eb",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775599338.6542718
+    },
+    {
+        "question_id": "2016-21_78",
+        "answer_id": "e2104471ea994d1589d5e2c318ce4c5f",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775599346.8306582
+    },
+    {
+        "question_id": "2016-21_79",
+        "answer_id": "9486961d6e8a4113a858ab8251228d2b",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775599355.2921054
+    },
+    {
+        "question_id": "2016-21_80",
+        "answer_id": "f1b67dd89dc74daaac843e2f3d78fa16",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775599363.9333687
+    },
+    {
+        "question_id": "2017-22_1",
+        "answer_id": "b9ee1ac83e9a4e8d9dc87fdf9288d0c4",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Ética e Disciplina da OAB",
+            "area_expertise": "Ética Profissional e Estatuto da OAB"
+        },
+        "tstamp": 1775599373.1376681
+    },
+    {
+        "question_id": "2017-22_2",
+        "answer_id": "f3565c343654472bbdf3d3671f160344",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Constituição Federal",
+            "area_expertise": "Ética Profissional e Estatuto da OAB"
+        },
+        "tstamp": 1775599383.2848735
+    },
+    {
+        "question_id": "2017-22_3",
+        "answer_id": "fdfb22223ac64dff8d3798a2a7636ff7",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Estatuto da OAB",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1775599393.1101
+    },
+    {
+        "question_id": "2017-22_4",
+        "answer_id": "4841f87abe1644f292af58e817bd5523",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 8.906/94",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1775599401.4891016
+    },
+    {
+        "question_id": "2017-22_5",
+        "answer_id": "25e7f3f5fe074dcb916fb58eabf8944a",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Regulamento Geral do Estatuto da Advocacia e da OAB",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1775599412.4566913
+    },
+    {
+        "question_id": "2017-22_6",
+        "answer_id": "c1db9da6f42f442bb00c693569666ec4",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Estatuto da OAB",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775599420.2664003
+    },
+    {
+        "question_id": "2017-22_7",
+        "answer_id": "5fc720351e0641128d497c8b475f79d4",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1775599429.195392
+    },
+    {
+        "question_id": "2017-22_8",
+        "answer_id": "19d02f4609d04f839f7b9bb99126ff7d",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Estatuto da OAB",
+            "area_expertise": "Direito do Consumidor"
+        },
+        "tstamp": 1775599437.0913084
+    },
+    {
+        "question_id": "2017-22_9",
+        "answer_id": "d566eeb8ca824e15b9ebc5b2f12f72b3",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Ética e Disciplina da OAB",
+            "area_expertise": "Ética Profissional e Estatuto da OAB"
+        },
+        "tstamp": 1775599448.9378545
+    },
+    {
+        "question_id": "2017-22_10",
+        "answer_id": "1a1160dc539744eab39f50cfcd4c50ef",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Regulamento Geral do Estatuto da Advocacia e da OAB",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1775599460.5060759
+    },
+    {
+        "question_id": "2017-22_11",
+        "answer_id": "201a4db8991541c2b7ff428354cac72f",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Constitucional"
+        },
+        "tstamp": 1775599468.9487913
+    },
+    {
+        "question_id": "2017-22_12",
+        "answer_id": "2b145a09904c44ffb126ae7768646680",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 1,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Constitucional"
+        },
+        "tstamp": 1775599478.3274825
+    },
+    {
+        "question_id": "2017-22_13",
+        "answer_id": "1d0dd3a28cdf4fde98687bf3da4aacd8",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Constituição Federal",
+            "area_expertise": "Direito Constitucional"
+        },
+        "tstamp": 1775599486.6730227
+    },
+    {
+        "question_id": "2017-22_14",
+        "answer_id": "787ddc94e91743909748a3512d11cfee",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Constitucional"
+        },
+        "tstamp": 1775599497.0123463
+    },
+    {
+        "question_id": "2017-22_15",
+        "answer_id": "272bd56aba42455ba307bd4dcfea265a",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "",
+            "area_expertise": "Direito do Consumidor"
+        },
+        "tstamp": 1775599507.3626873
+    },
+    {
+        "question_id": "2017-22_16",
+        "answer_id": "625e31f0f2e54e8f8c4753262e34c846",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Constitucional"
+        },
+        "tstamp": 1775599517.4641812
+    },
+    {
+        "question_id": "2017-22_17",
+        "answer_id": "f495f830852a4a818891468fb6c940d1",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal (CRFB/88)",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1775599527.6142316
+    },
+    {
+        "question_id": "2017-22_18",
+        "answer_id": "44c72d1a9d674941b62cdcf1b0a1cd4e",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Constitucional"
+        },
+        "tstamp": 1775599537.2700355
+    },
+    {
+        "question_id": "2017-22_19",
+        "answer_id": "3ed8a6b463394013961a9c89fe1c46fa",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 13.300/16",
+            "area_expertise": "Direito Constitucional"
+        },
+        "tstamp": 1775599549.6945684
+    },
+    {
+        "question_id": "2017-22_20",
+        "answer_id": "28e73ff5a39f4c12bae778334e10ae65",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Constitucional"
+        },
+        "tstamp": 1775599561.6340177
+    },
+    {
+        "question_id": "2017-22_21",
+        "answer_id": "d8626d8ebc124daf8ab6fd8b6b582d2f",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Internacional"
+        },
+        "tstamp": 1775599571.7243996
+    },
+    {
+        "question_id": "2017-22_22",
+        "answer_id": "a7110bceee4f45a9a41f267af841093a",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "",
+            "area_expertise": "Direito Internacional"
+        },
+        "tstamp": 1775599582.0452812
+    },
+    {
+        "question_id": "2017-22_23",
+        "answer_id": "65b957f81d6b4c5296b3c1f99f849e99",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Internacional"
+        },
+        "tstamp": 1775599589.830339
+    },
+    {
+        "question_id": "2017-22_24",
+        "answer_id": "7f47b71b5c324a218fa4ac0ee47b0ff9",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei Federal nº 9.432/1997",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775599598.6492257
+    },
+    {
+        "question_id": "2017-22_25",
+        "answer_id": "7347617b42a1450385f1fecba377932e",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Tributário"
+        },
+        "tstamp": 1775599606.4802916
+    },
+    {
+        "question_id": "2017-22_26",
+        "answer_id": "0e56d93f00874a229ed8dadcd5baf8d0",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1775599614.312084
+    },
+    {
+        "question_id": "2017-22_27",
+        "answer_id": "372d754f8acc46d786cc5599f970e867",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Tributário"
+        },
+        "tstamp": 1775599622.2396204
+    },
+    {
+        "question_id": "2017-22_28",
+        "answer_id": "e935c1a662c048b8b8c18c37bff34499",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Tributário"
+        },
+        "tstamp": 1775599631.2237418
+    },
+    {
+        "question_id": "2017-22_29",
+        "answer_id": "3e027e4dcdec4918920b7090758c24da",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1775599639.7851295
+    },
+    {
+        "question_id": "2017-22_30",
+        "answer_id": "3927c5546c6348b5b6c2f3a9004f51b7",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 1,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1775599647.58859
+    },
+    {
+        "question_id": "2017-22_31",
+        "answer_id": "3ea102ccf41641feb7b99fadfb5b9c39",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1775599655.3108797
+    },
+    {
+        "question_id": "2017-22_32",
+        "answer_id": "b2d32b732d004688a6d449daaa9455d0",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1775599663.7294252
+    },
+    {
+        "question_id": "2017-22_33",
+        "answer_id": "b753f4135b8d4f9c8d67e683f50c9559",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal da República Federativa do Brasil",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1775599673.0340216
+    },
+    {
+        "question_id": "2017-22_34",
+        "answer_id": "66324d3fda854ce38b908eb16d40d627",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Tributário"
+        },
+        "tstamp": 1775599682.473556
+    },
+    {
+        "question_id": "2017-22_35",
+        "answer_id": "dcb0e7eb94214a32a7258ad3522b1d4d",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 9.307/1996",
+            "area_expertise": "Direito Ambiental"
+        },
+        "tstamp": 1775599692.0662274
+    },
+    {
+        "question_id": "2017-22_36",
+        "answer_id": "7766f1c19de64f029e569d44ee39b41a",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775599700.493071
+    },
+    {
+        "question_id": "2017-22_37",
+        "answer_id": "3a202709addc4a53a3aa4be596e9ea0d",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775599708.3690517
+    },
+    {
+        "question_id": "2017-22_38",
+        "answer_id": "08a9de3e5a8c49a7800350137290abaa",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1775599717.0467608
+    },
+    {
+        "question_id": "2017-22_39",
+        "answer_id": "c71866a3d1f04b9082f83d4682886e6e",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775599726.0351074
+    },
+    {
+        "question_id": "2017-22_40",
+        "answer_id": "c1469c2296f4424faa89517032dcad35",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775599736.437268
+    },
+    {
+        "question_id": "2017-22_41",
+        "answer_id": "bd036b8824fe4667b6ffdcaeb7f1c660",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775599745.9347131
+    },
+    {
+        "question_id": "2017-22_42",
+        "answer_id": "724fae813eb6414caa9c87c429ec3a60",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 8.112/1987",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775599754.0656033
+    },
+    {
+        "question_id": "2017-22_43",
+        "answer_id": "a4d2acea2b064a3ba3af540ea805a53f",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775599762.66582
+    },
+    {
+        "question_id": "2017-22_44",
+        "answer_id": "57fbf26209a14ac5a667d9a2b15028d7",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Estatuto da Criança e do Adolescente",
+            "area_expertise": "Direito da Criança e do Adolescente"
+        },
+        "tstamp": 1775599772.3613894
+    },
+    {
+        "question_id": "2017-22_45",
+        "answer_id": "6c8f9ef84d4f4080b4922e8f2e91db27",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775599781.1547434
+    },
+    {
+        "question_id": "2017-22_46",
+        "answer_id": "ef60f95d26ff4dfe9550e8e9cff74692",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito do Consumidor"
+        },
+        "tstamp": 1775599792.560958
+    },
+    {
+        "question_id": "2017-22_47",
+        "answer_id": "1e192f94bc764984af9b6c2d046dd161",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito do Consumidor"
+        },
+        "tstamp": 1775599803.7434552
+    },
+    {
+        "question_id": "2017-22_48",
+        "answer_id": "acb931a568a046b985ef8af4aff03c9c",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1775599811.5148242
+    },
+    {
+        "question_id": "2017-22_49",
+        "answer_id": "2b1ec7db59164b3c940626cbf29cc37f",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1775599821.3046436
+    },
+    {
+        "question_id": "2017-22_50",
+        "answer_id": "f7e7a5e42154489b80fd5e5faf58e4b0",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1775599829.5199032
+    },
+    {
+        "question_id": "2017-22_51",
+        "answer_id": "a983b042022b4642a116956d737cef6b",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775599839.3449888
+    },
+    {
+        "question_id": "2017-22_52",
+        "answer_id": "4dafc6c5d42a4e4685636af6b7e5b783",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775599849.2791874
+    },
+    {
+        "question_id": "2017-22_53",
+        "answer_id": "eba37ca703ab47da8dc2d60872702102",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "",
+            "area_expertise": "Direito Processual Civil"
+        },
+        "tstamp": 1775599857.7992136
+    },
+    {
+        "question_id": "2017-22_54",
+        "answer_id": "fc0afdfef35540bdb8ef094d435ce177",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775599868.2369223
+    },
+    {
+        "question_id": "2017-22_55",
+        "answer_id": "60f6f6fc78c24320815b1b8a47af101f",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775599877.9589925
+    },
+    {
+        "question_id": "2017-22_56",
+        "answer_id": "0656046e140a43d085a7159a679aa8c4",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Processual Civil"
+        },
+        "tstamp": 1775599887.1954088
+    },
+    {
+        "question_id": "2017-22_57",
+        "answer_id": "b11a4201cfb64050a78d238cdaf52f78",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775599895.7940297
+    },
+    {
+        "question_id": "2017-22_58",
+        "answer_id": "52dfc18df3044d22890898def91d3dad",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1775599904.7708182
+    },
+    {
+        "question_id": "2017-22_59",
+        "answer_id": "2094811bb30a44d2950c974e318ffce0",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Lei nº 8.137/90",
+            "area_expertise": "Direito Tributário"
+        },
+        "tstamp": 1775599914.5918128
+    },
+    {
+        "question_id": "2017-22_60",
+        "answer_id": "6520d5506e2a430d82c2db89dc9f6390",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código Penal",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775599924.566997
+    },
+    {
+        "question_id": "2017-22_61",
+        "answer_id": "0223ed6481464c11a4a1b0c82bc0e237",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775599933.7755988
+    },
+    {
+        "question_id": "2017-22_62",
+        "answer_id": "efbf3286455d4e11b5b91989ad960760",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775599945.0682073
+    },
+    {
+        "question_id": "2017-22_63",
+        "answer_id": "1c91927291bc4462b041963099c7554f",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775599952.771454
+    },
+    {
+        "question_id": "2017-22_64",
+        "answer_id": "1a1ae6535ac74e07a6ee1fe19bf3402a",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "A"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Penal",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775599963.3574207
+    },
+    {
+        "question_id": "2017-22_65",
+        "answer_id": "e9779b4ece2f4a3a9f0ab0be1e3cc7e8",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775599971.377474
+    },
+    {
+        "question_id": "2017-22_66",
+        "answer_id": "aca75e9fb10f43229b08d0a80b70563a",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código de Processo Penal",
+            "area_expertise": "Direito Processual Penal"
+        },
+        "tstamp": 1775599981.616159
+    },
+    {
+        "question_id": "2017-22_67",
+        "answer_id": "eb38088653334dc8bb18813150b30971",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Processual Penal"
+        },
+        "tstamp": 1775599991.0173116
+    },
+    {
+        "question_id": "2017-22_68",
+        "answer_id": "10ed21e856764c42baeb0fc8461db7ea",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "",
+            "area_expertise": "Direito Processual Penal"
+        },
+        "tstamp": 1775599998.5700443
+    },
+    {
+        "question_id": "2017-22_69",
+        "answer_id": "635f128c60244d19a3461a61f1ba28a3",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 1,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1775600007.0440662
+    },
+    {
+        "question_id": "2017-22_70",
+        "answer_id": "0847428981944064bf233a231b12b0cb",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "CLT",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775600014.2033935
+    },
+    {
+        "question_id": "2017-22_71",
+        "answer_id": "769c101046454df1a87fea38f2087644",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775600022.6584065
+    },
+    {
+        "question_id": "2017-22_72",
+        "answer_id": "3c47cfa66e624a0dae217acb0ac7598e",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "B"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "CLT",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775600030.3252654
+    },
+    {
+        "question_id": "2017-22_73",
+        "answer_id": "6ae0eb721b9346b89ace92cc042e6b32",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775600038.052222
+    },
+    {
+        "question_id": "2017-22_74",
+        "answer_id": "39bfcaef95bc431685a971716ee04084",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775600045.7006593
+    },
+    {
+        "question_id": "2017-22_75",
+        "answer_id": "c26303c4c0b8428085a10ddede63a60d",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "Lei nº 8.112/1990",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775600054.273355
+    },
+    {
+        "question_id": "2017-22_76",
+        "answer_id": "da394feb78ca4f59994692798b454e0c",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "D"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 1,
+            "basic_legislation": "",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775600062.308066
+    },
+    {
+        "question_id": "2017-22_77",
+        "answer_id": "a76a8dea2d3f4ffd9295025920e5afd6",
+        "model_id": "qwen2.5:3b",
+        "choices": [
+            {
+                "objective_answer": "C"
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 3,
+            "basic_legislation": "",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1775600071.239544
+    }
+]
