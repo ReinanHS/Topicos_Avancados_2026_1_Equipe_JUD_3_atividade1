@@ -14,7 +14,7 @@ class OABExamsLoader(DatasetLoader):
     DATASET_NAME = "eduagarcia/oab_exams"
 
     SLICE_START = 1845
-    SLICE_END = 1967
+    SLICE_END = 1968
 
     def load_questions(self) -> List[Dict[str, Any]]:
         """Baixa as questões do oab_exams via HuggingFace e retorna o lote designado."""
