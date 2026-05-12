@@ -54,12 +54,24 @@ class OABExamsExecutionManager(ExecutionManager):
         q_result["objective_answer"] = self._parse_json_response(
             response, "resposta_objetiva", default=""
         )
+        q_result["justification"] = self._parse_json_response(
+            response, "justificativa", default=""
+        )
+        q_result["chain_of_thought"] = self._parse_json_response(
+            response, "cadeia_de_pensamento", default=""
+        )
 
         return q_result
 
     def _format_choices_for_final_answer(self, q_result: Dict[str, Any]) -> List[Any]:
         """Retorna a resposta objetiva encapsulada para a estrutura final."""
-        return [{"objective_answer": q_result.get("objective_answer", "")}]
+        return [
+            {
+                "objective_answer": q_result.get("objective_answer", ""),
+                "justification": q_result.get("justification", ""),
+                "chain_of_thought": q_result.get("chain_of_thought", ""),
+            }
+        ]
 
     def _build_user_prompt(self, q: Dict[str, Any]) -> str:
         """

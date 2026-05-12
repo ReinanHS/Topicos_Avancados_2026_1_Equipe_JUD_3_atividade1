@@ -1,9 +1,11 @@
-Abaixo segue uma questão múltipla escolha proveniente do Exame da Ordem dos Advogados do Brasil (OAB).
+A seguir, uma questão objetiva de múltipla escolha do Exame da Ordem dos Advogados do Brasil (OAB).
 
-Questão:
+[QUESTÃO]
 {{ question }}
 
-Alternativas:
-{% for i in range(choices.label | length) %}
-{{ choices.label[i] }}) {{ choices.text[i] }}
+[ALTERNATIVAS]
+{% for i in range(choices.label | length) %}- {{ choices.label[i] }}) {{ choices.text[i] }}
 {% endfor %}
+
+[INSTRUÇÃO]
+Analise o enunciado e cada uma das alternativas, raciocine passo a passo e, em seguida, retorne o JSON no formato definido (campos: "cadeia_de_pensamento", "justificativa" e "resposta_objetiva", nessa ordem).
