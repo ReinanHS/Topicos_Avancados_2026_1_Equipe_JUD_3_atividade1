@@ -1,4 +1,5 @@
 import json
+import re
 import time
 import uuid
 from abc import ABC, abstractmethod
@@ -69,12 +70,34 @@ class ExecutionManager(ABC):
     ) -> Any:
         """
         Limpa marcadores de code-fence e parseia a resposta JSON do LLM.
+        Inclui fallback com regex para lidar com JSONs malformados.
         """
         cleaned = response.replace("```json", "").replace("```", "").strip()
+        cleaned = cleaned.replace("“", '"').replace("”", '"')
         try:
-            data = json.loads(cleaned)
+            data = json.loads(cleaned, strict=False)
+            if not isinstance(data, dict):
+                raise ValueError("Parsed JSON is not a dictionary")
             return data.get(key, default)
         except (json.JSONDecodeError, ValueError):
+            pattern = rf'"{re.escape(key)}"\s*:\s*"([^"]*)"'
+            match = re.search(pattern, cleaned)
+            if match:
+                try:
+                    return json.loads('"' + match.group(1) + '"', strict=False)
+                except Exception:
+                    return match.group(1)
+
+            pattern_multiline = (
+                rf'"{re.escape(key)}"\s*:\s*"(.*?)"(?:\s*,\s*"|\s*\}}|\s*$)'
+            )
+            match = re.search(pattern_multiline, cleaned, re.DOTALL)
+            if match:
+                try:
+                    return json.loads('"' + match.group(1) + '"', strict=False)
+                except Exception:
+                    return match.group(1)
+
             return default
 
     @staticmethod

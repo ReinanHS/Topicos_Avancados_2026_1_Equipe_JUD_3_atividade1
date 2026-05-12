@@ -12,5 +12,7 @@
   "markdown.marp.themes": [
     "docs/assets/marp-google-style.css"
   ],
-  "markdown.marp.html": "all"
+  "markdown.marp.html": "all",
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv",
+  "python.terminal.activateEnvironment": true
 }
