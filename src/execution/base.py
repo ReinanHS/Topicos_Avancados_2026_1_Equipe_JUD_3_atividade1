@@ -76,6 +76,8 @@ class ExecutionManager(ABC):
         cleaned = cleaned.replace("“", '"').replace("”", '"')
         try:
             data = json.loads(cleaned, strict=False)
+            if not isinstance(data, dict):
+                raise ValueError("Parsed JSON is not a dictionary")
             return data.get(key, default)
         except (json.JSONDecodeError, ValueError):
             pattern = rf'"{re.escape(key)}"\s*:\s*"([^"]*)"'
