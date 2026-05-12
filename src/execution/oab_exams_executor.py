@@ -70,6 +70,7 @@ class OABExamsExecutionManager(ExecutionManager):
                 "objective_answer": q_result.get("objective_answer", ""),
                 "justification": q_result.get("justification", ""),
                 "chain_of_thought": q_result.get("chain_of_thought", ""),
+                "raw_model_response": q_result.get("ollama_response", ""),
             }
         ]
 
