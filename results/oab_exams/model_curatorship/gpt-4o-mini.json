@@ -1,0 +1,1232 @@
+[
+    {
+        "question_id": "2016-21_36",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 11.284/2006",
+            "area_expertise": " Direito Ambiental"
+        },
+        "tstamp": 1778591469.1913552
+    },
+    {
+        "question_id": "2016-21_37",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1778591471.4359863
+    },
+    {
+        "question_id": "2016-21_38",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1778591474.0918603
+    },
+    {
+        "question_id": "2016-21_39",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1778591476.6370287
+    },
+    {
+        "question_id": "2016-21_40",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1778591479.3357954
+    },
+    {
+        "question_id": "2016-21_41",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1778591481.8460677
+    },
+    {
+        "question_id": "2016-21_42",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1778591484.2415547
+    },
+    {
+        "question_id": "2016-21_43",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 13.058/2014",
+            "area_expertise": "Direito da Criança e do Adolescente"
+        },
+        "tstamp": 1778591486.7194955
+    },
+    {
+        "question_id": "2016-21_44",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 8.069/1990",
+            "area_expertise": "Direito da Criança e do Adolescente"
+        },
+        "tstamp": 1778591489.7981675
+    },
+    {
+        "question_id": "2016-21_45",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil",
+            "area_expertise": " Direito da Criança e do Adolescente"
+        },
+        "tstamp": 1778591492.236441
+    },
+    {
+        "question_id": "2016-21_46",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Defesa do Consumidor, Lei nº 8.078/1990",
+            "area_expertise": "Direito do Consumidor"
+        },
+        "tstamp": 1778591495.0483246
+    },
+    {
+        "question_id": "2016-21_47",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código de Defesa do Consumidor (Lei nº 8.078/1990)",
+            "area_expertise": "Direito do Consumidor"
+        },
+        "tstamp": 1778591497.624255
+    },
+    {
+        "question_id": "2016-21_48",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 12.441/2011",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1778591499.9424667
+    },
+    {
+        "question_id": "2016-21_49",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 11.101/2005",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1778591502.5414548
+    },
+    {
+        "question_id": "2016-21_50",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1778591505.1695006
+    },
+    {
+        "question_id": "2016-21_51",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1778591507.6795225
+    },
+    {
+        "question_id": "2016-21_52",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 6.404/1976",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1778591510.310949
+    },
+    {
+        "question_id": "2016-21_53",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1778591514.1804101
+    },
+    {
+        "question_id": "2016-21_54",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Civil",
+            "area_expertise": "Direito Processual Civil"
+        },
+        "tstamp": 1778591517.6083717
+    },
+    {
+        "question_id": "2016-21_55",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Civil, Lei nº 13.105/2015",
+            "area_expertise": "Direito do Consumidor"
+        },
+        "tstamp": 1778591521.225491
+    },
+    {
+        "question_id": "2016-21_56",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Civil",
+            "area_expertise": "Direito Processual Civil"
+        },
+        "tstamp": 1778591524.6202445
+    },
+    {
+        "question_id": "2016-21_57",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 13.105/2015",
+            "area_expertise": "Direito Processual Civil"
+        },
+        "tstamp": 1778591527.0196624
+    },
+    {
+        "question_id": "2016-21_58",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Civil (Lei nº 13.105/2015)",
+            "area_expertise": "Direito Processual Civil"
+        },
+        "tstamp": 1778591529.6695998
+    },
+    {
+        "question_id": "2016-21_59",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Penal Brasileiro",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1778591532.7577267
+    },
+    {
+        "question_id": "2016-21_60",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Penal",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1778591535.3358963
+    },
+    {
+        "question_id": "2016-21_61",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Penal",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1778591537.9199255
+    },
+    {
+        "question_id": "2016-21_62",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código Penal Brasileiro",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1778591540.8131335
+    },
+    {
+        "question_id": "2016-21_63",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Penal",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1778591543.1855228
+    },
+    {
+        "question_id": "2016-21_64",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Penal, Art. 317",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1778591546.141877
+    },
+    {
+        "question_id": "2016-21_65",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Penal",
+            "area_expertise": " Direito Processual Penal"
+        },
+        "tstamp": 1778591548.7357364
+    },
+    {
+        "question_id": "2016-21_66",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Penal",
+            "area_expertise": "Direito Processual Penal"
+        },
+        "tstamp": 1778591551.335953
+    },
+    {
+        "question_id": "2016-21_67",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 13.869/2019",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1778591554.2421806
+    },
+    {
+        "question_id": "2016-21_68",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Penal",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1778591557.0574915
+    },
+    {
+        "question_id": "2016-21_69",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Penal",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1778591560.075338
+    },
+    {
+        "question_id": "2016-21_70",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal, artigo 7º, inciso XVIII",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1778591562.7193623
+    },
+    {
+        "question_id": "2016-21_71",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "CLT",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1778591565.1695964
+    },
+    {
+        "question_id": "2016-21_72",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1778591567.7914846
+    },
+    {
+        "question_id": "2016-21_73",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Consolidação das Leis do Trabalho - CLT",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1778591570.5482361
+    },
+    {
+        "question_id": "2016-21_74",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Consolidação das Leis do Trabalho - CLT",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1778591574.2484474
+    },
+    {
+        "question_id": "2016-21_75",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Consolidação das Leis do Trabalho (CLT)",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1778591577.1966286
+    },
+    {
+        "question_id": "2016-21_76",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Civil",
+            "area_expertise": "Direito Processual do Trabalho"
+        },
+        "tstamp": 1778591580.0186274
+    },
+    {
+        "question_id": "2016-21_77",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 8.212/1991",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1778591582.696417
+    },
+    {
+        "question_id": "2016-21_78",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Consolidação das Leis do Trabalho (CLT)",
+            "area_expertise": "Direito Processual do Trabalho"
+        },
+        "tstamp": 1778591586.1417205
+    },
+    {
+        "question_id": "2016-21_79",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Consolidação das Leis do Trabalho (CLT)",
+            "area_expertise": "Direito Processual do Trabalho"
+        },
+        "tstamp": 1778591589.99817
+    },
+    {
+        "question_id": "2016-21_80",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Consolidação das Leis do Trabalho - CLT",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1778591593.9987817
+    },
+    {
+        "question_id": "2017-22_1",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Ética e Disciplina da OAB",
+            "area_expertise": "Ética Profissional e Estatuto da OAB"
+        },
+        "tstamp": 1778591598.5479598
+    },
+    {
+        "question_id": "2017-22_2",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 8.906/1994",
+            "area_expertise": "Ética Profissional e Estatuto da OAB"
+        },
+        "tstamp": 1778591604.59806
+    },
+    {
+        "question_id": "2017-22_3",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Estatuto da Advocacia e da OAB (Lei nº 8.906/1994)",
+            "area_expertise": "Ética Profissional e Estatuto da OAB"
+        },
+        "tstamp": 1778591607.5084677
+    },
+    {
+        "question_id": "2017-22_4",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 1,
+            "basic_legislation": "Lei nº 8.906/1994",
+            "area_expertise": "Ética Profissional e Estatuto da OAB"
+        },
+        "tstamp": 1778591610.6360936
+    },
+    {
+        "question_id": "2017-22_5",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 8.906/1994",
+            "area_expertise": "Ética Profissional e Estatuto da OAB"
+        },
+        "tstamp": 1778591613.358838
+    },
+    {
+        "question_id": "2017-22_6",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 8.906/1994",
+            "area_expertise": "Ética Profissional e Estatuto da OAB"
+        },
+        "tstamp": 1778591616.33625
+    },
+    {
+        "question_id": "2017-22_7",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 1,
+            "basic_legislation": "Lei nº 8.906/1994",
+            "area_expertise": "Ética Profissional e Estatuto da OAB"
+        },
+        "tstamp": 1778591619.2490313
+    },
+    {
+        "question_id": "2017-22_8",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Estatuto da OAB (Lei nº 8.906/1994)",
+            "area_expertise": "Ética Profissional e Estatuto da OAB"
+        },
+        "tstamp": 1778591622.2148898
+    },
+    {
+        "question_id": "2017-22_9",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Estatuto da OAB (Lei nº 8.906/1994) e Código de Ética e Disciplina da OAB",
+            "area_expertise": "Ética Profissional e Estatuto da OAB"
+        },
+        "tstamp": 1778591625.6197581
+    },
+    {
+        "question_id": "2017-22_10",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 8.906/1994",
+            "area_expertise": "Ética Profissional e Estatuto da OAB"
+        },
+        "tstamp": 1778591628.3631165
+    },
+    {
+        "question_id": "2017-22_11",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 1,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Filosofia do Direito"
+        },
+        "tstamp": 1778591630.7088869
+    },
+    {
+        "question_id": "2017-22_12",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Inconclusivo",
+            "area_expertise": "Filosofia do Direito"
+        },
+        "tstamp": 1778591634.0148616
+    },
+    {
+        "question_id": "2017-22_13",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal",
+            "area_expertise": "Direito Constitucional"
+        },
+        "tstamp": 1778591636.9063168
+    },
+    {
+        "question_id": "2017-22_14",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Constituição Federal",
+            "area_expertise": "Direitos Humanos"
+        },
+        "tstamp": 1778591639.4704325
+    },
+    {
+        "question_id": "2017-22_15",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal",
+            "area_expertise": "Direito Constitucional"
+        },
+        "tstamp": 1778591642.2194912
+    },
+    {
+        "question_id": "2017-22_16",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal",
+            "area_expertise": "Direito Constitucional"
+        },
+        "tstamp": 1778591644.757668
+    },
+    {
+        "question_id": "2017-22_17",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Constituição Federal",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1778591647.3916407
+    },
+    {
+        "question_id": "2017-22_18",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Constituição Federal",
+            "area_expertise": "Direito Constitucional"
+        },
+        "tstamp": 1778591653.3335717
+    },
+    {
+        "question_id": "2017-22_19",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 13.300/2016",
+            "area_expertise": "Direito Constitucional"
+        },
+        "tstamp": 1778591655.8482738
+    },
+    {
+        "question_id": "2017-22_20",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Convenção Interamericana sobre o Desaparecimento Forçado de Pessoas",
+            "area_expertise": "Direitos Humanos"
+        },
+        "tstamp": 1778591658.896081
+    },
+    {
+        "question_id": "2017-22_21",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Convenção Americana sobre Direitos Humanos (Pacto de São José da Costa Rica)",
+            "area_expertise": "Direitos Humanos"
+        },
+        "tstamp": 1778591661.4693034
+    },
+    {
+        "question_id": "2017-22_22",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Convenção Americana sobre Direitos Humanos",
+            "area_expertise": "Direitos Humanos"
+        },
+        "tstamp": 1778591665.0360208
+    },
+    {
+        "question_id": "2017-22_23",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 6.815/1980",
+            "area_expertise": "Direito Internacional"
+        },
+        "tstamp": 1778591667.5693243
+    },
+    {
+        "question_id": "2017-22_24",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil Brasileiro, Lei nº 10.406/2002",
+            "area_expertise": "Direito Internacional"
+        },
+        "tstamp": 1778591670.598389
+    },
+    {
+        "question_id": "2017-22_25",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Tributário Nacional",
+            "area_expertise": "Direito Tributário"
+        },
+        "tstamp": 1778591673.098606
+    },
+    {
+        "question_id": "2017-22_26",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal",
+            "area_expertise": "Direito Tributário"
+        },
+        "tstamp": 1778591675.812954
+    },
+    {
+        "question_id": "2017-22_27",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Tributário Nacional (CTN)",
+            "area_expertise": "Direito Tributário"
+        },
+        "tstamp": 1778591678.8488145
+    },
+    {
+        "question_id": "2017-22_28",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal",
+            "area_expertise": "Direito Tributário"
+        },
+        "tstamp": 1778591681.6651402
+    },
+    {
+        "question_id": "2017-22_29",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Lei de Responsabilidade Fiscal",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1778591685.1148922
+    },
+    {
+        "question_id": "2017-22_30",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 9.784/1999",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1778591687.7631953
+    },
+    {
+        "question_id": "2017-22_31",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 8.666/1993",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1778591690.4242275
+    },
+    {
+        "question_id": "2017-22_32",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 9.790/1999",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1778591692.6985953
+    },
+    {
+        "question_id": "2017-22_33",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1778591695.5755289
+    },
+    {
+        "question_id": "2017-22_34",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 6.830/1980",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1778591698.4134521
+    },
+    {
+        "question_id": "2017-22_35",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 6.938/1981",
+            "area_expertise": "Direito Ambiental"
+        },
+        "tstamp": 1778591701.0702877
+    },
+    {
+        "question_id": "2017-22_36",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Lei nº 7.802/1989",
+            "area_expertise": "Direito Ambiental"
+        },
+        "tstamp": 1778591704.0083249
+    },
+    {
+        "question_id": "2017-22_37",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1778591706.6196747
+    },
+    {
+        "question_id": "2017-22_38",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1778591709.9582975
+    },
+    {
+        "question_id": "2017-22_39",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1778591712.869674
+    },
+    {
+        "question_id": "2017-22_40",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito do Consumidor"
+        },
+        "tstamp": 1778591715.8922782
+    },
+    {
+        "question_id": "2017-22_41",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1778591718.764942
+    },
+    {
+        "question_id": "2017-22_42",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1778591721.4578416
+    },
+    {
+        "question_id": "2017-22_43",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1778591724.2190278
+    },
+    {
+        "question_id": "2017-22_44",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Estatuto da Criança e do Adolescente, Lei nº 8.069/1990",
+            "area_expertise": "Direito da Criança e do Adolescente"
+        },
+        "tstamp": 1778591727.397987
+    },
+    {
+        "question_id": "2017-22_45",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código Penal Brasileiro",
+            "area_expertise": "Direito da Criança e do Adolescente"
+        },
+        "tstamp": 1778591730.0081036
+    },
+    {
+        "question_id": "2017-22_46",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código de Defesa do Consumidor (Lei nº 8.078/1990)",
+            "area_expertise": "Direito do Consumidor"
+        },
+        "tstamp": 1778591734.370202
+    },
+    {
+        "question_id": "2017-22_47",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código de Defesa do Consumidor (Lei nº 8.078/1990)",
+            "area_expertise": "Direito do Consumidor"
+        },
+        "tstamp": 1778591737.9415772
+    },
+    {
+        "question_id": "2017-22_48",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1778591740.7695274
+    },
+    {
+        "question_id": "2017-22_49",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 8.245/1991",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1778591743.935652
+    },
+    {
+        "question_id": "2017-22_50",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 11.101/2005",
+            "area_expertise": "Direito Empresarial"
+        },
+        "tstamp": 1778591746.208246
+    },
+    {
+        "question_id": "2017-22_51",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Civil",
+            "area_expertise": "Direito Processual Civil"
+        },
+        "tstamp": 1778591748.4481585
+    },
+    {
+        "question_id": "2017-22_52",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1778591751.247993
+    },
+    {
+        "question_id": "2017-22_53",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Civil",
+            "area_expertise": "Direito Processual Civil"
+        },
+        "tstamp": 1778591755.9194322
+    },
+    {
+        "question_id": "2017-22_54",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1778591758.685883
+    },
+    {
+        "question_id": "2017-22_55",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1778591761.4194083
+    },
+    {
+        "question_id": "2017-22_56",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Civil - Lei nº 13.105/2015",
+            "area_expertise": "Direito Processual Civil"
+        },
+        "tstamp": 1778591764.3707228
+    },
+    {
+        "question_id": "2017-22_57",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito da Criança e do Adolescente"
+        },
+        "tstamp": 1778591766.9649043
+    },
+    {
+        "question_id": "2017-22_58",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código de Processo Civil",
+            "area_expertise": "Direito Processual Civil"
+        },
+        "tstamp": 1778591769.2194698
+    },
+    {
+        "question_id": "2017-22_59",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 8.137/1990",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1778591771.935769
+    },
+    {
+        "question_id": "2017-22_60",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código Penal",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1778591774.335624
+    },
+    {
+        "question_id": "2017-22_61",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 8.069/1990",
+            "area_expertise": "Direito da Criança e do Adolescente"
+        },
+        "tstamp": 1778591776.6866293
+    },
+    {
+        "question_id": "2017-22_62",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Penal Brasileiro",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1778591782.6580389
+    },
+    {
+        "question_id": "2017-22_63",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 11.343/2006",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1778591785.536853
+    },
+    {
+        "question_id": "2017-22_64",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código Penal",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1778591788.1416864
+    },
+    {
+        "question_id": "2017-22_65",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Penal",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1778591790.8980334
+    },
+    {
+        "question_id": "2017-22_66",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Penal",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1778591793.2091439
+    },
+    {
+        "question_id": "2017-22_67",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código de Processo Penal",
+            "area_expertise": "Direito Processual Penal"
+        },
+        "tstamp": 1778591795.9701405
+    },
+    {
+        "question_id": "2017-22_68",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Penal",
+            "area_expertise": "Direito Processual Penal"
+        },
+        "tstamp": 1778591799.919578
+    },
+    {
+        "question_id": "2017-22_69",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Penal",
+            "area_expertise": "Direito Penal"
+        },
+        "tstamp": 1778591802.4358149
+    },
+    {
+        "question_id": "2017-22_70",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Consolidação das Leis do Trabalho (CLT)",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1778591805.9201164
+    },
+    {
+        "question_id": "2017-22_71",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Consolidação das Leis do Trabalho - CLT",
+            "area_expertise": " Direito do Trabalho"
+        },
+        "tstamp": 1778591809.435948
+    },
+    {
+        "question_id": "2017-22_72",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Consolidação das Leis do Trabalho (CLT)",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1778591814.335532
+    },
+    {
+        "question_id": "2017-22_73",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1778591817.1986265
+    },
+    {
+        "question_id": "2017-22_74",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 8.036/1990",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1778591820.4151137
+    },
+    {
+        "question_id": "2017-22_75",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei Complementar nº 150/2015",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1778591823.4596791
+    },
+    {
+        "question_id": "2017-22_76",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Consolidação das Leis do Trabalho (CLT)",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1778591825.9593716
+    },
+    {
+        "question_id": "2017-22_77",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código de Processo Civil",
+            "area_expertise": "Direito Processual do Trabalho"
+        },
+        "tstamp": 1778591828.1303318
+    },
+    {
+        "question_id": "2017-22_78",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 2,
+            "basic_legislation": "Consolidação das Leis do Trabalho - CLT",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1778591830.8694115
+    }
+]
