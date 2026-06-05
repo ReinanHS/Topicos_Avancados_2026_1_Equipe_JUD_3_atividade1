@@ -103,6 +103,16 @@ uv run reinan-cli infer oab_bench --model qwen2.5:3b --limit 10
 uv run reinan-cli infer oab_exams --limit 5
 ```
 
+#### Executar com RAG (Retrieval-Augmented Generation)
+
+Para enriquecer o prompt das questões com artigos e leis relevantes recuperados do banco vetorial:
+
+```bash
+uv run reinan-cli infer oab_bench --model qwen2.5:3b --limit 1 --rag
+```
+
+A flag `--rag` ativa a busca semântica na base de legislação indexada no ChromaDB antes de enviar a questão para o modelo, fornecendo o contexto legal necessário para a resposta.
+
 Os resultados gerados nessa etapa são salvos no diretório
 `.reinan_cache/results`. Esses arquivos são utilizados posteriormente no
 processo de avaliação das respostas e no cálculo das métricas.

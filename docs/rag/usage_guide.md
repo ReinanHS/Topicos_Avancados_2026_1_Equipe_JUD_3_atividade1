@@ -87,6 +87,23 @@ uv run reinan-cli rag-test-chunker --file L14133.html --preview-limit 10
 
 ---
 
+## 3. Executando Inferência com RAG
+
+Você pode executar o processo de inferência enriquecendo as perguntas com o contexto recuperado do banco de dados vetorial usando a flag `--rag`.
+
+```bash
+uv run reinan-cli infer oab_bench --model qwen2.5:3b --limit 1 --rag
+```
+
+### O que acontece quando `--rag` está ativo?
+1. Para cada questão processada, o CLI extrai o enunciado da questão.
+2. Faz uma busca semântica no ChromaDB para recuperar os artigos de lei mais relevantes relacionados ao tema.
+3. Adiciona os artigos recuperados como contexto no prompt que é enviado ao LLM.
+4. O modelo responde a questão baseando-se no contexto legal fornecido, o que aumenta a precisão e reduz alucinações.
+
+
+---
+
 ## Solução de Problemas (Troubleshooting)
 
 ### Erro: "Falha de conexão com Ollama" ou similar
