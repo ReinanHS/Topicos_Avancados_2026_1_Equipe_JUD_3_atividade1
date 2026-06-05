@@ -17,7 +17,7 @@ class OabExamsChartGenerator(BaseChartGenerator):
         """
         print("Carregando arquivos de dados para oab_exams...")
 
-        models = self.storage.list_available_models(self.dataset)
+        models = self.storage.list_available_models(self.dataset, use_rag=self.use_rag)
         if not models:
             print("Nenhum modelo encontrado para gerar gráficos do oab_exams.")
             return
@@ -41,16 +41,27 @@ class OabExamsChartGenerator(BaseChartGenerator):
         Carrega as métricas de avaliação para cada modelo disponível.
         """
         model_metrics = {}
+        suffix = "/rag" if self.use_rag else "/default"
         for model in models:
             filename = model.replace(":", "-")
             try:
                 data = self.storage.load_data(
-                    filename, fmt="json", sub_dir=f"results/{self.dataset}/model_metric"
+                    filename,
+                    fmt="json",
+                    sub_dir=f"results/{self.dataset}/model_metric{suffix}",
                 )
-                if data and isinstance(data, list):
-                    model_metrics[model] = data[0]
             except FileNotFoundError:
-                print(f"Métricas não encontradas para o modelo {model}.")
+                try:
+                    data = self.storage.load_data(
+                        filename,
+                        fmt="json",
+                        sub_dir=f"results/{self.dataset}/model_metric",
+                    )
+                except FileNotFoundError:
+                    print(f"Métricas não encontradas para o modelo {model}.")
+                    continue
+            if data and isinstance(data, list):
+                model_metrics[model] = data[0]
         return model_metrics
 
     def _load_answer_map(self):
@@ -118,14 +129,22 @@ class OabExamsChartGenerator(BaseChartGenerator):
         Carrega as respostas de um modelo e contabiliza as corretas.
         """
         filename = model.replace(":", "-")
+        suffix = "/rag" if self.use_rag else "/default"
         try:
             answers = self.storage.load_data(
                 filename,
                 fmt="json",
-                sub_dir=f"results/{self.dataset}/model_answer",
+                sub_dir=f"results/{self.dataset}/model_answer{suffix}",
             )
         except FileNotFoundError:
-            return
+            try:
+                answers = self.storage.load_data(
+                    filename,
+                    fmt="json",
+                    sub_dir=f"results/{self.dataset}/model_answer",
+                )
+            except FileNotFoundError:
+                return
 
         for ans in answers:
             q_id = ans.get("question_id", "")

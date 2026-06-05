@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# Embeddings e Banco de Dados Vetorial
+# Embeddings e banco de dados vetorial
 
 Esta seção explica a lógica por trás da geração de vetores de alta dimensão e da persistência de dados utilizando o **ChromaDB** e o **Ollama**.
 

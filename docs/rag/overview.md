@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Ecossistema RAG
+# Visão geral do RAG
 
 Bem-vindo à documentação do sistema de **Geração Aumentada por Recuperação (RAG)** implementado para o domínio de legislação brasileira. Esta documentação detalha a arquitetura, as escolhas de projeto e as instruções de execução para o nosso pipeline.
 

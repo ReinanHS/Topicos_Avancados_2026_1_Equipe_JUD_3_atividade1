@@ -40,8 +40,23 @@ class OABExamsExecutionManager(ExecutionManager):
         q_result = q.copy()
         q_result["model_used"] = model
 
+        rag_context = ""
+        rag_info = []
+        if self.use_rag:
+            query_text = q.get("question", q.get("statement", ""))
+            rag_context, rag_info = self.get_rag_context_and_info(query_text)
+            q_result["rag_info"] = rag_info
+
         system_prompt = self._resolve_system_prompt(q)
         user_prompt = self._build_user_prompt(q)
+
+        if rag_context:
+            user_prompt = (
+                f"Considere a legislação de suporte abaixo obtida da base de conhecimento jurídica para responder à questão:\n"
+                f"[LEGISLAÇÃO DE SUPORTE]\n{rag_context}\n"
+                f"--- FIM DA LEGISLAÇÃO DE SUPORTE ---\n\n"
+                f"{user_prompt}"
+            )
 
         try:
             response = self.ollama_client.generate_response(

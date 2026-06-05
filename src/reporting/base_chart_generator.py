@@ -13,10 +13,14 @@ class BaseChartGenerator(ABC):
     Classe base para geração de gráficos.
     """
 
-    def __init__(self, dataset: str):
+    def __init__(self, dataset: str, use_rag: bool = False):
         self.dataset = dataset
+        self.use_rag = use_rag
         self.storage = LocalStorage()
-        self.outputs_dir = self.storage.cache_dir / "results" / self.dataset / "charts"
+        suffix = "rag" if use_rag else "default"
+        self.outputs_dir = (
+            self.storage.cache_dir / "results" / self.dataset / "charts" / suffix
+        )
         self.outputs_dir.mkdir(parents=True, exist_ok=True)
         sns.set_theme(style="whitegrid", font_scale=1.1)
 
