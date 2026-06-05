@@ -618,58 +618,6 @@ def rag_populate(
     _populate_rag_db(db_path, collection, model)
 
 
-def _query_rag_db(
-    query_text: str, top_k: int, db_path: str, collection: str, model: str
-) -> None:
-    """Orquestra as consultas semânticas no ChromaDB RAG."""
-    from src.rag.embeddings import OllamaEmbeddingProvider
-    from src.rag.database import LegislationVectorDB
-
-    provider = OllamaEmbeddingProvider(model_name=model)
-    db = LegislationVectorDB(
-        db_path=db_path, collection_name=collection, embedding_provider=provider
-    )
-
-    if not db.count():
-        typer.echo(
-            "Erro: O banco de dados vetorial está vazio. Execute 'rag-populate' primeiro.",
-            err=True,
-        )
-        raise typer.Exit(code=1)
-
-    default_queries = [
-        "Quais são os crimes de abuso de autoridade?",
-        "Quais são os direitos básicos do consumidor?",
-        "O que caracteriza improbidade administrativa e enriquecimento ilícito?",
-    ]
-
-    queries_to_run = [query_text] if query_text else default_queries
-
-    for q in queries_to_run:
-        typer.echo(f"\nConsulta: '{q}'")
-        results = db.query(q, top_k=top_k)
-        if not results:
-            typer.echo("  Nenhum resultado encontrado.")
-            continue
-
-        for idx, res in enumerate(results):
-            meta = res["metadata"]
-            typer.echo(f"  Resultado {idx + 1}:")
-            typer.echo(
-                f"    Lei: {meta.get('law_title', 'Desconhecida')} ({meta.get('file_name', '')})"
-            )
-            typer.echo(f"    Artigo: {meta.get('article', 'Desconhecido')}")
-            typer.echo(f"    Score (Distância): {res['score']:.4f}")
-            # Mostra as primeiras 4 linhas do texto
-            lines = res["text"].split("\n")
-            preview = "\n".join(lines[:4])
-            typer.echo(f"    Texto Recuperado:\n{preview}")
-            if len(lines) > 4:
-                typer.echo("      ...")
-            typer.echo("")
-        typer.echo("-" * 60)
-
-
 @app.command(name="rag-query")
 def rag_query(
     query_text: str = typer.Option(
@@ -694,52 +642,10 @@ def rag_query(
     """
     Executa buscas semânticas por similaridade na legislação indexada no ChromaDB.
     """
+    from src.rag.tester import run_query_tests
+
     typer.echo("=== Iniciando consulta semântica no ChromaDB ===")
-    _query_rag_db(query_text, top_k, db_path, collection, model)
-
-
-def _test_rag_chunker(file_name: str, preview_limit: int) -> None:
-    """Testa a quebra de texto (chunking) estrutural de arquivos de legislação."""
-    from pathlib import Path
-    from src.rag.chunker import LegislationChunker
-
-    rag_dir = Path("database/rag")
-    if not rag_dir.exists():
-        typer.echo(f"Erro: O diretório '{rag_dir}' não existe.", err=True)
-        raise typer.Exit(code=1)
-
-    if file_name:
-        target_files = [rag_dir / file_name]
-        if not target_files[0].exists():
-            typer.echo(
-                f"Erro: Arquivo '{file_name}' não encontrado em '{rag_dir}'.", err=True
-            )
-            raise typer.Exit(code=1)
-    else:
-        target_files = list(rag_dir.glob("*.html"))
-
-    if not target_files:
-        typer.echo(f"Aviso: Nenhum arquivo HTML encontrado em '{rag_dir}'.")
-        return
-
-    chunker = LegislationChunker()
-
-    for file_path in target_files:
-        typer.echo(f"\nAnalisando arquivo: {file_path.name}")
-        chunks = chunker.chunk_file(file_path)
-        typer.echo(f"  Total de chunks (artigos) gerados: {len(chunks)}")
-
-        if chunks:
-            # Exibe o primeiro artigo real (geralmente index 1, pois index 0 costuma ser o preâmbulo/cabeçalho)
-            sample_idx = min(1, len(chunks) - 1)
-            sample = chunks[sample_idx]
-            typer.echo(f"  Amostra de Chunk (Artigo: {sample['article']}):")
-            lines = sample["text"].split("\n")
-            preview = "\n".join(lines[:preview_limit])
-            typer.echo(f"    {preview}")
-            if len(lines) > preview_limit:
-                typer.echo("    ...")
-        typer.echo("-" * 60)
+    run_query_tests(query_text, top_k, db_path, collection, model)
 
 
 @app.command(name="rag-test-chunker")
@@ -760,8 +666,10 @@ def rag_test_chunker(
     """
     Testa o processo de quebra de texto (chunking) nos arquivos de legislação HTML em database/rag.
     """
+    from src.rag.tester import run_chunker_tests
+
     typer.echo("=== Testando fatiamento de legislação (Chunking) ===")
-    _test_rag_chunker(file_name, preview_limit)
+    run_chunker_tests(file_name, preview_limit)
 
 
 @app.command("run-all")
