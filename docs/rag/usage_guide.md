@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# Guia de Execução e Testes do RAG
+# Guia de execução
 
 Este guia prático ensina como preparar o ambiente, executar a indexação da legislação e validar os resultados do RAG.
 

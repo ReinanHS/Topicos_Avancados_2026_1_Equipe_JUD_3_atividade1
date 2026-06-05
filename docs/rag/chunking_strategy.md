@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# Estratégia de Quebra de Texto (Chunking)
+# Quebra de Texto (Chunking)
 
 A eficiência de um sistema RAG em domínios altamente especializados, como o Direito, depende crucialmente da qualidade dos fragmentos (*chunks*) indexados. Esta seção detalha os desafios de trabalhar com legislação brasileira e a estratégia construída no módulo `src/rag/chunker.py`.
 
