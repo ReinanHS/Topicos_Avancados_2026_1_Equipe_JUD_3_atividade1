@@ -12,32 +12,45 @@ class ReadmeGenerator:
         self.template_dir = Path(__file__).parent / "templates"
         self.env = Environment(loader=FileSystemLoader(str(self.template_dir)))
 
-    def _collect_metrics(self, dataset: str) -> dict:
+    def _load_json_file(self, filepath: Path) -> dict:
+        """Carrega e parseia um arquivo JSON de métricas."""
+        try:
+            with open(filepath, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                if isinstance(data, list) and len(data) > 0:
+                    return data[0]
+                return data
+        except Exception as e:
+            print(f"Erro ao ler métrica {filepath.name}: {e}")
+            return {}
+
+    def _collect_metrics(self, dataset: str, use_rag: bool = False) -> dict:
         """Coleta as métricas em JSON retornando um dicionário indexado pelo nome do modelo (arquivo)."""
         metrics = {}
-        metrics_dir = self.cache_dir / "results" / dataset / "model_metric"
+        suffix = "/rag" if use_rag else "/default"
+        metrics_dir = self.cache_dir / "results" / dataset / f"model_metric{suffix}"
+
+        if not metrics_dir.exists():
+            # Fallback
+            metrics_dir = self.cache_dir / "results" / dataset / "model_metric"
 
         if not metrics_dir.exists():
             return metrics
 
         for json_file in sorted(metrics_dir.glob("*.json")):
-            model_name = json_file.stem
-            try:
-                with open(json_file, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-                    if isinstance(data, list) and len(data) > 0:
-                        metrics[model_name] = data[0]
-                    else:
-                        metrics[model_name] = data
-            except Exception as e:
-                print(f"Erro ao ler métrica {json_file.name}: {e}")
+            metrics[json_file.stem] = self._load_json_file(json_file)
 
         return metrics
 
-    def _collect_charts(self, dataset: str) -> list:
+    def _collect_charts(self, dataset: str, use_rag: bool = False) -> list:
         """Retorna uma lista de caminhos relativos (em relação ao README.md) para as imagens criadas pelo dataset."""
         charts = []
-        charts_dir = self.cache_dir / "results" / dataset / "charts"
+        suffix = "rag" if use_rag else "default"
+        charts_dir = self.cache_dir / "results" / dataset / "charts" / suffix
+
+        if not charts_dir.exists():
+            # Fallback
+            charts_dir = self.cache_dir / "results" / dataset / "charts"
 
         if not charts_dir.exists():
             return charts
@@ -51,15 +64,17 @@ class ReadmeGenerator:
 
         return charts
 
-    def generate(self, output_filename: str = "README.md") -> Path:
+    def generate(
+        self, output_filename: str = "README.md", use_rag: bool = False
+    ) -> Path:
         """Executa a coleta de dados e converte o template jinja para o arquivo markdown final."""
         print("Coletando métricas e gráficos para o README...")
 
-        oab_bench_metrics = self._collect_metrics("oab_bench")
-        oab_bench_charts = self._collect_charts("oab_bench")
+        oab_bench_metrics = self._collect_metrics("oab_bench", use_rag=use_rag)
+        oab_bench_charts = self._collect_charts("oab_bench", use_rag=use_rag)
 
-        oab_exams_metrics = self._collect_metrics("oab_exams")
-        oab_exams_charts = self._collect_charts("oab_exams")
+        oab_exams_metrics = self._collect_metrics("oab_exams", use_rag=use_rag)
+        oab_exams_charts = self._collect_charts("oab_exams", use_rag=use_rag)
 
         context = {
             "oab_bench_metrics": oab_bench_metrics,

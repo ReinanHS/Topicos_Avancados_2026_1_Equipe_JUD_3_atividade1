@@ -54,9 +54,10 @@ def _display_cross_scores(cross_scores: dict) -> None:
 
 
 def _save_cross_model_metrics(
-    storage, models: list, cross_scores: dict, dataset: str
+    storage, models: list, cross_scores: dict, dataset: str, use_rag: bool = False
 ) -> None:
     """Salva as métricas cruzadas de cada modelo em arquivo JSON."""
+    suffix = "/rag" if use_rag else "/default"
     for model in models:
         model_metrics = {
             pair: scores for pair, scores in cross_scores.items() if model in pair
@@ -66,12 +67,14 @@ def _save_cross_model_metrics(
             [model_metrics],
             filename,
             fmt="json",
-            sub_dir=f"results/{dataset}/model_metric",
+            sub_dir=f"results/{dataset}/model_metric{suffix}",
         )
         typer.echo(f"Métricas de {model} salvas em: {output_path}")
 
 
-def _evaluate_oab_bench(storage, models: list, dataset: str) -> None:
+def _evaluate_oab_bench(
+    storage, models: list, dataset: str, use_rag: bool = False
+) -> None:
     """Orquestra a avaliação cruzada (pairwise) para o dataset oab_bench."""
     from src.evaluation.cross_model_evaluator import CrossModelEvaluator
 
@@ -81,10 +84,12 @@ def _evaluate_oab_bench(storage, models: list, dataset: str) -> None:
     typer.echo("Iniciando a avaliação cruzada (Pairwise Metrics)...")
 
     try:
-        evaluator = CrossModelEvaluator(storage)
+        evaluator = CrossModelEvaluator(storage, use_rag=use_rag)
         cross_scores = evaluator.evaluate(dataset, models)
         _display_cross_scores(cross_scores)
-        _save_cross_model_metrics(storage, models, cross_scores, dataset)
+        _save_cross_model_metrics(
+            storage, models, cross_scores, dataset, use_rag=use_rag
+        )
     except Exception as e:
         typer.echo(f"Erro durante a avaliação: {e}", err=True)
         raise typer.Exit(code=1)
@@ -99,20 +104,25 @@ def _display_exact_scores(model_scores: dict) -> None:
             typer.echo(f"  {metric.upper()}: {score:.4f}")
 
 
-def _save_exact_metrics(storage, model_scores: dict, dataset: str) -> None:
+def _save_exact_metrics(
+    storage, model_scores: dict, dataset: str, use_rag: bool = False
+) -> None:
     """Salva as métricas de avaliação exata de cada modelo em arquivo JSON."""
+    suffix = "/rag" if use_rag else "/default"
     for mod, scores in model_scores.items():
         filename = mod.replace(":", "-")
         output_path = storage.save_data(
             [scores],
             filename,
             fmt="json",
-            sub_dir=f"results/{dataset}/model_metric",
+            sub_dir=f"results/{dataset}/model_metric{suffix}",
         )
         typer.echo(f"Métricas de {mod} salvas em: {output_path}")
 
 
-def _evaluate_oab_exams(storage, models: list, dataset: str) -> None:
+def _evaluate_oab_exams(
+    storage, models: list, dataset: str, use_rag: bool = False
+) -> None:
     """Orquestra a avaliação exata para o dataset oab_exams."""
     from src.evaluation.exact_match_evaluator import ExactMatchEvaluator
 
@@ -122,10 +132,10 @@ def _evaluate_oab_exams(storage, models: list, dataset: str) -> None:
     typer.echo("Iniciando a avaliação exata (Acurácia, Precisão, Recall, F1)...")
 
     try:
-        evaluator = ExactMatchEvaluator(storage)
+        evaluator = ExactMatchEvaluator(storage, use_rag=use_rag)
         model_scores = evaluator.evaluate(dataset, models)
         _display_exact_scores(model_scores)
-        _save_exact_metrics(storage, model_scores, dataset)
+        _save_exact_metrics(storage, model_scores, dataset, use_rag=use_rag)
     except Exception as e:
         typer.echo(f"Erro durante a avaliação: {e}", err=True)
         raise typer.Exit(code=1)
@@ -238,6 +248,11 @@ def infer(
         "-l",
         help="Limitar a quantidade de questões a serem executadas.",
     ),
+    rag: bool = typer.Option(
+        False,
+        "--rag/--no-rag",
+        help="Habilitar ou desabilitar o uso do RAG (padrão: desabilitado).",
+    ),
 ):
     """
     Executa a inferência e a classificação de dificuldade nas questões do dataset através do LLM local.
@@ -264,6 +279,7 @@ def infer(
     execution_manager = ExecutionManagerFactory.create(
         dataset, loader, storage, ollama_client
     )
+    execution_manager.set_rag(rag)
 
     questions = execution_manager.get_questions(limit)
 
@@ -302,6 +318,11 @@ def evaluate(
     dataset: str = typer.Argument(
         ..., help="Nome do dataset para avaliar o resultado dos modelos."
     ),
+    rag: bool = typer.Option(
+        False,
+        "--rag/--no-rag",
+        help="Avaliar resultados obtidos com RAG.",
+    ),
 ):
     """Avalia as respostas geradas comparando-as de forma cruzada ou exata."""
     from src.storage.local_storage import LocalStorage
@@ -311,7 +332,7 @@ def evaluate(
     storage = LocalStorage()
 
     typer.echo(f"Buscando modelos disponíveis para o dataset {dataset}...")
-    models = storage.list_available_models(dataset)
+    models = storage.list_available_models(dataset, use_rag=rag)
 
     evaluator_map = {
         "oab_bench": _evaluate_oab_bench,
@@ -326,7 +347,7 @@ def evaluate(
         )
         raise typer.Exit(code=1)
 
-    evaluator_fn(storage, models, dataset)
+    evaluator_fn(storage, models, dataset, use_rag=rag)
 
 
 @app.command()
@@ -352,6 +373,11 @@ def judgment(
         "-l",
         help="Limitar a quantidade de respostas a serem julgadas por modelo.",
     ),
+    rag: bool = typer.Option(
+        False,
+        "--rag/--no-rag",
+        help="Julgar resultados obtidos com RAG.",
+    ),
 ):
     """
     Gera registros de julgamento (LLM as a Judge) para as respostas dos modelos.
@@ -371,12 +397,12 @@ def judgment(
     storage = LocalStorage()
 
     typer.echo(f"Buscando modelos disponíveis para o dataset {dataset}...")
-    models = storage.list_available_models(dataset)
+    models = storage.list_available_models(dataset, use_rag=rag)
 
     models_to_run = _resolve_models_to_judge(models, model)
 
     judge_model = judge if judge else DEFAULT_JUDGE_MODEL
-    judge_manager = JudgeManager(storage, judge_model=judge_model)
+    judge_manager = JudgeManager(storage, judge_model=judge_model, use_rag=rag)
 
     typer.echo(
         f"Modelos selecionados ({len(models_to_run)}): {', '.join(models_to_run)}"
@@ -486,6 +512,11 @@ def report(
     dataset: str = typer.Argument(
         "oab_bench", help="Nome do dataset para o qual gerar o relatório."
     ),
+    rag: bool = typer.Option(
+        False,
+        "--rag/--no-rag",
+        help="Gerar gráficos para resultados obtidos com RAG.",
+    ),
 ):
     """
     Processa os resultados e gera diversos gráficos de métricas.
@@ -495,7 +526,7 @@ def report(
     typer.echo(f"Inicializando a geração de relatórios e gráficos para {dataset}...")
 
     try:
-        generator = ChartGeneratorFactory.create(dataset)
+        generator = ChartGeneratorFactory.create(dataset, use_rag=rag)
         generator.generate_all_charts()
         typer.echo("Operação concluída com sucesso!")
     except Exception as e:
@@ -504,7 +535,13 @@ def report(
 
 
 @app.command(name="build-readme")
-def build_readme():
+def build_readme(
+    rag: bool = typer.Option(
+        False,
+        "--rag/--no-rag",
+        help="Gerar README para os resultados obtidos com RAG.",
+    ),
+):
     """
     Gera o arquivo README.md consolidado das execuções dentro da pasta .reinan_cache.
     Este arquivo será publicado na branch de visualização dos resultados.
@@ -513,7 +550,7 @@ def build_readme():
 
     try:
         generator = ReadmeGenerator()
-        generator.generate()
+        generator.generate(use_rag=rag)
     except Exception as e:
         typer.echo(f"Erro durante a geração do README.md: {e}", err=True)
         raise typer.Exit(code=1)
@@ -686,6 +723,11 @@ def run_all(
         "-j",
         help="Modelo a ser utilizado como curador (juiz). Padrão: gpt-4o-mini.",
     ),
+    rag: bool = typer.Option(
+        False,
+        "--rag/--no-rag",
+        help="Habilitar ou desabilitar o uso do RAG (padrão: desabilitado).",
+    ),
 ):
     """
     Executa o fluxo completo do pipeline para os datasets:
@@ -715,19 +757,19 @@ def run_all(
     pull(dataset="oab_exams", output="json")
 
     typer.echo("\n[03/12] Executando 'infer' para 'oab_bench'...")
-    infer(dataset="oab_bench", model=None, limit=limit)
+    infer(dataset="oab_bench", model=None, limit=limit, rag=rag)
 
     typer.echo("\n[04/12] Executando 'infer' para 'oab_exams'...")
-    infer(dataset="oab_exams", model=None, limit=limit)
+    infer(dataset="oab_exams", model=None, limit=limit, rag=rag)
 
     typer.echo("\n[05/12] Executando 'evaluate' para 'oab_bench'...")
-    evaluate(dataset="oab_bench")
+    evaluate(dataset="oab_bench", rag=rag)
 
     typer.echo("\n[06/12] Executando 'evaluate' para 'oab_exams'...")
-    evaluate(dataset="oab_exams")
+    evaluate(dataset="oab_exams", rag=rag)
 
     typer.echo("\n[07/12] Executando 'judgment' para 'oab_bench'...")
-    judgment(dataset="oab_bench", judge=judge, model=None, limit=limit)
+    judgment(dataset="oab_bench", judge=judge, model=None, limit=limit, rag=rag)
 
     typer.echo("\n[08/12] Executando 'curate' para 'oab_bench'...")
     curate(dataset="oab_bench", judge=judge, limit=limit)
@@ -736,13 +778,13 @@ def run_all(
     curate(dataset="oab_exams", judge=judge, limit=limit)
 
     typer.echo("\n[10/12] Executando 'report' para 'oab_bench'...")
-    report(dataset="oab_bench")
+    report(dataset="oab_bench", rag=rag)
 
     typer.echo("\n[11/12] Executando 'report' para 'oab_exams'...")
-    report(dataset="oab_exams")
+    report(dataset="oab_exams", rag=rag)
 
     typer.echo("\n[12/12] Executando 'build-readme'...")
-    build_readme()
+    build_readme(rag=rag)
 
     end_time = time.time()
     total_seconds = int(end_time - start_time)

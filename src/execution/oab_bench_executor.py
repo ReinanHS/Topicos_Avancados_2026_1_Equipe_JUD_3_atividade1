@@ -34,6 +34,13 @@ class OABBenchExecutionManager(ExecutionManager):
         q_result = q.copy()
         q_result["model_used"] = model
 
+        rag_context = ""
+        rag_info = []
+        if self.use_rag:
+            query_text = q.get("statement", "")
+            rag_context, rag_info = self.get_rag_context_and_info(query_text)
+            q_result["rag_info"] = rag_info
+
         system_prompt = self._resolve_system_prompt(q)
         turns = list(q.get("turns", [])) or [""]
 
@@ -46,6 +53,14 @@ class OABBenchExecutionManager(ExecutionManager):
             turn_prompt = self.prompt_renderer.render(
                 self.dataset_name, "user_template.minijinja", context_for_jinja
             )
+
+            if i == 0 and rag_context:
+                turn_prompt = (
+                    f"Considere a legislação de suporte abaixo obtida da base de conhecimento jurídica para responder à questão:\n"
+                    f"[LEGISLAÇÃO DE SUPORTE]\n{rag_context}\n"
+                    f"--- FIM DA LEGISLAÇÃO DE SUPORTE ---\n\n"
+                    f"{turn_prompt}"
+                )
 
             messages.append({"role": "user", "content": turn_prompt})
 

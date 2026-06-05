@@ -82,7 +82,7 @@ class LocalStorage:
         return serializer.read(filepath)
 
     def list_available_models(
-        self, dataset_name: str, sub_dir: str = "results"
+        self, dataset_name: str, sub_dir: str = "results", use_rag: bool = False
     ) -> List[str]:
         """
         Retorna os nomes dos modelos com resultados salvos para um dataset.
@@ -90,11 +90,17 @@ class LocalStorage:
         Args:
             dataset_name: Nome do dataset a ser consultado.
             sub_dir: Subdiretório base dos resultados.
+            use_rag: Se True, busca na subpasta de RAG.
 
         Returns:
             Lista de nomes de modelos disponíveis.
         """
-        target_dir = self.cache_dir / "results" / dataset_name / "model_answer"
+        suffix = "rag" if use_rag else "default"
+        target_dir = self.cache_dir / "results" / dataset_name / "model_answer" / suffix
+
+        # Fallback to parent dir for backward compatibility if the suffix dir doesn't exist
+        if not target_dir.exists():
+            target_dir = self.cache_dir / "results" / dataset_name / "model_answer"
 
         if not target_dir.exists():
             return []

@@ -78,24 +78,30 @@ class OabBenchChartGenerator(BaseChartGenerator):
         """
         Carrega os dados de métricas dos 3 modelos e do judgment.
         """
+        suffix = "/rag" if self.use_rag else "/default"
+
+        def load_with_fallback(filename, sub_dir_base):
+            try:
+                return self.storage.load_data(
+                    filename, fmt="json", sub_dir=f"{sub_dir_base}{suffix}"
+                )
+            except FileNotFoundError:
+                return self.storage.load_data(
+                    filename, fmt="json", sub_dir=sub_dir_base
+                )
+
         try:
-            gemma_data = self.storage.load_data(
-                "gemma2-2b", fmt="json", sub_dir=f"results/{self.dataset}/model_metric"
+            gemma_data = load_with_fallback(
+                "gemma2-2b", f"results/{self.dataset}/model_metric"
             )[0]
-            llama_data = self.storage.load_data(
-                "llama3.2-3b",
-                fmt="json",
-                sub_dir=f"results/{self.dataset}/model_metric",
+            llama_data = load_with_fallback(
+                "llama3.2-3b", f"results/{self.dataset}/model_metric"
             )[0]
-            qwen_data = self.storage.load_data(
-                "qwen2.5-3b",
-                fmt="json",
-                sub_dir=f"results/{self.dataset}/model_metric",
+            qwen_data = load_with_fallback(
+                "qwen2.5-3b", f"results/{self.dataset}/model_metric"
             )[0]
-            judgment_data = self.storage.load_data(
-                "gpt-4o-mini",
-                fmt="json",
-                sub_dir=f"results/{self.dataset}/model_judgment",
+            judgment_data = load_with_fallback(
+                "gpt-4o-mini", f"results/{self.dataset}/model_judgment"
             )
         except FileNotFoundError as e:
             print(f"Erro ao carregar os dados do oab_bench. Detalhes: {e}")

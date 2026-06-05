@@ -23,6 +23,67 @@ class ExecutionManager(ABC):
         self.storage = storage
         self.ollama_client = ollama_client
         self.prompt_renderer = PromptRenderer()
+        self.use_rag = False
+        self._rag_db = None
+
+    def set_rag(self, use_rag: bool) -> None:
+        """Habilita ou desabilita o uso do RAG."""
+        self.use_rag = use_rag
+        if use_rag and self._rag_db is None:
+            from src.rag.database import LegislationVectorDB
+            from src.rag.embeddings import OllamaEmbeddingProvider
+
+            provider = OllamaEmbeddingProvider(model_name="nomic-embed-text")
+            self._rag_db = LegislationVectorDB(
+                db_path=".reinan_cache/chromadb",
+                collection_name="legislacao",
+                embedding_provider=provider,
+            )
+
+    def get_rag_context_and_info(
+        self, query_text: str, top_k: int = 3
+    ) -> tuple[str, list]:
+        """Realiza busca semântica no banco vetorial e retorna contexto textual e info estruturada."""
+        if not self.use_rag or not self._rag_db:
+            return "", []
+
+        try:
+            results = self._rag_db.query(query_text, top_k=top_k)
+        except Exception as e:
+            print(f"[RAG] Erro ao consultar banco vetorial: {e}")
+            return "", []
+
+        context_parts = []
+        rag_info = []
+
+        for res in results:
+            meta = res.get("metadata", {})
+            law_title = meta.get("law_title", "Desconhecida")
+            file_name = meta.get("file_name", "")
+            article = meta.get("article", "Desconhecido")
+            score = res.get("score", 0.0)
+            text = res.get("text", "")
+
+            law_str = f"{law_title}"
+            if file_name:
+                law_str += f" ({file_name})"
+
+            rag_info.append(
+                {
+                    "Lei": law_str,
+                    "Artigo": article,
+                    "Score (Distância)": round(score, 4),
+                }
+            )
+
+            context_parts.append(
+                f"Documento/Lei: {law_str}\n"
+                f"Artigo/Dispositivo: {article}\n"
+                f"Texto:\n{text}\n"
+            )
+
+        context_str = "\n---\n".join(context_parts)
+        return context_str, rag_info
 
     @property
     @abstractmethod
@@ -184,7 +245,7 @@ class ExecutionManager(ABC):
             ],
         )
 
-        return {
+        ans = {
             "question_id": q.get("question_id", q.get("id", "")),
             "answer_id": uuid.uuid4().hex,
             "model_id": model,
@@ -192,10 +253,14 @@ class ExecutionManager(ABC):
             "additional_information": additional_info,
             "tstamp": time.time(),
         }
+        if "rag_info" in q_result:
+            ans["rag_info"] = q_result["rag_info"]
+        return ans
 
     def save_results(self, results: List[Dict[str, Any]], model: str) -> Path:
         """Salva os resultados consolidados na subpasta definida para o cache."""
-        sub_dir = f"results/{self.dataset_name}/model_answer"
+        suffix = "rag" if self.use_rag else "default"
+        sub_dir = f"results/{self.dataset_name}/model_answer/{suffix}"
         filename = model.replace(":", "-")
 
         output_path = self.storage.save_data(

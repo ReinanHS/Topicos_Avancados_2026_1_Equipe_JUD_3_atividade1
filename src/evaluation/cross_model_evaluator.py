@@ -10,8 +10,9 @@ class CrossModelEvaluator:
     Também compara cada modelo contra as guidelines de referência.
     """
 
-    def __init__(self, storage):
+    def __init__(self, storage, use_rag: bool = False):
         self.storage = storage
+        self.use_rag = use_rag
         self._metrics_cache = {}
 
     def _get_metric(self, name: str):
@@ -95,11 +96,22 @@ class CrossModelEvaluator:
         Carrega as respostas de cada modelo e organiza por question_id.
         """
         all_results = {}
+        suffix = "/rag" if self.use_rag else "/default"
         for model in models:
             filename = model.replace(":", "-")
-            results = self.storage.load_data(
-                filename, fmt="json", sub_dir=f"results/{dataset_name}/model_answer"
-            )
+            try:
+                results = self.storage.load_data(
+                    filename,
+                    fmt="json",
+                    sub_dir=f"results/{dataset_name}/model_answer{suffix}",
+                )
+            except FileNotFoundError:
+                # Fallback to legacy path
+                results = self.storage.load_data(
+                    filename,
+                    fmt="json",
+                    sub_dir=f"results/{dataset_name}/model_answer",
+                )
             model_responses = {}
             for res in results:
                 qid = res["question_id"]

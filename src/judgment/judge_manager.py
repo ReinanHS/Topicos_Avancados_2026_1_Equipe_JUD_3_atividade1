@@ -26,9 +26,15 @@ class JudgeManager:
 
     SUPPORTED_DATASETS = ["oab_bench"]
 
-    def __init__(self, storage: LocalStorage, judge_model: str = DEFAULT_JUDGE_MODEL):
+    def __init__(
+        self,
+        storage: LocalStorage,
+        judge_model: str = DEFAULT_JUDGE_MODEL,
+        use_rag: bool = False,
+    ):
         self.storage = storage
         self.judge_model = judge_model
+        self.use_rag = use_rag
 
         self.llm = OpenAIClient()
         if self.judge_model not in self.llm.AVAILABLE_MODELS:
@@ -59,9 +65,18 @@ class JudgeManager:
     def load_model_answers(self, dataset: str, model: str) -> List[Dict[str, Any]]:
         """Carrega as respostas de um modelo específico a partir do cache."""
         filename = model.replace(":", "-")
-        return self.storage.load_data(
-            filename, fmt="json", sub_dir=f"results/{dataset}/model_answer"
-        )
+        suffix = "/rag" if self.use_rag else "/default"
+        try:
+            return self.storage.load_data(
+                filename,
+                fmt="json",
+                sub_dir=f"results/{dataset}/model_answer{suffix}",
+            )
+        except FileNotFoundError:
+            # Fallback to legacy path
+            return self.storage.load_data(
+                filename, fmt="json", sub_dir=f"results/{dataset}/model_answer"
+            )
 
     def prepare_dataset_context(
         self, dataset: str
@@ -260,10 +275,11 @@ class JudgeManager:
         model_judgment, usando o nome do modelo juiz como nome do arquivo.
         """
         filename = self.judge_model.replace(":", "-")
+        suffix = "/rag" if self.use_rag else "/default"
         output_path = self.storage.save_data(
             judgments,
             filename,
             fmt="json",
-            sub_dir=f"results/{dataset}/model_judgment",
+            sub_dir=f"results/{dataset}/model_judgment{suffix}",
         )
         return str(output_path)

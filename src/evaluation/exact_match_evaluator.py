@@ -9,8 +9,9 @@ class ExactMatchEvaluator:
 
     LETTER_TO_INT = {"A": 1, "B": 2, "C": 3, "D": 4}
 
-    def __init__(self, storage):
+    def __init__(self, storage, use_rag: bool = False):
         self.storage = storage
+        self.use_rag = use_rag
         self._metrics_cache = {}
 
     def _get_metric(self, name: str):
@@ -42,11 +43,22 @@ class ExactMatchEvaluator:
         answer_key_map = self._build_answer_key_map(dataset_name)
         all_results = {}
 
+        suffix = "/rag" if self.use_rag else "/default"
         for model in models:
             filename = model.replace(":", "-")
-            results = self.storage.load_data(
-                filename, fmt="json", sub_dir=f"results/{dataset_name}/model_answer"
-            )
+            try:
+                results = self.storage.load_data(
+                    filename,
+                    fmt="json",
+                    sub_dir=f"results/{dataset_name}/model_answer{suffix}",
+                )
+            except FileNotFoundError:
+                # Fallback to legacy path
+                results = self.storage.load_data(
+                    filename,
+                    fmt="json",
+                    sub_dir=f"results/{dataset_name}/model_answer",
+                )
 
             predictions = []
             references = []
