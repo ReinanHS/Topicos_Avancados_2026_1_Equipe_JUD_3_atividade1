@@ -553,6 +553,125 @@ def publish(
     _publish_results(branch)
 
 
+def _populate_rag_db(db_path: str, collection: str, model: str) -> None:
+    """Popula a base vetorial ChromaDB com os arquivos HTML de legislação."""
+    from pathlib import Path
+    from src.rag.chunker import LegislationChunker
+    from src.rag.embeddings import OllamaEmbeddingProvider
+    from src.rag.database import LegislationVectorDB
+
+    rag_dir = Path("database/rag")
+    if not rag_dir.exists():
+        typer.echo(f"Erro: O diretório '{rag_dir}' não existe.", err=True)
+        raise typer.Exit(code=1)
+
+    html_files = list(rag_dir.glob("*.html"))
+    if not html_files:
+        typer.echo(f"Aviso: Nenhum arquivo HTML encontrado em '{rag_dir}'.")
+        return
+
+    typer.echo(f"Encontrados {len(html_files)} arquivos para indexação.")
+
+    chunker = LegislationChunker()
+    all_chunks = []
+
+    for file_path in html_files:
+        typer.echo(f"Processando e dividindo '{file_path.name}'...")
+        file_chunks = chunker.chunk_file(file_path)
+        all_chunks.extend(file_chunks)
+        typer.echo(f"  -> {len(file_chunks)} artigos/trechos identificados.")
+
+    typer.echo(f"Total de chunks extraídos: {len(all_chunks)}")
+
+    embedding_provider = OllamaEmbeddingProvider(model_name=model)
+    db = LegislationVectorDB(
+        db_path=db_path,
+        collection_name=collection,
+        embedding_provider=embedding_provider,
+    )
+
+    db.populate(all_chunks, reset=True)
+    typer.echo("Persistência no ChromaDB concluída com sucesso!")
+
+
+@app.command(name="rag-populate")
+def rag_populate(
+    db_path: str = typer.Option(
+        ".reinan_cache/chromadb",
+        "--db-path",
+        help="Caminho local onde o banco ChromaDB será persistido.",
+    ),
+    collection: str = typer.Option(
+        "legislacao", "--collection", help="Nome da coleção no ChromaDB."
+    ),
+    model: str = typer.Option(
+        "nomic-embed-text",
+        "--model",
+        help="Nome do modelo de embedding a ser utilizado via Ollama.",
+    ),
+):
+    """
+    Carrega as legislações brasileiras de 'database/rag', realiza a quebra de texto (chunking)
+    e indexa as informações persistindo-as no banco ChromaDB.
+    """
+    typer.echo("=== Iniciando indexação da legislação no ChromaDB ===")
+    _populate_rag_db(db_path, collection, model)
+
+
+@app.command(name="rag-query")
+def rag_query(
+    query_text: str = typer.Option(
+        None,
+        "--query",
+        "-q",
+        help="Texto da consulta semântica. Se não informado, executa as consultas padrão.",
+    ),
+    top_k: int = typer.Option(
+        3, "--top-k", "-k", help="Quantidade de trechos a serem recuperados."
+    ),
+    db_path: str = typer.Option(
+        ".reinan_cache/chromadb", "--db-path", help="Caminho local do ChromaDB."
+    ),
+    collection: str = typer.Option(
+        "legislacao", "--collection", help="Nome da coleção no ChromaDB."
+    ),
+    model: str = typer.Option(
+        "nomic-embed-text", "--model", help="Nome do modelo de embedding no Ollama."
+    ),
+):
+    """
+    Executa buscas semânticas por similaridade na legislação indexada no ChromaDB.
+    """
+    from src.rag.tester import run_query_tests
+
+    typer.echo("=== Iniciando consulta semântica no ChromaDB ===")
+    run_query_tests(query_text, top_k, db_path, collection, model)
+
+
+@app.command(name="rag-test-chunker")
+def rag_test_chunker(
+    file_name: str = typer.Option(
+        None,
+        "--file",
+        "-f",
+        help="Nome do arquivo HTML em database/rag/ para testar. Se não informado, testa todos.",
+    ),
+    preview_limit: int = typer.Option(
+        5,
+        "--preview-limit",
+        "-p",
+        help="Número de linhas do chunk para exibir no preview.",
+    ),
+):
+    """
+    Testa o processo de quebra de texto (chunking) nos arquivos de legislação HTML em database/rag.
+    """
+    from src.rag.tester import run_chunker_tests
+
+    typer.echo("=== Testando fatiamento de legislação (Chunking) ===")
+    run_chunker_tests(file_name, preview_limit)
+
+
 @app.command("run-all")
 def run_all(
     limit: int = typer.Option(

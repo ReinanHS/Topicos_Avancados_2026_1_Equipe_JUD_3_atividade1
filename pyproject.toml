@@ -18,6 +18,8 @@ dependencies = [
     "seaborn>=0.13.2",
     "matplotlib>=3.10.8",
     "pandas>=3.0.1",
+    "chromadb>=1.5.9",
+    "beautifulsoup4>=4.14.3",
 ]
 
 [project.scripts]
