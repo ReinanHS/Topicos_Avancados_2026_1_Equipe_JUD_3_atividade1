@@ -55,6 +55,7 @@ Baixe os modelos utilizados no projeto com os comandos abaixo:
 ollama pull llama3.2:3b
 ollama pull gemma2:2b
 ollama pull qwen2.5:3b
+ollama pull nomic-embed-text
 ```
 
 Esses comandos fazem o download dos modelos configurados para as execuções
