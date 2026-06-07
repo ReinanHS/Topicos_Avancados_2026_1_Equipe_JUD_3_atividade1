@@ -254,9 +254,9 @@ class LegislationVectorDB:
                             clean_choices.append(opt_norm)
                 if clean_choices:
                     rewritten += " " + " ".join(clean_choices)
-                print(
-                    f"[RAG] Query jurídica reescrita e aumentada: '{rewritten}' (via {llm_model})"
-                )
+                # print(
+                #     f"[RAG] Query jurídica reescrita e aumentada: '{rewritten}' (via {llm_model})"
+                # )
                 return rewritten
         except Exception as e:
             print(

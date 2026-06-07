@@ -253,6 +253,12 @@ def infer(
         "--rag/--no-rag",
         help="Habilitar ou desabilitar o uso do RAG (padrão: desabilitado).",
     ),
+    top_k: int = typer.Option(
+        10,
+        "--top-k",
+        "-k",
+        help="Quantidade de trechos de lei a serem recuperados pelo RAG.",
+    ),
 ):
     """
     Executa a inferência e a classificação de dificuldade nas questões do dataset através do LLM local.
@@ -280,6 +286,7 @@ def infer(
         dataset, loader, storage, ollama_client
     )
     execution_manager.set_rag(rag)
+    execution_manager.set_top_k(top_k)
 
     questions = execution_manager.get_questions(limit)
 

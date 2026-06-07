@@ -25,6 +25,11 @@ class ExecutionManager(ABC):
         self.prompt_renderer = PromptRenderer()
         self.use_rag = False
         self._rag_db = None
+        self.top_k = 3
+
+    def set_top_k(self, top_k: int) -> None:
+        """Define o valor de top_k para a busca RAG."""
+        self.top_k = top_k
 
     def set_rag(self, use_rag: bool) -> None:
         """Habilita ou desabilita o uso do RAG."""
@@ -41,15 +46,19 @@ class ExecutionManager(ABC):
             )
 
     def get_rag_context_and_info(
-        self, q: Any, top_k: int = 3, model: Optional[str] = None
+        self, q: Any, top_k: Optional[int] = None, model: Optional[str] = None
     ) -> tuple[str, list]:
         """Realiza busca híbrida no banco vetorial e retorna contexto textual e info estruturada."""
         if not self.use_rag or not self._rag_db:
             return "", []
 
+        k = top_k if top_k is not None else self.top_k
         try:
             results = self._rag_db.query(
-                q, top_k=top_k, top_k_retrieval=20, model=model
+                q,
+                top_k=k,
+                top_k_retrieval=100,
+                model=model
             )
         except Exception as e:
             print(f"[RAG] Erro ao consultar banco vetorial: {e}")
@@ -74,7 +83,13 @@ class ExecutionManager(ABC):
                 {
                     "Lei": law_str,
                     "Artigo": article,
-                    "Score (Distância)": round(score, 4),
+                    "Score": round(score, 4),
+                    "Score Vetorial Base": round(res.get("vector_score", 0.0), 4),
+                    "Score Lexical Base": round(res.get("lexical_score", 0.0), 4),
+                    "Score Hibrido Base": round(res.get("base_score", 0.0), 4),
+                    "Boost": round(res.get("boost", 0.0), 4),
+                    "Penalidade": round(res.get("penalty", 0.0), 4),
+                    "Justificativa": res.get("rerank_reason", ""),
                 }
             )
 
