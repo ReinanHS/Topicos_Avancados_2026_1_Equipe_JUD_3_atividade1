@@ -12,15 +12,15 @@ Esta seção explica a lógica por trás da geração de vetores de alta dimens�
 
 A geração de embeddings mapeia trechos textuais (artigos de lei) para vetores numéricos em um espaço vetorial contínuo, onde textos com significados parecidos ficam geograficamente próximos.
 
-### Escolha do Modelo: `nomic-embed-text`
-Selecionamos o modelo **`nomic-embed-text`** executado localmente através da API do **Ollama** pelos seguintes motivos:
+### Escolha do Modelo: `qwen3-embedding:8b`
+Selecionamos o modelo **`qwen3-embedding:8b`** executado localmente através da API do **Ollama** pelos seguintes motivos:
 - **Janela de Contexto Expandida**: Suporta até **8.192 tokens** de entrada, o que é ideal para artigos extensos (como o Artigo 5º da Constituição ou o Artigo 6º do Código de Defesa do Consumidor).
 - **Multilíngue**: Excelente desempenho de similaridade em português, capturando sinônimos jurídicos (ex: mapeando "contratação" para "licitação").
 - **Execução Local**: Dispensa chaves de API pagas e permite que o ecossistema rode offline, aproveitando aceleração de GPU ou CPU local.
 
 ### Gestão Automática do Ciclo de Vida (`OllamaEmbeddingProvider`)
 No arquivo `src/rag/embeddings.py`, criamos um gerenciador robusto:
-- **Auto-Pull**: Durante a inicialização, o provedor consulta a API do Ollama. Caso o modelo `nomic-embed-text` não esteja baixado, o script inicia o download (`client.pull()`) de forma transparente, garantindo que o comando funcione no computador de qualquer usuário sem configurações prévias manuais.
+- **Auto-Pull**: Durante a inicialização, o provedor consulta a API do Ollama. Caso o modelo `qwen3-embedding:8b` não esteja baixado, o script inicia o download (`client.pull()`) de forma transparente, garantindo que o comando funcione no computador de qualquer usuário sem configurações prévias manuais.
 - **Robustez com Loteamento (Batching)**: Ao indexar mais de 4.000 artigos de uma só vez, o Ollama pode sofrer estrangulamento de memória. Nosso código divide a carga em lotes seguros de 32 trechos. Em caso de falha de conexão em um lote, o provedor tenta gerar os vetores individualmente, isolando trechos defeituosos e garantindo que o pipeline não seja interrompido.
 
 ---
@@ -30,8 +30,8 @@ No arquivo `src/rag/embeddings.py`, criamos um gerenciador robusto:
 O **ChromaDB** foi selecionado como banco de dados vetorial local do projeto por ser leve, persistente em disco e de fácil integração em Python.
 
 ### Configuração da Conexão
-Toda a lógica está encapsulada em `src/rag/database.py`. O banco é configurado no modo persistente apontando para:
-`d:\Projetos\Topicos_Avancados_2026_1_Equipe_JUD_3_atividade1\.reinan_cache\chromadb`
+Toda a lógica está encapsulada em `src/rag/database.py`. O banco é configurado no modo persistente apontando para o diretório de cache local do projeto:
+`.reinan_cache/chromadb`
 
 Isso gera arquivos SQLite locais que salvam os índices espaciais HNSW e os metadados. Da próxima vez que o sistema iniciar, ele lerá os vetores do disco sem a necessidade de reprocessar os HTMLs e recalcular embeddings, economizando tempo e energia.
 

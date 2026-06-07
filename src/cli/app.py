@@ -649,7 +649,7 @@ def rag_populate(
         "legislacao", "--collection", help="Nome da coleção no ChromaDB."
     ),
     model: str = typer.Option(
-        "nomic-embed-text",
+        "qwen3-embedding:8b",
         "--model",
         help="Nome do modelo de embedding a ser utilizado via Ollama.",
     ),
@@ -680,7 +680,7 @@ def rag_query(
         "legislacao", "--collection", help="Nome da coleção no ChromaDB."
     ),
     model: str = typer.Option(
-        "nomic-embed-text", "--model", help="Nome do modelo de embedding no Ollama."
+        "qwen3-embedding:8b", "--model", help="Nome do modelo de embedding no Ollama."
     ),
 ):
     """
@@ -725,7 +725,7 @@ def rag_test_regression(
         "legislacao", "--collection", help="Nome da coleção no ChromaDB."
     ),
     model: str = typer.Option(
-        "nomic-embed-text", "--model", help="Nome do modelo de embedding no Ollama."
+        "qwen3-embedding:8b", "--model", help="Nome do modelo de embedding no Ollama."
     ),
 ):
     """

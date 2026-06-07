@@ -38,7 +38,7 @@ class ExecutionManager(ABC):
             from src.rag.database import LegislationVectorDB
             from src.rag.embeddings import OllamaEmbeddingProvider
 
-            provider = OllamaEmbeddingProvider(model_name="nomic-embed-text")
+            provider = OllamaEmbeddingProvider(model_name="qwen3-embedding:8b")
             self._rag_db = LegislationVectorDB(
                 db_path=".reinan_cache/chromadb",
                 collection_name="legislacao",
@@ -54,12 +54,7 @@ class ExecutionManager(ABC):
 
         k = top_k if top_k is not None else self.top_k
         try:
-            results = self._rag_db.query(
-                q,
-                top_k=k,
-                top_k_retrieval=100,
-                model=model
-            )
+            results = self._rag_db.query(q, top_k=k, top_k_retrieval=100, model=model)
         except Exception as e:
             print(f"[RAG] Erro ao consultar banco vetorial: {e}")
             return "", []

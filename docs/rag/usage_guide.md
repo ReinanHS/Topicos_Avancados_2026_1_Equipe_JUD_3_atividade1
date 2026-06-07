@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 5
 ---
 
 # Guia de execução
@@ -31,17 +31,17 @@ uv run reinan-cli rag-populate
 O comando possui argumentos opcionais configuráveis no Typer:
 - `--db-path`: Define o diretório onde os dados do ChromaDB serão gravados. Padrão: `.reinan_cache/chromadb`.
 - `--collection`: Define o nome da tabela/coleção vetorial. Padrão: `legislacao`.
-- `--model`: Define o modelo de embedding a ser invocado no Ollama. Padrão: `nomic-embed-text`.
+- `--model`: Define o modelo de embedding a ser invocado no Ollama. Padrão: `qwen3-embedding:8b`.
 
 **Exemplo de uso customizado**:
 ```bash
-uv run reinan-cli rag-populate --collection minha_colecao_leis --model nomic-embed-text
+uv run reinan-cli rag-populate --collection minha_colecao_leis --model qwen3-embedding:8b
 ```
 
 ### O que acontece por baixo dos panos?
 - O terminal listará todos os arquivos HTML encontrados.
 - Cada arquivo será limpo e recortado a nível de artigos pelo `LegislationChunker`.
-- O Ollama será contatado para gerar os embeddings em lote (se o modelo `nomic-embed-text` não estiver instalado localmente, ele fará o download automático primeiro).
+- O Ollama será contatado para gerar os embeddings em lote (se o modelo `qwen3-embedding:8b` não estiver instalado localmente, ele fará o download automático primeiro).
 - Os registros serão salvos no ChromaDB e o total indexado será impresso no final.
 
 ---
@@ -83,6 +83,19 @@ uv run reinan-cli rag-test-chunker --file L14133.html --preview-limit 10
 
 - `--file` / `-f`: Nome do arquivo em `database/rag` (ex: `L13869.html`).
 - `--preview-limit` / `-p`: Número de linhas de texto do artigo exibidas no preview. Padrão: `5`.
+
+### Comando `rag-test-regression` (Teste de Regressão)
+Esse comando executa uma rotina automatizada para garantir que o sistema RAG recupere corretamente a resposta da Questão `2016-21_38`. O teste valida se o Artigo 156 do Código Civil (estado de perigo) fica classificado no topo, enquanto artigos de contrato de transporte (como o Artigo 739, 740 e 742 do Código Civil) recebem penalidade e são rebaixados na lista final.
+
+Para executar o teste de regressão:
+```bash
+uv run reinan-cli rag-test-regression
+```
+
+Opções adicionais:
+- `--db-path`: Diretório local do banco ChromaDB. Padrão: `.reinan_cache/chromadb`.
+- `--collection`: Nome da coleção no banco. Padrão: `legislacao`.
+- `--model`: Modelo de embedding utilizado no Ollama. Padrão: `qwen3-embedding:8b`.
 
 
 ---

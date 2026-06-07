@@ -10,7 +10,9 @@ class OllamaEmbeddingProvider:
     """
 
     def __init__(
-        self, model_name: str = "nomic-embed-text", host: str = "http://127.0.0.1:11434"
+        self,
+        model_name: str = "qwen3-embedding:8b",
+        host: str = "http://127.0.0.1:11434",
     ):
         self.model_name = model_name
         self.client = ollama.Client(host=host, timeout=httpx.Timeout(300.0))
@@ -21,7 +23,7 @@ class OllamaEmbeddingProvider:
         try:
             models_list = self.client.list()
             downloaded_models = [m.model for m in models_list.models]
-            # O nome do modelo retornado por list() pode ter tags (ex: nomic-embed-text:latest)
+            # O nome do modelo retornado por list() pode ter tags (ex: qwen3-embedding:8b:latest)
             if not any(self.model_name in m for m in downloaded_models):
                 print(
                     f"[OllamaEmbeddingProvider] Modelo '{self.model_name}' não encontrado localmente."

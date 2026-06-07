@@ -53,9 +53,7 @@ Ao final o CLI exibe o tempo total de execução do pipeline.
 
 ## Execução separada (passo a passo)
 
-Também é possível executar cada etapa individualmente. Isso é útil para
-reprocessar apenas uma parte do pipeline ou para ter maior controle sobre as
-opções de cada comando.
+Também é possível executar cada etapa individualmente. Isso é útil para reprocessar apenas uma parte do pipeline ou para obter maior controle sobre as opções de cada comando.
 
 ### 1. Baixar os datasets `pull`
 
@@ -64,8 +62,7 @@ uv run reinan-cli pull oab_bench
 uv run reinan-cli pull oab_exams
 ```
 
-Essa etapa é opcional. Quando executado, o comando baixa os dados e os salva na
-pasta `.reinan_cache/dataset/`.
+Essa etapa baixa os dados da Hugging Face e os salva na pasta `.reinan_cache/dataset/`.
 
 Exemplo de saída:
 
@@ -74,13 +71,24 @@ Foram selecionadas 12 questões para o lote.
 Conjunto de dados salvo com sucesso em: .reinan_cache\dataset\oab_bench.json
 ```
 
-Também é possível usar a flag `--output` para definir o formato do arquivo de
-saída. Os formatos disponíveis são `json` e `csv`. O valor padrão é `json`.
+Também é possível usar a flag `--output` para definir o formato do arquivo de saída. Os formatos disponíveis são `json` e `csv`. O valor padrão é `json`.
 
-### 2. Executar a inferência `infer`
+### 2. Gerar o banco de dados vetorial `rag-populate`
 
-Executa a inferência e a classificação de dificuldade nas questões do dataset
-utilizando os modelos locais via Ollama.
+Antes de executar inferências com RAG, você precisa popular o banco ChromaDB indexando as legislações HTML presentes na pasta `database/rag/`:
+
+```bash
+uv run reinan-cli rag-populate
+```
+
+Opções disponíveis:
+- `--db-path`: Caminho onde o ChromaDB será gravado. Padrão: `.reinan_cache/chromadb`.
+- `--collection`: Nome da coleção no ChromaDB. Padrão: `legislacao`.
+- `--model`: Modelo de embedding a ser invocado no Ollama. Padrão: `qwen3-embedding:8b`.
+
+### 3. Executar a inferência `infer`
+
+Executa a inferência e a classificação de dificuldade nas questões do dataset utilizando os modelos locais via Ollama.
 
 #### Executar para todos os modelos
 
@@ -108,34 +116,38 @@ uv run reinan-cli infer oab_exams --limit 5
 Para enriquecer o prompt das questões com artigos e leis relevantes recuperados do banco vetorial:
 
 ```bash
-uv run reinan-cli infer oab_bench --model qwen2.5:3b --limit 1 --rag
+uv run reinan-cli infer oab_bench --model qwen2.5:3b --limit 5 --rag
 ```
 
-A flag `--rag` ativa a busca semântica na base de legislação indexada no ChromaDB antes de enviar a questão para o modelo, fornecendo o contexto legal necessário para a resposta.
+A flag `--rag` ativa a busca híbrida semântica na base de legislação indexada no ChromaDB antes de enviar a questão para o modelo, fornecendo o contexto legal necessário para a resposta. Você também pode definir a quantidade de trechos a recuperar usando a opção `--top-k` (padrão: 10):
 
-Os resultados gerados nessa etapa são salvos no diretório
-`.reinan_cache/results`. Esses arquivos são utilizados posteriormente no
-processo de avaliação das respostas e no cálculo das métricas.
+```bash
+uv run reinan-cli infer oab_bench --model qwen2.5:3b --limit 5 --rag --top-k 5
+```
 
-### 3. Avaliar os resultados `evaluate`
+Os resultados gerados nessa etapa são salvos no diretório `.reinan_cache/results`.
 
-Depois de concluir a inferência, execute os comandos abaixo para calcular as
-métricas de avaliação:
+### 4. Avaliar os resultados `evaluate`
+
+Depois de concluir a inferência, execute os comandos abaixo para calcular as métricas de avaliação:
 
 ```bash
 uv run reinan-cli evaluate oab_bench
 uv run reinan-cli evaluate oab_exams
 ```
 
-- **`oab_bench`**  utiliza avaliação cruzada (Pairwise Metrics) entre pares de
-  modelos. Requer no mínimo 2 modelos com resultados salvos.
-- **`oab_exams`**  utiliza avaliação exata (Acurácia, Precisão, Recall, F1).
-  Requer no mínimo 1 modelo com resultados salvos.
+- **`oab_bench`** utiliza avaliação cruzada (Pairwise Metrics) entre pares de modelos. Requer no mínimo 2 modelos com resultados salvos.
+- **`oab_exams`** utiliza avaliação exata (Acurácia, Precisão, Recall, F1). Requer no mínimo 1 modelo com resultados salvos.
 
-### 4. Julgamento via LLM `judgment`
+Para avaliar resultados gerados a partir do RAG, adicione a flag `--rag`:
+```bash
+uv run reinan-cli evaluate oab_bench --rag
+uv run reinan-cli evaluate oab_exams --rag
+```
 
-Gera registros de julgamento (*LLM as a Judge*) para as respostas dos modelos.
-Disponível apenas para o dataset `oab_bench`.
+### 5. Julgamento via LLM `judgment`
+
+Gera registros de julgamento (*LLM as a Judge*) para as respostas dos modelos. Disponível apenas para o dataset `oab_bench`.
 
 ```bash
 uv run reinan-cli judgment oab_bench
@@ -152,16 +164,17 @@ uv run reinan-cli judgment oab_bench --model llama3.2:3b
 
 # Limitar a quantidade de respostas julgadas por modelo
 uv run reinan-cli judgment oab_bench --limit 10
+
+# Julgar respostas geradas pelo pipeline com RAG
+uv run reinan-cli judgment oab_bench --rag
 ```
 
-### 5. Curadoria `curate`
+### 6. Curadoria `curate`
 
-Gera informações de curadoria (dificuldade, legislação e área) para as questões
-do dataset, utilizando um modelo juiz LLM.
+Gera informações de curadoria (dificuldade, legislação e área) para as questões do dataset, utilizando um modelo juiz LLM.
 
 ```bash
 uv run reinan-cli curate oab_bench
-uv run reinan-cli curate oab_exams
 ```
 
 Opções disponíveis:
@@ -174,7 +187,7 @@ uv run reinan-cli curate oab_bench --judge gpt-4o-mini
 uv run reinan-cli curate oab_exams --limit 10
 ```
 
-### 6. Gerar relatórios `report`
+### 7. Gerar relatórios `report`
 
 Processa os resultados e gera gráficos de métricas:
 
@@ -183,19 +196,28 @@ uv run reinan-cli report oab_bench
 uv run reinan-cli report oab_exams
 ```
 
-### 7. Gerar README consolidado `build-readme`
+Para gerar relatórios e gráficos específicos dos experimentos com RAG, adicione a flag `--rag`:
+```bash
+uv run reinan-cli report oab_bench --rag
+uv run reinan-cli report oab_exams --rag
+```
 
-Gera o arquivo `README.md` consolidado dentro da pasta `.reinan_cache/`, pronto
-para ser publicado na branch de visualização dos resultados:
+### 8. Gerar README consolidado `build-readme`
+
+Gera o arquivo `README.md` consolidado dentro da pasta `.reinan_cache/`, pronto para ser publicado na branch de visualização dos resultados:
 
 ```bash
 uv run reinan-cli build-readme
 ```
 
-### 8. Publicar resultados `publish`
+Para gerar a tabela consolidada de resultados usando RAG:
+```bash
+uv run reinan-cli build-readme --rag
+```
 
-Publica os resultados estáticos (pasta `.reinan_cache/`, exceto o `dataset`) em
-uma branch separada:
+### 9. Publicar resultados `publish`
+
+Publica os resultados estáticos (pasta `.reinan_cache/`, exceto o `dataset`) em uma branch separada:
 
 ```bash
 uv run reinan-cli publish
@@ -209,10 +231,41 @@ uv run reinan-cli publish --branch gh-pages
 
 ---
 
+## Testes e Validação do RAG
+
+Para garantir a qualidade e corretude do fluxo de recuperação e do processador de documentos, o projeto inclui uma suíte de comandos voltados exclusivamente para testes.
+
+### 1. Testar o fatiador de documentos (`rag-test-chunker`)
+Valida o processo de quebra de texto (chunking) dos arquivos HTML da legislação sem gerar embeddings ou escrever no banco. É ideal para validar o funcionamento do parser linear por artigos:
+
+```bash
+uv run reinan-cli rag-test-chunker
+```
+
+Para testar apenas uma lei específica e aumentar o tamanho do preview impresso:
+```bash
+uv run reinan-cli rag-test-chunker --file L14133.html --preview-limit 10
+```
+
+### 2. Consultar a base vetorial diretamente (`rag-query`)
+Executa uma busca híbrida diagnóstica diretamente sobre o banco ChromaDB populado. Exibe os scores vetoriais, lexicais e os boosts aplicados na fase de re-ranqueamento:
+
+```bash
+uv run reinan-cli rag-query --query "Qual o prazo de prescrição da pretensão punitiva?" --top-k 3
+```
+
+### 3. Executar o teste de regressão (`rag-test-regression`)
+Roda um teste que valida se a busca é capaz de contornar um caso crítico conhecido (Questão 2016-21_38). Esse teste garante que o Artigo 156 do Código Civil (estado de perigo) seja priorizado nos primeiros resultados e que artigos irrelevantes de contrato de transporte sejam penalizados e rebaixados.
+
+```bash
+uv run reinan-cli rag-test-regression
+```
+
+---
+
 ## Modo debug
 
-Para ativar o modo de depuração das chamadas LLM, defina a variável de ambiente
-`LLM_DEBUG` antes de executar qualquer comando:
+Para ativar o modo de depuração das chamadas LLM, defina a variável de ambiente `LLM_DEBUG` antes de executar qualquer comando:
 
 **PowerShell:**
 
@@ -228,25 +281,22 @@ export LLM_DEBUG=1
 uv run reinan-cli run-all
 ```
 
-Com o debug ativado, cada chamada ao LLM salva automaticamente os seguintes
-arquivos no diretório `.reinan_cache/debug/<modelo>/`:
+Com o debug ativado, cada chamada ao LLM salva automaticamente os seguintes arquivos no diretório `.reinan_cache/debug/<modelo>/`:
 
 - `system_prompt.md`  o prompt de sistema enviado ao modelo.
 - `user_prompt.md`  o prompt do usuário enviado ao modelo.
 - `response.md`  a resposta gerada pelo modelo.
-- `chat_history.md`  o histórico completo de mensagens (para chamadas
-  multi-turn).
+- `chat_history.md`  o histórico completo de mensagens (para chamadas multi-turn).
 
-Essa funcionalidade é útil para inspecionar o comportamento dos modelos durante
-a inferência, julgamento e curadoria.
+Essa funcionalidade é útil para inspecionar o comportamento dos modelos durante a inferência, julgamento e curadoria.
 
 ## Resultado esperado
 
-Ao final da execução, os resultados estarão disponíveis no diretório
-`.reinan_cache/results` e poderão ser visualizados no dashboard do projeto.
+Ao final da execução, os resultados estarão disponíveis no diretório `.reinan_cache/results` e poderão ser visualizados no dashboard do projeto.
 
 ## Exemplo visual
 
 A imagem abaixo mostra um exemplo do processo de execução:
 
 ![Exemplo do processo de execução](../assets/getting-started-quick-start.gif)
+
