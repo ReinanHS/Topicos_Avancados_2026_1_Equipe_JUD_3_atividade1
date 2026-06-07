@@ -1,22 +1,289 @@
 import re
-import unicodedata
 import chromadb
 from pathlib import Path
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Tuple
 from src.rag.embeddings import OllamaEmbeddingProvider
-from src.rag.lexical import LexicalRetriever
+from src.rag.lexical import LexicalRetriever, expand_query, strip_accents
 
 
-def strip_accents(text: str) -> str:
-    """Remove acentuação de uma string."""
-    text = unicodedata.normalize("NFD", text)
-    return "".join(c for c in text if unicodedata.category(c) != "Mn")
+# ---------------------------------------------------------------------------
+# Padrões heurísticos para detecção de trecho literal de lei
+# ---------------------------------------------------------------------------
+_LEGAL_LITERAL_PATTERNS = [
+    r"^sao incapazes",
+    r"^e nulo",
+    r"^e anulavel",
+    r"^compete a",
+    r"^considera-se",
+    r"^incumbe ao",
+    r"^nao se admite",
+    r"^e vedado",
+    r"^e assegurado",
+    r"^a lei",
+    r"^o juiz",
+    r"^o contrato",
+    r"^a sentenca",
+    r"^salvo disposicao",
+    r"^ressalvado",
+    r"^sao direitos",
+    r"^constituem",
+    r"^extingue-se",
+    r"^prescreve em",
+    r"^e defeso",
+    r"^ninguem pode",
+    r"^todo aquele",
+    r"^aquele que",
+]
+
+_LEGAL_LITERAL_FRAGMENTS = [
+    "nos termos",
+    "na forma da lei",
+    "na forma do",
+    "salvo disposicao em contrario",
+    "ressalvada a hipotese",
+    "sob pena de",
+    "sem prejuizo",
+    "na forma prevista",
+    "conforme disposto",
+    "aplicam-se",
+    "observado o disposto",
+]
+
+# ---------------------------------------------------------------------------
+# Mapeamento de ramos jurídicos para detecção heurística
+# ---------------------------------------------------------------------------
+_BRANCH_KEYWORDS: Dict[str, List[str]] = {
+    "Direito Civil": [
+        "contrato",
+        "obrigacao",
+        "responsabilidade civil",
+        "posse",
+        "propriedade",
+        "familia",
+        "casamento",
+        "divorcio",
+        "heranca",
+        "sucessao",
+        "testamento",
+        "capacidade",
+        "incapacidade",
+        "incapaz",
+        "nulidade",
+        "anulacao",
+        "anulavel",
+        "nulo",
+        "prescricao",
+        "decadencia",
+        "dano moral",
+        "indenizacao",
+        "vicio",
+        "eviccao",
+        "usucapiao",
+        "hipoteca",
+        "obrigacoes",
+        "codigo civil",
+        "negocio juridico",
+        "ato juridico",
+        "coacao",
+        "dolo",
+        "erro",
+        "estado de perigo",
+        "lesao",
+        "fraude",
+        "simulacao",
+        "pessoa natural",
+        "personalidade",
+        "doacao",
+        "alimentos",
+        "guarda",
+        "adocao",
+        "curatela",
+        "tutela",
+        "inventario",
+        "partilha",
+    ],
+    "Direito Penal": [
+        "crime",
+        "delito",
+        "pena",
+        "prisao",
+        "flagrante",
+        "sancao penal",
+        "reincidencia",
+        "prescricao penal",
+        "codigo penal",
+        "dolo",
+        "culpa",
+        "tentativa",
+        "consumacao",
+        "agravante",
+        "atenuante",
+        "qualificadora",
+        "tipo penal",
+        "injuria",
+        "difamacao",
+        "calúnia",
+        "furto",
+        "roubo",
+        "estelionato",
+        "homicidio",
+        "lesao corporal",
+        "ameaca",
+    ],
+    "Direito do Trabalho": [
+        "empregado",
+        "empregador",
+        "clt",
+        "rescisao",
+        "justa causa",
+        "ferias",
+        "salario",
+        "fgts",
+        "aviso previo",
+        "estabilidade",
+        "trabalho",
+        "trabalhista",
+        "sindicato",
+        "convencao coletiva",
+        "acordo coletivo",
+        "horas extras",
+        "intervalo",
+        "adicional",
+    ],
+    "Direito Constitucional": [
+        "constituicao",
+        "direitos fundamentais",
+        "mandado de seguranca",
+        "habeas corpus",
+        "acao popular",
+        "controle de constitucionalidade",
+        "competencia",
+        "federalismo",
+        "separacao de poderes",
+        "stf",
+        "stj",
+        "direitos sociais",
+        "emenda constitucional",
+        "clausula petrea",
+    ],
+    "Direito Administrativo": [
+        "licitacao",
+        "pregao",
+        "concorrencia",
+        "administracao publica",
+        "servidor publico",
+        "improbidade",
+        "ato administrativo",
+        "poder de policia",
+        "concessao",
+        "permissao",
+        "desapropriacao",
+    ],
+    "Direito Empresarial": [
+        "sociedade",
+        "empresa",
+        "socio",
+        "falencia",
+        "recuperacao judicial",
+        "titulo de credito",
+        "duplicata",
+        "marca",
+        "patente",
+        "propriedade industrial",
+        "acao societaria",
+    ],
+    "Direito do Consumidor": [
+        "consumidor",
+        "fornecedor",
+        "produto defeituoso",
+        "relacao de consumo",
+        "cdc",
+        "codigo de defesa do consumidor",
+        "vicio do produto",
+    ],
+}
+
+# ---------------------------------------------------------------------------
+# Termos jurídicos para extração de conceitos
+# ---------------------------------------------------------------------------
+_LEGAL_VERBS = [
+    "anular",
+    "cobrar",
+    "prescrever",
+    "impugnar",
+    "denunciar",
+    "adjudicar",
+    "alienar",
+    "revogar",
+    "rescindir",
+    "executar",
+    "indenizar",
+    "reparar",
+    "restituir",
+    "compensar",
+    "opor",
+    "recorrer",
+    "embargar",
+    "apelar",
+    "contestar",
+    "reconvir",
+    "desapropriar",
+    "usucapir",
+]
+
+_LEGAL_CONSEQUENCES = [
+    "nulidade",
+    "anulacao",
+    "anulabilidade",
+    "condenacao",
+    "prescricao",
+    "decadencia",
+    "estabilidade",
+    "legitimidade",
+    "competencia",
+    "indenizacao",
+    "reparacao",
+    "rescisao",
+    "resolucao",
+    "resilicao",
+    "compensacao",
+    "restituicao",
+    "absolvicao",
+    "extincao",
+]
+
+_LEGAL_FOUNDATIONS = [
+    "erro",
+    "dolo",
+    "coacao",
+    "estado de perigo",
+    "lesao",
+    "fraude",
+    "simulacao",
+    "incapacidade",
+    "boa-fe",
+    "ma-fe",
+    "coisa julgada",
+    "decadencia",
+    "competencia",
+    "legitimidade",
+    "capacidade",
+    "causa transitoria",
+    "enfermidade",
+    "deficiencia mental",
+    "vicio de consentimento",
+    "vicio redibitorio",
+    "eviccao",
+    "enriquecimento sem causa",
+    "abuso de direito",
+]
 
 
 class LegislationVectorDB:
     """
     Interface com o banco de dados vetorial ChromaDB e buscador híbrido.
-    Persiste os chunks de legislação, realiza buscas híbridas e aplica reranking.
+    Persiste os chunks de legislação, realiza buscas híbridas com recuperação
+    em duas etapas e aplica reranking jurídico multi-critério.
     """
 
     def __init__(
@@ -189,14 +456,131 @@ class LegislationVectorDB:
             pass
         return "gemma2:2b"
 
-    def build_legal_query(self, q: Any, model: Optional[str] = None) -> str:
+    # ------------------------------------------------------------------
+    # Análise jurídica da questão (heurística, sem LLM)
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _detect_literal_legal_text(text: str) -> bool:
+        """Detecta se o texto parece conter trecho literal de lei."""
+        text_norm = strip_accents(text).lower().strip()
+        for pattern in _LEGAL_LITERAL_PATTERNS:
+            if re.match(pattern, text_norm):
+                return True
+        for fragment in _LEGAL_LITERAL_FRAGMENTS:
+            if fragment in text_norm:
+                return True
+        return False
+
+    @staticmethod
+    def _extract_legal_branch(q: Dict[str, Any]) -> str:
+        """Identifica o ramo provável do Direito a partir da questão."""
+        # Usa o campo 'area' se disponível
+        area = q.get("area", q.get("category", ""))
+        if area:
+            return area
+
+        # Heurística por palavras-chave
+        statement = q.get("question", q.get("statement", ""))
+        choices = q.get("choices", {})
+        full_text = strip_accents(statement).lower()
+        if choices and "text" in choices:
+            full_text += " " + " ".join(
+                strip_accents(t).lower() for t in choices["text"]
+            )
+
+        best_branch = ""
+        best_score = 0
+        for branch, keywords in _BRANCH_KEYWORDS.items():
+            score = sum(1 for kw in keywords if kw in full_text)
+            if score > best_score:
+                best_score = score
+                best_branch = branch
+
+        return best_branch
+
+    @staticmethod
+    def _extract_legal_concepts(q: Dict[str, Any]) -> Dict[str, List[str]]:
         """
-        Gera uma query jurídica otimizada a partir da questão, ramo do Direito
-        e alternativas, filtrando ruídos narrativos.
+        Extrai instituto jurídico central, verbos, consequências e fundamentos
+        presentes na questão e nas alternativas.
+        """
+        statement = q.get("question", q.get("statement", ""))
+        choices = q.get("choices", {})
+
+        full_text = strip_accents(statement).lower()
+        choices_text = ""
+        if choices and "text" in choices:
+            choices_text = " ".join(strip_accents(t).lower() for t in choices["text"])
+            full_text += " " + choices_text
+
+        concepts = {
+            "verbs": [v for v in _LEGAL_VERBS if v in full_text],
+            "consequences": [c for c in _LEGAL_CONSEQUENCES if c in full_text],
+            "foundations": [f for f in _LEGAL_FOUNDATIONS if f in full_text],
+            "choices_consequences": [
+                c for c in _LEGAL_CONSEQUENCES if c in choices_text
+            ],
+            "choices_foundations": [f for f in _LEGAL_FOUNDATIONS if f in choices_text],
+        }
+        return concepts
+
+    @staticmethod
+    def _extract_distinction_terms(q: Dict[str, Any]) -> List[Tuple[str, str]]:
+        """
+        Identifica pares de termos que as alternativas distinguem.
+        Ex: nulidade vs. anulação, prescrição vs. decadência.
+        """
+        choices = q.get("choices", {})
+        if not choices or "text" not in choices:
+            return []
+
+        choice_texts = [strip_accents(t).lower() for t in choices["text"]]
+
+        # Pares de conceitos frequentemente confundidos em questões OAB
+        confusion_pairs = [
+            ("nulidade", "anulacao"),
+            ("nulidade", "anulabilidade"),
+            ("nulo", "anulavel"),
+            ("prescricao", "decadencia"),
+            ("incapacidade absoluta", "incapacidade relativa"),
+            ("absolutamente incapaz", "relativamente incapaz"),
+            ("erro", "dolo"),
+            ("coacao", "estado de perigo"),
+            ("causa transitoria", "enfermidade"),
+            ("causa transitoria", "deficiencia mental"),
+            ("apelacao", "agravo"),
+            ("embargos", "reclamacao"),
+            ("rescisao", "resolucao"),
+            ("dano moral", "dano material"),
+        ]
+
+        found_pairs = []
+        all_text = " ".join(choice_texts)
+
+        for a, b in confusion_pairs:
+            if a in all_text and b in all_text:
+                found_pairs.append((a, b))
+
+        return found_pairs
+
+    # ------------------------------------------------------------------
+    # Construção de queries (original + reescrita)
+    # ------------------------------------------------------------------
+
+    def build_legal_query(self, q: Any, model: Optional[str] = None) -> Tuple[str, str]:
+        """
+        Gera um par (query_original, query_reescrita) para busca híbrida.
+
+        A query original é usada na busca lexical (captura trechos literais).
+        A query reescrita é usada na busca vetorial (captura semântica).
+
+        Returns:
+            Tupla (original_query, rewritten_query).
         """
         # Se 'q' já for uma string simples, retorna ela mesma
         if isinstance(q, str):
-            return q
+            return q, q
 
         statement = q.get("question", q.get("statement", ""))
         choices = q.get("choices", {})
@@ -204,15 +588,43 @@ class LegislationVectorDB:
         if choices and "text" in choices:
             choices_text = "\n".join(f"- {t}" for t in choices["text"])
 
+        # Query original: o statement completo (para busca lexical)
+        original_query = statement
+        if choices and "text" in choices:
+            # Adiciona termos das alternativas para busca lexical
+            alt_terms = " ".join(
+                strip_accents(t).lower().strip(". ")
+                for t in choices["text"]
+                if len(t) > 3
+            )
+            original_query = statement + " " + alt_terms
+
+        # Query reescrita via LLM
+        rewritten_query = self._build_rewritten_query(
+            statement, choices_text, choices, q, model
+        )
+
+        return original_query, rewritten_query
+
+    def _build_rewritten_query(
+        self,
+        statement: str,
+        choices_text: str,
+        choices: Dict,
+        q: Dict,
+        model: Optional[str],
+    ) -> str:
+        """Constrói a query reescrita via LLM ou fallback heurístico."""
         system_prompt = (
             "Você é um assistente especialista em direito brasileiro.\n"
             "Sua tarefa é analisar uma questão de múltipla escolha e extrair uma 'query jurídica' curta e densa para busca (RAG) em códigos de leis.\n"
             "A query jurídica deve:\n"
             "1. Priorizar o ramo do Direito (ex: Direito Civil, Direito Penal, etc.).\n"
-            "2. Priorizar os institutos jurídicos centrais envolvidos (ex: estado de perigo, dolo, coação, evicção, erro, nulidade).\n"
+            "2. Priorizar os institutos jurídicos centrais envolvidos (ex: estado de perigo, dolo, coação, evicção, erro, nulidade, incapacidade, causa transitória).\n"
             "3. Incluir verbos jurídicos importantes da questão (ex: anular, indenizar, prescrever, executar, impugnar).\n"
             "4. Incluir termos jurídicos chaves presentes nas alternativas.\n"
-            "5. Ignorar ou minimizar termos puramente narrativos do caso concreto que não possuem relevância jurídica direta (como 'viagem aérea', 'piscina', 'pizzaria', 'passageiro', 'aeroporto', nomes de pessoas, etc.).\n\n"
+            "5. Preservar trechos que pareçam ser citação literal de lei (ex: 'São incapazes, relativamente a certos atos').\n"
+            "6. Ignorar ou minimizar termos puramente narrativos do caso concreto que não possuem relevância jurídica direta (como 'viagem aérea', 'piscina', 'pizzaria', 'passageiro', 'aeroporto', nomes de pessoas, etc.).\n\n"
             "Retorne APENAS a query jurídica reescrita (uma lista de termos e conceitos separados por espaço), sem explicações, preâmbulos, aspas ou formatação markdown."
         )
 
@@ -245,7 +657,7 @@ class LegislationVectorDB:
                 .strip()
             )
             if rewritten:
-                # Augmenta a query com as opções para busca consciente
+                # Aumenta a query com as opções para busca consciente
                 clean_choices = []
                 if choices and "text" in choices:
                     for opt in choices["text"]:
@@ -254,9 +666,6 @@ class LegislationVectorDB:
                             clean_choices.append(opt_norm)
                 if clean_choices:
                     rewritten += " " + " ".join(clean_choices)
-                # print(
-                #     f"[RAG] Query jurídica reescrita e aumentada: '{rewritten}' (via {llm_model})"
-                # )
                 return rewritten
         except Exception as e:
             print(
@@ -264,6 +673,10 @@ class LegislationVectorDB:
             )
 
         # Fallback de heurística estática se o LLM falhar
+        return self._build_fallback_query(statement, choices, q)
+
+    def _build_fallback_query(self, statement: str, choices: Dict, q: Dict) -> str:
+        """Constrói uma query de fallback usando heurísticas estáticas."""
         fallback_terms = []
         legal_terms = [
             "estado de perigo",
@@ -278,6 +691,9 @@ class LegislationVectorDB:
             "nulidade",
             "nulo",
             "anulavel",
+            "incapacidade",
+            "causa transitoria",
+            "expressao da vontade",
         ]
         text_lower = strip_accents(statement).lower()
         for term in legal_terms:
@@ -303,6 +719,10 @@ class LegislationVectorDB:
         print(f"[RAG] Query jurídica de fallback: '{fallback_query}'")
         return fallback_query
 
+    # ------------------------------------------------------------------
+    # Busca híbrida em duas etapas
+    # ------------------------------------------------------------------
+
     def query(
         self,
         q: Any,
@@ -312,7 +732,17 @@ class LegislationVectorDB:
         model: Optional[str] = None,
     ) -> List[Dict[str, Any]]:
         """
-        Pesquisa híbrida com reranking na base de legislação.
+        Pesquisa híbrida em duas etapas com reranking jurídico na base de legislação.
+
+        Etapa A — Recuperação ampla:
+            - Busca vetorial com query reescrita (top_k_retrieval)
+            - Busca lexical BM25 com query original + expandida (top_k_retrieval)
+            - Combina candidatos com score híbrido
+
+        Etapa B — Seleção final:
+            - Reranking jurídico multi-critério
+            - Avaliação de confiança
+            - Retorna top_k_final resultados com metadados de confiança
 
         Args:
             q: Questão (dicionário completo) ou texto bruto da consulta.
@@ -323,10 +753,10 @@ class LegislationVectorDB:
         """
         k_final = top_k_final or top_k
 
-        # Etapa A — Construção da Query Jurídica
-        legal_query = self.build_legal_query(q, model)
+        # Etapa A — Construção das Queries
+        original_query, legal_query = self.build_legal_query(q, model)
 
-        # 1. Recuperação Vetorial (ChromaDB)
+        # 1. Recuperação Vetorial (ChromaDB) com query reescrita
         query_vector = self.embedding_provider.embed_query(legal_query)
         vector_res = self.collection.query(
             query_embeddings=[query_vector], n_results=top_k_retrieval
@@ -354,9 +784,12 @@ class LegislationVectorDB:
                     "lexical_score": 0.0,
                 }
 
-        # 2. Recuperação Lexical (TF-IDF)
+        # 2. Recuperação Lexical (BM25) com query original + expandida
         self._ensure_lexical_retriever()
-        lexical_res = self._lexical_retriever.search(legal_query, top_k=top_k_retrieval)
+        expanded_original = expand_query(original_query)
+        lexical_res = self._lexical_retriever.search(
+            original_query, top_k=top_k_retrieval, expanded_query=expanded_original
+        )
 
         for item in lexical_res:
             doc_id = item["id"]
@@ -378,41 +811,31 @@ class LegislationVectorDB:
         for c in candidate_list:
             c["base_score"] = 0.5 * c["vector_score"] + 0.5 * c["lexical_score"]
 
-        # Injeção de candidatos adicionais a partir de termos das alternativas
-        all_chunks = self._get_all_chunks()
-        choices = q.get("choices", {}) if isinstance(q, dict) else {}
-        if choices and "text" in choices:
-            for alt in choices["text"]:
-                alt_norm = strip_accents(alt).lower().strip(". ")
-                if len(alt_norm) > 3:
-                    for chunk in all_chunks:
-                        chunk_text = strip_accents(chunk["text"]).lower()
-                        if alt_norm in chunk_text:
-                            doc_id = chunk["id"]
-                            if doc_id not in candidates:
-                                c_entry = {
-                                    "id": doc_id,
-                                    "text": chunk["text"],
-                                    "metadata": chunk["metadata"],
-                                    "vector_score": 0.0,
-                                    "lexical_score": 0.0,
-                                    "base_score": 0.0,
-                                }
-                                candidates[doc_id] = c_entry
-                                candidate_list.append(c_entry)
-
-        # 4. Reranking por Heurísticas (Etapa C)
+        # 4. Reranking Jurídico Multi-Critério (Etapa B)
         reranked = self.rerank(q, candidate_list)
 
         # Ordena por score decrescente
         reranked.sort(key=lambda x: x["score"], reverse=True)
 
-        return reranked[:k_final]
+        # 5. Avaliação de confiança
+        top_results = reranked[:k_final]
+        confidence = self._assess_confidence(top_results, q)
+
+        # Anexa informação de confiança a cada resultado
+        for r in top_results:
+            r["confidence"] = confidence
+
+        return top_results
+
+    # ------------------------------------------------------------------
+    # Reranking jurídico multi-critério
+    # ------------------------------------------------------------------
 
     def rerank(self, q: Any, candidates: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
-        Aplica regras de boost e penalidade com base no domínio jurídico brasileiro.
-        Esta estrutura está desacoplada permitindo plugar um reranker neural futuramente.
+        Aplica reranking jurídico multi-critério genérico e interpretável.
+        Usa informações extraídas da questão (ramo, instituto, consequências,
+        fundamentos) para pontuar cada candidato.
         """
         # Se 'q' for apenas uma string simples, retorna os scores base sem boosts adicionais
         if isinstance(q, str):
@@ -421,91 +844,129 @@ class LegislationVectorDB:
                 c["rerank_reason"] = "Score híbrido base (busca vetorial + lexical)."
             return candidates
 
-        q_area = q.get("area", q.get("category", ""))
+        # Extrai informações jurídicas da questão
+        q_branch = self._extract_legal_branch(q)
+        concepts = self._extract_legal_concepts(q)
+
+        q_area_norm = strip_accents(q_branch).lower() if q_branch else ""
+
+        # Termos das alternativas (para match parcial)
         choices = q.get("choices", {})
+        choice_terms_norm = []
+        if choices and "text" in choices:
+            choice_terms_norm = [
+                strip_accents(t).lower().strip(". ") for t in choices["text"]
+            ]
+
+        # Termos narrativos extraídos dinamicamente do enunciado
+        statement = q.get("question", q.get("statement", ""))
+        narrative_terms = self._extract_narrative_terms(statement, concepts)
 
         for c in candidates:
             meta = c["metadata"]
             text_raw = meta.get("raw_text", c["text"])
             text_norm = strip_accents(text_raw).lower()
+            heading_path_norm = strip_accents(meta.get("heading_path", "")).lower()
+            keywords_str = meta.get("keywords", "")
+            chunk_keywords_norm = strip_accents(keywords_str).lower()
 
             boost = 0.0
             penalty = 0.0
             reasons = []
 
-            # A. Correspondência de Área Jurídica
+            # A. Correspondência de Ramo Jurídico (+0.30)
             chunk_area = meta.get("legal_area", "")
-            if q_area and chunk_area:
-                norm_q_area = strip_accents(q_area).lower()
+            if q_area_norm and chunk_area:
                 norm_chunk_area = strip_accents(chunk_area).lower()
-                if norm_q_area in norm_chunk_area or norm_chunk_area in norm_q_area:
-                    boost += 0.25
-                    reasons.append("Área jurídica compatível (+0.25)")
+                if q_area_norm in norm_chunk_area or norm_chunk_area in q_area_norm:
+                    boost += 0.30
+                    reasons.append(f"Ramo jurídico compatível: {chunk_area} (+0.30)")
+                elif self._areas_incompatible(q_area_norm, norm_chunk_area):
+                    penalty += 0.40
+                    reasons.append(
+                        f"Área incompatível: {chunk_area} vs {q_branch} (-0.40)"
+                    )
 
-            # B. Correspondência com termos jurídicos das Alternativas
+            # B. Instituto jurídico no heading_path (+0.35)
+            for foundation in concepts.get("foundations", []):
+                if foundation in heading_path_norm:
+                    boost += 0.35
+                    reasons.append(f"Instituto '{foundation}' no heading_path (+0.35)")
+                    break  # Conta apenas uma vez
+
+            # C. Consequência jurídica no texto (+0.40)
+            for consequence in concepts.get("choices_consequences", []):
+                if consequence in text_norm:
+                    boost += 0.40
+                    reasons.append(
+                        f"Consequência '{consequence}' encontrada no texto (+0.40)"
+                    )
+                    break  # Conta apenas uma vez
+
+            # D. Fundamento jurídico no texto (+0.25)
+            foundation_matches = 0
+            for foundation in concepts.get("choices_foundations", []):
+                if foundation in text_norm:
+                    foundation_matches += 1
+            if foundation_matches > 0:
+                f_boost = min(0.25 * foundation_matches, 0.50)
+                boost += f_boost
+                reasons.append(
+                    f"Fundamentos das alternativas no texto ({foundation_matches}x, +{f_boost:.2f})"
+                )
+
+            # E. Verbo jurídico no texto (+0.15)
+            for verb in concepts.get("verbs", []):
+                if verb in text_norm:
+                    boost += 0.15
+                    reasons.append(f"Verbo jurídico '{verb}' no texto (+0.15)")
+                    break
+
+            # F. Match parcial de alternativas no texto (+0.20 por match)
+            alt_match_count = 0
             matched_alts = []
-            alt_boost = 0.0
-            if choices and "text" in choices:
-                for alt in choices["text"]:
-                    alt_norm = strip_accents(alt).lower().strip(". ")
-                    # Ignora termos de preenchimento muito curtos
-                    if len(alt_norm) > 3:
-                        if alt_norm in text_norm:
-                            matched_alts.append(alt)
-                            # Dá boost maior para termos compostos (multi-palavras)
-                            if " " in alt_norm:
-                                alt_boost += 0.85
-                            else:
-                                alt_boost += 0.35
-
-            if matched_alts:
+            for alt_norm in choice_terms_norm:
+                if len(alt_norm) > 5 and alt_norm in text_norm:
+                    alt_match_count += 1
+                    matched_alts.append(alt_norm[:40])
+            if alt_match_count > 0:
+                alt_boost = min(0.20 * alt_match_count, 0.60)
                 boost += alt_boost
                 reasons.append(
-                    f"Contém termo das alternativas: {matched_alts} (+{alt_boost:.2f})"
+                    f"Termos de alternativas no texto ({alt_match_count}x, +{alt_boost:.2f})"
                 )
 
-            # C. Penalização de termos puramente narrativos/cenográficos
-            narrative_terms = [
-                "viagem",
-                "passageiro",
-                "piloto",
-                "aeroporto",
-                "piscina",
-                "quadra",
-                "pizzaria",
-                "pizzas",
-                "motociclista",
-                "voo",
-                "aeronave",
-                "surto",
-                "remedio",
-            ]
-            matched_narrative = [w for w in narrative_terms if w in text_norm]
+            # G. Correspondência com keywords do chunk (+0.15)
+            for foundation in concepts.get("foundations", []):
+                if foundation in chunk_keywords_norm:
+                    boost += 0.15
+                    reasons.append(f"Keyword '{foundation}' nos metadados (+0.15)")
+                    break
 
-            if matched_narrative:
-                # Verifica se o chunk possui algum dos conceitos jurídicos das alternativas
-                # Se só tem termos de cenário, mas não trata dos institutos do problema, penaliza
-                choices_terms = []
-                if choices and "text" in choices:
-                    choices_terms = [
-                        strip_accents(t).lower().strip(". ") for t in choices["text"]
-                    ]
-
-                has_legal_concept = any(
-                    term in text_norm for term in choices_terms if len(term) > 3
-                )
-
-                if not has_legal_concept:
-                    # Penaliza fortemente se contiver narrativa e nenhum termo jurídico relevante
-                    penalty_val = 0.50 * len(matched_narrative)
-                    penalty += penalty_val
-                    reasons.append(
-                        f"Contém apenas narrativa ({matched_narrative}) sem termo jurídico chave (-{penalty_val:.2f})"
+            # H. Penalização: artigo apenas com termos narrativos (-0.50)
+            if narrative_terms:
+                matched_narrative = [w for w in narrative_terms if w in text_norm]
+                if matched_narrative:
+                    has_legal_concept = any(
+                        term in text_norm for term in choice_terms_norm if len(term) > 5
                     )
+                    has_foundation = any(
+                        f in text_norm for f in concepts.get("foundations", [])
+                    )
+                    if not has_legal_concept and not has_foundation:
+                        pen = min(0.50 * len(matched_narrative), 1.0)
+                        penalty += pen
+                        reasons.append(
+                            f"Apenas narrativa ({matched_narrative[:3]}) sem conceito jurídico (-{pen:.2f})"
+                        )
+
+            # I. Penalização: score base muito baixo (-0.20)
+            if c["base_score"] < 0.10:
+                penalty += 0.20
+                reasons.append("Score base muito baixo (<0.10, -0.20)")
 
             # Calcula score final
             final_score = c["base_score"] + boost - penalty
-            # Evita score negativo
             c["score"] = max(0.0, final_score)
 
             # Registra a justificativa do reranking
@@ -518,6 +979,149 @@ class LegislationVectorDB:
             c["penalty"] = penalty
 
         return candidates
+
+    @staticmethod
+    def _areas_incompatible(area_a: str, area_b: str) -> bool:
+        """Verifica se duas áreas jurídicas são claramente incompatíveis."""
+        incompatible_pairs = [
+            ("civil", "penal"),
+            ("civil", "trabalho"),
+            ("civil", "administrativo"),
+            ("penal", "trabalho"),
+            ("penal", "administrativo"),
+            ("penal", "empresarial"),
+            ("trabalho", "empresarial"),
+            ("trabalho", "administrativo"),
+        ]
+        for a, b in incompatible_pairs:
+            if (a in area_a and b in area_b) or (b in area_a and a in area_b):
+                return True
+        return False
+
+    @staticmethod
+    def _extract_narrative_terms(
+        statement: str, concepts: Dict[str, List[str]]
+    ) -> List[str]:
+        """
+        Extrai termos narrativos/cenográficos do enunciado.
+        Esses são termos do caso concreto que não são jurídicos.
+        """
+        # Termos comuns de cenário em questões OAB
+        narrative_pool = [
+            "viagem",
+            "passageiro",
+            "piloto",
+            "aeroporto",
+            "piscina",
+            "quadra",
+            "pizzaria",
+            "pizzas",
+            "motociclista",
+            "voo",
+            "aeronave",
+            "surto",
+            "remedio",
+            "carro",
+            "onibus",
+            "restaurante",
+            "hospital",
+            "hotel",
+            "loja",
+            "shopping",
+            "vizinho",
+            "amigo",
+            "colega",
+            "cliente",
+            "medico",
+            "engenheiro",
+            "professor",
+            "advogado",
+            "contador",
+        ]
+        text_norm = strip_accents(statement).lower()
+        # Filtra apenas os que aparecem no texto e não são termos jurídicos
+        all_legal = set()
+        for key in concepts:
+            all_legal.update(concepts[key])
+        return [t for t in narrative_pool if t in text_norm and t not in all_legal]
+
+    # ------------------------------------------------------------------
+    # Avaliação de confiança da recuperação
+    # ------------------------------------------------------------------
+
+    def _assess_confidence(
+        self, results: List[Dict[str, Any]], q: Any
+    ) -> Dict[str, Any]:
+        """
+        Avalia a qualidade/confiança dos resultados recuperados.
+
+        Critérios:
+        1. Score absoluto do melhor resultado
+        2. Spread de scores entre os top resultados
+        3. Coerência de área jurídica entre os resultados
+        4. Presença de termos-chave nos resultados
+
+        Returns:
+            Dict com 'level' ("high", "medium", "low"), 'reason', 'suggested_k'.
+        """
+        if not results:
+            return {
+                "level": "low",
+                "reason": "Nenhum resultado recuperado.",
+                "suggested_k": 0,
+            }
+
+        # 1. Score absoluto do melhor resultado
+        top_score = results[0].get("score", 0.0)
+
+        # 2. Spread de scores
+        scores = [r.get("score", 0.0) for r in results]
+        score_spread = max(scores) - min(scores) if len(scores) > 1 else 0.0
+
+        # 3. Coerência de área jurídica
+        areas = [
+            r.get("metadata", {}).get("legal_area", "")
+            for r in results
+            if r.get("metadata", {}).get("legal_area", "")
+        ]
+        unique_areas = set(strip_accents(a).lower() for a in areas)
+
+        # 4. Presença de termos-chave
+        concepts = {}
+        if isinstance(q, dict):
+            concepts = self._extract_legal_concepts(q)
+        key_terms = concepts.get("foundations", []) + concepts.get("consequences", [])
+        term_found = False
+        for r in results:
+            text_norm = strip_accents(r.get("text", "")).lower()
+            if any(t in text_norm for t in key_terms):
+                term_found = True
+                break
+
+        # Classificação
+        reasons = []
+
+        if top_score < 0.20:
+            reasons.append(f"Score máximo muito baixo ({top_score:.2f})")
+        if len(unique_areas) > 2:
+            reasons.append(f"Áreas jurídicas heterogêneas ({len(unique_areas)} áreas)")
+        if score_spread < 0.05 and len(results) > 1:
+            reasons.append("Scores muito próximos entre resultados de temas diferentes")
+        if not term_found and key_terms:
+            reasons.append("Nenhum resultado contém termos-chave da questão")
+
+        if len(reasons) >= 3:
+            return {"level": "low", "reason": "; ".join(reasons), "suggested_k": 0}
+        elif len(reasons) >= 2:
+            return {"level": "low", "reason": "; ".join(reasons), "suggested_k": 1}
+        elif len(reasons) == 1:
+            return {"level": "medium", "reason": reasons[0], "suggested_k": 2}
+        else:
+            return {
+                "level": "high",
+                "reason": "Recuperação coerente.",
+                "suggested_k": 3,
+            }
 
     def count(self) -> int:
         """Retorna a quantidade de registros na coleção."""

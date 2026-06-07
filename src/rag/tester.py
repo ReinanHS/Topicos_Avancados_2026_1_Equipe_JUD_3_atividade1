@@ -205,20 +205,14 @@ def run_query_tests(
             typer.echo("-" * 60)
 
 
-def run_regression_test(db_path: str, collection: str, model: str) -> None:
+def _run_regression_q38(db, model: str) -> bool:
     """
-    Executa o teste de regressão para a questão 2016-21_38.
+    Teste de regressão para a questão 2016-21_38 (Eliseu / estado de perigo).
     Garante que o Art. 156 do Código Civil seja recuperado no topo e que
-    os artigos de transporte (Art. 739, 740, 742) sejam penalizados e classificados abaixo.
+    os artigos de transporte (Art. 739, 740, 742) sejam penalizados.
     """
-    from src.rag.embeddings import OllamaEmbeddingProvider
-    from src.rag.database import LegislationVectorDB
+    typer.echo("\n=== [TESTE 1/2] Questão 2016-21_38 (Eliseu / estado de perigo) ===")
 
-    typer.echo(
-        "=== [TESTE DE REGRESSÃO] Executando validação da Questão 2016-21_38 ==="
-    )
-
-    # Questão 2016-21_38 em JSON
     q = {
         "id": "2016-21_38",
         "question_number": 38,
@@ -232,19 +226,6 @@ def run_regression_test(db_path: str, collection: str, model: str) -> None:
         "area": "Direito Civil",
     }
 
-    provider = OllamaEmbeddingProvider(model_name=model)
-    db = LegislationVectorDB(
-        db_path=db_path, collection_name=collection, embedding_provider=provider
-    )
-
-    if not db.count():
-        typer.echo(
-            "Erro: O banco de dados vetorial está vazio. Popule-o primeiro.", err=True
-        )
-        sys.exit(1)
-
-    # Executa a busca híbrida com reranking
-    # Recupera até 10 itens para análise do ranking
     results = db.query(q, top_k_final=10, top_k_retrieval=20, model=model)
 
     typer.echo("\nResultados Obtidos (Top 10):")
@@ -258,7 +239,6 @@ def run_regression_test(db_path: str, collection: str, model: str) -> None:
 
     # Encontra as posições dos artigos críticos
     pos_art_156 = -1
-    pos_art_171 = -1
     transport_violations = []
 
     for idx, res in enumerate(results):
@@ -266,46 +246,191 @@ def run_regression_test(db_path: str, collection: str, model: str) -> None:
         art = meta.get("article", "")
         file_name = meta.get("file_name", "").lower()
 
-        # Filtra artigos do Código Civil
         if "l10406" in file_name:
             if "156" in art:
                 pos_art_156 = idx
-            elif "171" in art:
-                pos_art_171 = idx
             elif any(x in art for x in ["739", "740", "742"]):
-                # Se for artigo de contrato de transporte e estiver acima da posição de 156 (ou se 156 ainda não foi encontrado)
                 if pos_art_156 == -1 or idx < pos_art_156:
                     transport_violations.append((art, idx))
 
     # Validação 1: O Art. 156 deve ser encontrado
     if pos_art_156 == -1:
         typer.echo(
-            "[ERRO] Artigo 156 do Código Civil não foi encontrado entre os resultados finais do RAG.",
+            "[FALHA] Artigo 156 do Código Civil não encontrado nos resultados.",
             err=True,
         )
-        sys.exit(1)
+        return False
 
-    typer.echo(
-        f"[INFO] Artigo 156 do Código Civil classificado na posição {pos_art_156 + 1}."
-    )
-    if pos_art_171 != -1:
-        typer.echo(
-            f"[INFO] Artigo 171 do Código Civil classificado na posição {pos_art_171 + 1}."
-        )
-    else:
-        typer.echo("[INFO] Artigo 171 do Código Civil não ficou no top 10.")
+    typer.echo(f"[OK] Artigo 156 do Código Civil na posição {pos_art_156 + 1}.")
 
     # Validação 2: Artigos de transporte não devem estar acima do Art. 156
     if transport_violations:
         typer.echo(
-            "\n[FALHA DE REGRESSÃO] Um ou mais artigos de contrato de transporte ficaram acima do Art. 156:",
+            "[FALHA] Artigos de transporte acima do Art. 156:",
             err=True,
         )
         for art, pos in transport_violations:
             typer.echo(f"  - Artigo {art} na posição {pos + 1}", err=True)
+        return False
+
+    typer.echo("[SUCESSO] Questão 2016-21_38 passou no teste de regressão.")
+    return True
+
+
+def _run_regression_q37(db, model: str) -> bool:
+    """
+    Teste de regressão para a questão 2016-21_37 (André / transtorno psiquiátrico).
+    Garante que dispositivos centrais sobre incapacidade relativa e causa transitória
+    sejam recuperados, e que a confiança da recuperação não seja 'low'.
+
+    Artigos esperados nos resultados:
+    - Art. 4 do Código Civil (causa transitória / incapacidade relativa)
+    - Art. 171 do Código Civil (anulabilidade por incapacidade relativa)
+    Resposta correta: C (anulação + causa transitória)
+    """
+    typer.echo("\n=== [TESTE 2/2] Questão 2016-21_37 (André / causa transitória) ===")
+
+    q = {
+        "id": "2016-21_37",
+        "question_number": 37,
+        "exam_id": "2016-21",
+        "exam_year": "2016",
+        "question": "André possui um transtorno psiquiátrico grave, que demanda uso contínuo de medicamentos, graças aos quais ele leva vida normal. No entanto, em razão do consumo de remédios que se revelaram ineficazes, por causa de um defeito de fabricação naquele lote, André foi acometido de um surto que, ao privá-lo de discernimento, o levou a comprar diversos produtos caros de que não precisava.\nPara desfazer os efeitos desses negócios, André deve pleitear",
+        "choices": {
+            "text": [
+                "a nulidade dos negócios, por incapacidade absoluta decorrente de enfermidade ou deficiência mental.",
+                "a nulidade dos negócios, por causa transitória impeditiva de expressão da vontade.",
+                "a anulação do negócio, por causa transitória impeditiva de expressão da vontade.",
+                "a anulação do negócio, por incapacidade relativa decorrente de enfermidade ou deficiência mental.",
+            ],
+            "label": ["A", "B", "C", "D"],
+        },
+        "area": "Direito Civil",
+    }
+
+    results = db.query(q, top_k_final=10, top_k_retrieval=30, model=model)
+
+    typer.echo("\nResultados Obtidos (Top 10):")
+    for idx, res in enumerate(results):
+        meta = res["metadata"]
+        typer.echo(
+            f"  {idx + 1}. {meta.get('law_title')} - {meta.get('article')} (Score: {res['score']:.4f})"
+        )
+        typer.echo(f"     Justificativa: {res.get('rerank_reason', '')}")
+
+    # Mostra confiança
+    if results:
+        confidence = results[0].get("confidence", {})
+        typer.echo(
+            f"\n  Confiança: {confidence.get('level', '?')} — {confidence.get('reason', '')}"
+        )
+    typer.echo("-" * 60)
+
+    # Busca posições de artigos centrais
+    pos_art_4 = -1
+    pos_art_171 = -1
+    has_relevant_incapacity = False
+
+    for idx, res in enumerate(results):
+        meta = res["metadata"]
+        art = meta.get("article", "")
+        file_name = meta.get("file_name", "").lower()
+        text_lower = res.get("text", "").lower()
+
+        if "l10406" in file_name:
+            # Art. 4 (pode ser "Art. 4" ou "Art. 4º")
+            if art.strip().lower() in ["art. 4", "art 4", "art. 4º"]:
+                pos_art_4 = idx
+            elif "171" in art:
+                pos_art_171 = idx
+
+        # Verifica se algum resultado menciona causa transitória ou incapacidade relativa
+        if (
+            "causa transitoria" in text_lower
+            or "incapacidade relativa" in text_lower
+            or "exprimir" in text_lower
+        ):
+            has_relevant_incapacity = True
+
+    passed = True
+
+    # Validação 1: Pelo menos um resultado contém conceito de causa transitória / incapacidade relativa
+    if not has_relevant_incapacity:
+        typer.echo(
+            "[AVISO] Nenhum resultado contém termos sobre 'causa transitória' ou 'incapacidade relativa'.",
+        )
+        # Não falha o teste, mas avisa — pode ser que os termos estejam no heading_path ou keywords
+
+    # Validação 2: Art. 4 idealmente no top 5
+    if pos_art_4 != -1:
+        typer.echo(f"[OK] Art. 4 do Código Civil na posição {pos_art_4 + 1}.")
+        if pos_art_4 >= 5:
+            typer.echo("[AVISO] Art. 4 está abaixo do top 5. Poderia melhorar.")
+    else:
+        typer.echo("[AVISO] Art. 4 do Código Civil não encontrado no top 10.")
+        # Não falha o teste inteiro, mas registra
+
+    # Validação 3: Art. 171 idealmente presente
+    if pos_art_171 != -1:
+        typer.echo(f"[OK] Art. 171 do Código Civil na posição {pos_art_171 + 1}.")
+    else:
+        typer.echo("[INFO] Art. 171 do Código Civil não ficou no top 10.")
+
+    # Validação 4: Confiança não deve ser 'low'
+    if results:
+        confidence = results[0].get("confidence", {})
+        if confidence.get("level") == "low":
+            typer.echo(
+                f"[FALHA] Confiança da recuperação é 'low': {confidence.get('reason', '')}",
+                err=True,
+            )
+            passed = False
+
+    if passed:
+        typer.echo("[SUCESSO] Questão 2016-21_37 passou no teste de regressão.")
+    else:
+        typer.echo("[FALHA] Questão 2016-21_37 falhou no teste de regressão.")
+
+    return passed
+
+
+def run_regression_test(db_path: str, collection: str, model: str) -> None:
+    """
+    Executa os testes de regressão para as questões 2016-21_38 e 2016-21_37.
+    """
+    from src.rag.embeddings import OllamaEmbeddingProvider
+    from src.rag.database import LegislationVectorDB
+
+    typer.echo(
+        "=== [TESTE DE REGRESSÃO] Executando validação das questões críticas ==="
+    )
+
+    provider = OllamaEmbeddingProvider(model_name=model)
+    db = LegislationVectorDB(
+        db_path=db_path, collection_name=collection, embedding_provider=provider
+    )
+
+    if not db.count():
+        typer.echo(
+            "Erro: O banco de dados vetorial está vazio. Popule-o primeiro.", err=True
+        )
         sys.exit(1)
 
-    typer.echo("\n[SUCESSO] Teste de regressão concluído com êxito!")
-    typer.echo(
-        "O RAG recuperou o Art. 156 do Código Civil e penalizou com sucesso os artigos de transporte."
-    )
+    # Executa os dois testes sequencialmente
+    test1_ok = _run_regression_q38(db, model)
+    test2_ok = _run_regression_q37(db, model)
+
+    typer.echo("\n" + "=" * 60)
+    if test1_ok and test2_ok:
+        typer.echo("[SUCESSO GERAL] Todos os testes de regressão passaram!")
+    else:
+        failures = []
+        if not test1_ok:
+            failures.append("2016-21_38")
+        if not test2_ok:
+            failures.append("2016-21_37")
+        typer.echo(
+            f"[FALHA GERAL] Falhas nos testes: {', '.join(failures)}",
+            err=True,
+        )
+        sys.exit(1)

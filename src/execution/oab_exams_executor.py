@@ -71,9 +71,13 @@ class OABExamsExecutionManager(ExecutionManager):
         q_result["justification"] = self._parse_json_response(
             response, "justificativa", default=""
         )
-        q_result["chain_of_thought"] = self._parse_json_response(
-            response, "cadeia_de_pensamento", default=""
-        )
+        # Tenta analise_curta (novo) com fallback para cadeia_de_pensamento (legado)
+        analise = self._parse_json_response(response, "analise_curta", default="")
+        if not analise:
+            analise = self._parse_json_response(
+                response, "cadeia_de_pensamento", default=""
+            )
+        q_result["chain_of_thought"] = analise
 
         return q_result
 

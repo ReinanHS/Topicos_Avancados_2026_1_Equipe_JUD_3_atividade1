@@ -48,7 +48,11 @@ class ExecutionManager(ABC):
     def get_rag_context_and_info(
         self, q: Any, top_k: Optional[int] = None, model: Optional[str] = None
     ) -> tuple[str, list]:
-        """Realiza busca híbrida no banco vetorial e retorna contexto textual e info estruturada."""
+        """
+        Realiza busca híbrida no banco vetorial e retorna contexto textual compacto
+        e info estruturada. Aplica avaliação de confiança para ajustar o volume
+        de contexto enviado ao modelo.
+        """
         if not self.use_rag or not self._rag_db:
             return "", []
 
@@ -59,16 +63,35 @@ class ExecutionManager(ABC):
             print(f"[RAG] Erro ao consultar banco vetorial: {e}")
             return "", []
 
-        context_parts = []
-        rag_info = []
+        if not results:
+            return "", []
 
-        for res in results:
+        # Aplica avaliação de confiança para ajustar k
+        confidence = results[0].get("confidence", {}) if results else {}
+        confidence_level = confidence.get("level", "high")
+        suggested_k = confidence.get("suggested_k", k)
+
+        # Reduz resultados com base na confiança
+        effective_k = min(len(results), suggested_k)
+
+        if effective_k <= 0:
+            print(
+                f"[RAG] Confiança baixa ({confidence.get('reason', '')}). Fallback sem RAG."
+            )
+            return "", [{"confidence": confidence}]
+
+        results = results[:effective_k]
+
+        rag_info = []
+        context_parts = []
+
+        for idx, res in enumerate(results):
             meta = res.get("metadata", {})
             law_title = meta.get("law_title", "Desconhecida")
             file_name = meta.get("file_name", "")
             article = meta.get("article", "Desconhecido")
             score = res.get("score", 0.0)
-            text = res.get("text", "")
+            raw_text = meta.get("raw_text", res.get("text", ""))
 
             law_str = f"{law_title}"
             if file_name:
@@ -85,17 +108,128 @@ class ExecutionManager(ABC):
                     "Boost": round(res.get("boost", 0.0), 4),
                     "Penalidade": round(res.get("penalty", 0.0), 4),
                     "Justificativa": res.get("rerank_reason", ""),
+                    "Confianca": confidence_level,
                 }
             )
 
+            # Texto compacto: apenas as primeiras 4 linhas do artigo
+            lines = raw_text.strip().split("\n")
+            compact_text = "\n".join(lines[:4])
+            if len(lines) > 4:
+                compact_text += "\n(...)"
+
+            # Gera breve explicação de relevância a partir do rerank_reason
+            relevance = res.get("rerank_reason", "")
+            relevance_short = relevance.split(";")[0].strip() if relevance else ""
+
             context_parts.append(
-                f"Documento/Lei: {law_str}\n"
-                f"Artigo/Dispositivo: {article}\n"
-                f"Texto:\n{text}\n"
+                f"{idx + 1}. {law_title} — {article}\n"
+                f"   {compact_text}\n"
+                f"   Relevância: {relevance_short}"
             )
 
-        context_str = "\n---\n".join(context_parts)
+        # Monta o contexto final compacto
+        context_str = "[LEGISLAÇÃO RELEVANTE]\n" + "\n\n".join(context_parts)
+
+        # Gera alertas de distinção se a questão tem pares confusos
+        distinction_alerts = self._build_distinction_alerts(q)
+        if distinction_alerts:
+            context_str += "\n\n[ALERTA DE DISTINÇÃO]\n" + "\n".join(
+                f"- {alert}" for alert in distinction_alerts
+            )
+
+        if confidence_level != "high":
+            context_str += f"\n\n[ALERTA] Confiança da recuperação: {confidence_level}. Use os artigos com cautela."
+
         return context_str, rag_info
+
+    @staticmethod
+    def _build_distinction_alerts(q: Any) -> list:
+        """
+        Gera alertas curtos de distinção jurídica com base nos pares de conceitos
+        que as alternativas distinguem. Ajuda o modelo pequeno a não confundir.
+        """
+        if not isinstance(q, dict):
+            return []
+
+        try:
+            from src.rag.database import LegislationVectorDB
+
+            pairs = LegislationVectorDB._extract_distinction_terms(q)
+        except Exception:
+            return []
+
+        if not pairs:
+            return []
+
+        # Mapeamento de explicações para pares comuns
+        pair_explanations = {
+            (
+                "nulidade",
+                "anulacao",
+            ): "Nulidade = invalidade absoluta (Art. 166). Anulação = invalidade relativa (Art. 171). Se o fundamento apontar para 'anulável', NÃO escolha 'nulidade'.",
+            (
+                "nulidade",
+                "anulabilidade",
+            ): "Nulidade = ato nulo de pleno direito. Anulabilidade = ato anulável por vício sanável.",
+            (
+                "nulo",
+                "anulavel",
+            ): "Ato nulo não produz efeitos. Ato anulável produz efeitos até ser anulado.",
+            (
+                "prescricao",
+                "decadencia",
+            ): "Prescrição extingue a pretensão (direito subjetivo). Decadência extingue o próprio direito (potestativo).",
+            (
+                "incapacidade absoluta",
+                "incapacidade relativa",
+            ): "Absolutamente incapaz = menores de 16 anos. Relativamente incapaz = maiores de 16 e menores de 18 ou com causa transitória.",
+            (
+                "absolutamente incapaz",
+                "relativamente incapaz",
+            ): "Absolutamente incapaz → ato NULO. Relativamente incapaz → ato ANULÁVEL.",
+            (
+                "erro",
+                "dolo",
+            ): "Erro = falsa percepção espontânea. Dolo = indução em erro pela outra parte.",
+            (
+                "coacao",
+                "estado de perigo",
+            ): "Coação = ameaça. Estado de perigo = necessidade de salvar a si ou parente.",
+            (
+                "causa transitoria",
+                "enfermidade",
+            ): "Causa transitória (Art. 4.º, III) = incapacidade relativa → anulação. Enfermidade/deficiência mental não é mais causa automática de incapacidade (Lei 13.146/2015).",
+            (
+                "causa transitoria",
+                "deficiencia mental",
+            ): "Causa transitória = impedimento temporário de exprimir vontade → incapacidade relativa. Deficiência mental = não afeta automaticamente a capacidade (Lei 13.146/2015).",
+            (
+                "apelacao",
+                "agravo",
+            ): "Apelação = recurso contra sentença. Agravo de instrumento = recurso contra decisão interlocutória.",
+            (
+                "rescisao",
+                "resolucao",
+            ): "Rescisão = término de contrato por causa superveniente. Resolução = término por inadimplemento.",
+            (
+                "dano moral",
+                "dano material",
+            ): "Dano moral = lesão a direito de personalidade. Dano material = prejuízo patrimonial efetivo.",
+        }
+
+        alerts = []
+        for pair in pairs:
+            # Tenta com a chave direta e inversa
+            explanation = pair_explanations.get(pair) or pair_explanations.get(
+                (pair[1], pair[0])
+            )
+            if explanation:
+                alerts.append(explanation)
+            else:
+                alerts.append(f"Atenção à diferença entre '{pair[0]}' e '{pair[1]}'.")
+
+        return alerts
 
     @property
     @abstractmethod

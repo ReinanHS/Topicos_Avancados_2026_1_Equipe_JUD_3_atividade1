@@ -1,4 +1,4 @@
-A seguir, uma questão objetiva de múltipla escolha do Exame da Ordem dos Advogados do Brasil (OAB).
+A seguir, uma questão objetiva de múltipla escolha do Exame da OAB.
 
 [QUESTÃO]
 {{ question }}
@@ -8,4 +8,8 @@ A seguir, uma questão objetiva de múltipla escolha do Exame da Ordem dos Advog
 {% endfor %}
 
 [INSTRUÇÃO]
-Analise o enunciado e cada uma das alternativas, raciocine passo a passo e, em seguida, retorne o JSON no formato definido (campos: "cadeia_de_pensamento", "justificativa" e "resposta_objetiva", nessa ordem).
+1. Identifique o instituto jurídico central da questão.
+2. Identifique a consequência jurídica correta (nulidade? anulação? prescrição? outra?).
+3. Identifique o fundamento que diferencia as alternativas.
+4. Valide: a alternativa escolhida combina a consequência E o fundamento corretos?
+5. Retorne o JSON com "analise_curta", "justificativa" e "resposta_objetiva".
