@@ -118,11 +118,19 @@ class ExecutionManager(ABC):
         """Formata as escolhas para a estrutura de resposta final."""
         ...
 
-    def get_questions(self, limit: int = None) -> List[Dict[str, Any]]:
+    def get_questions(
+        self, limit: int = None, question_ids: List[str] = None
+    ) -> List[Dict[str, Any]]:
         """
         Carrega as questões do dataset e aplica o limite caso exista.
         """
         questions = self.dataset_loader.load_questions()
+        if question_ids:
+            questions = [
+                q
+                for q in questions
+                if str(q.get("question_id", q.get("id", ""))) in question_ids
+            ]
         if limit is not None and limit > 0:
             questions = questions[:limit]
         return questions
@@ -269,11 +277,27 @@ class ExecutionManager(ABC):
             ans["rag_info"] = q_result["rag_info"]
         return ans
 
-    def save_results(self, results: List[Dict[str, Any]], model: str) -> Path:
+    def save_results(
+        self,
+        results: List[Dict[str, Any]],
+        model: str,
+        filename_suffix: str = "",
+        append: bool = False,
+    ) -> Path:
         """Salva os resultados consolidados na subpasta definida para o cache."""
         suffix = "rag" if self.use_rag else "default"
         sub_dir = f"results/{self.dataset_name}/model_answer/{suffix}"
-        filename = model.replace(":", "-")
+        filename = model.replace(":", "-") + filename_suffix
+
+        if append:
+            try:
+                existing_data = self.storage.load_data(
+                    filename, fmt="json", sub_dir=sub_dir
+                )
+                if isinstance(existing_data, list):
+                    results = existing_data + results
+            except FileNotFoundError:
+                pass
 
         output_path = self.storage.save_data(
             results, filename, fmt="json", sub_dir=sub_dir

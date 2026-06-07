@@ -231,6 +231,84 @@ def pull(
     typer.echo(f"Conjunto de dados salvo com sucesso em: {caminho_arquivo}")
 
 
+def _run_inference(
+    dataset: str,
+    model: str = None,
+    limit: int = None,
+    rag: bool = False,
+    top_k: int = 10,
+    question_ids: list[str] = None,
+    filename_suffix: str = "",
+    append: bool = False,
+    repeat: int = 1,
+) -> None:
+    from src.execution.executor_factory import ExecutionManagerFactory
+    from src.datasets.loader_factory import DatasetLoaderFactory
+    from src.llm.ollama_client import OllamaClient
+    from src.storage.local_storage import LocalStorage
+    import time
+
+    _validate_dataset(dataset)
+
+    if model is not None and model not in OllamaClient.AVAILABLE_MODELS:
+        typer.echo(
+            f"Erro: Modelo '{model}' não é suportado pelo nosso OllamaClient.",
+            err=True,
+        )
+        raise typer.Exit(code=1)
+
+    models_to_run = [model] if model else OllamaClient.AVAILABLE_MODELS
+
+    ollama_client = OllamaClient()
+    loader = DatasetLoaderFactory.create(dataset)
+    storage = LocalStorage()
+    execution_manager = ExecutionManagerFactory.create(
+        dataset, loader, storage, ollama_client
+    )
+    execution_manager.set_rag(rag)
+    execution_manager.set_top_k(top_k)
+
+    questions = execution_manager.get_questions(limit, question_ids=question_ids)
+
+    if not questions:
+        typer.echo(
+            "Aviso: Nenhuma questão encontrada para processamento com os filtros fornecidos."
+        )
+        return
+
+    if repeat > 1:
+        questions = questions * repeat
+
+    for i, current_model in enumerate(models_to_run):
+        if i > 0:
+            typer.echo(
+                "\nAguardando 15 segundos para limpeza de VRAM e estabilização do Ollama..."
+            )
+            time.sleep(15)
+
+        typer.echo(
+            f"\nIniciando a execução de {len(questions)} questões no modelo {current_model}..."
+        )
+        results = []
+
+        with typer.progressbar(
+            questions, label=f"Processando ({current_model})"
+        ) as progress:
+            for q in progress:
+                q_result = execution_manager.process_full_question(q, current_model)
+                results.append(q_result)
+
+        output_path = execution_manager.save_results(
+            results, current_model, filename_suffix=filename_suffix, append=append
+        )
+
+        typer.echo(
+            f"Modelo {current_model} finalizado! Resultados salvos em: {output_path}"
+        )
+
+    typer.echo("\nExecução finalizada com sucesso!")
+
+
 @app.command()
 def infer(
     dataset: str = typer.Argument(
@@ -259,65 +337,119 @@ def infer(
         "-k",
         help="Quantidade de trechos de lei a serem recuperados pelo RAG.",
     ),
+    question_id: list[str] = typer.Option(
+        None,
+        "--id",
+        "-i",
+        help="ID de uma questão específica a ser executada. Pode ser informado múltiplas vezes.",
+    ),
+    question_ids: str = typer.Option(
+        None,
+        "--ids",
+        help="Lista de IDs de questões separados por vírgula (ex: 2016-21_37,2016-21_38).",
+    ),
 ):
     """
     Executa a inferência e a classificação de dificuldade nas questões do dataset através do LLM local.
     """
-    from src.execution.executor_factory import ExecutionManagerFactory
-    from src.datasets.loader_factory import DatasetLoaderFactory
-    from src.llm.ollama_client import OllamaClient
-    from src.storage.local_storage import LocalStorage
+    ids_to_filter = []
+    if question_id:
+        ids_to_filter.extend(question_id)
+    if question_ids:
+        ids_to_filter.extend(
+            [q_id.strip() for q_id in question_ids.split(",") if q_id.strip()]
+        )
 
-    _validate_dataset(dataset)
+    # Para inferência padrão com filtro, vamos dar append para não apagar o resto do arquivo
+    append_mode = True if ids_to_filter else False
 
-    if model is not None and model not in OllamaClient.AVAILABLE_MODELS:
+    _run_inference(
+        dataset=dataset,
+        model=model,
+        limit=limit,
+        rag=rag,
+        top_k=top_k,
+        question_ids=ids_to_filter if ids_to_filter else None,
+        append=append_mode,
+    )
+
+
+@app.command(name="infer-test")
+def infer_test(
+    dataset: str = typer.Argument(
+        ..., help="Nome do dataset para processar (ex: oab_bench, oab_exams)"
+    ),
+    model: str = typer.Option(
+        None,
+        "--model",
+        "-m",
+        help="Modelo do ollama para execução. Se não informado, executa para todos os modelos disponíveis.",
+    ),
+    limit: int = typer.Option(
+        None,
+        "--limit",
+        "-l",
+        help="Limitar a quantidade de questões a serem executadas.",
+    ),
+    rag: bool = typer.Option(
+        False,
+        "--rag/--no-rag",
+        help="Habilitar ou desabilitar o uso do RAG (padrão: desabilitado).",
+    ),
+    top_k: int = typer.Option(
+        10,
+        "--top-k",
+        "-k",
+        help="Quantidade de trechos de lei a serem recuperados pelo RAG.",
+    ),
+    question_id: list[str] = typer.Option(
+        None,
+        "--id",
+        "-i",
+        help="ID de uma questão específica a ser executada. Pode ser informado múltiplas vezes.",
+    ),
+    question_ids: str = typer.Option(
+        None,
+        "--ids",
+        help="Lista de IDs de questões separados por vírgula (ex: 2016-21_37,2016-21_38).",
+    ),
+    repeat: int = typer.Option(
+        1,
+        "--repeat",
+        "-r",
+        help="Quantidade de vezes que cada questão filtrada deve ser executada.",
+    ),
+):
+    """
+    Executa a inferência em questões específicas por ID (ou lista de IDs) com suporte a múltiplas repetições.
+    Os resultados são salvos em um arquivo separado com sufixo '_test'.
+    """
+    ids_to_filter = []
+    if question_id:
+        ids_to_filter.extend(question_id)
+    if question_ids:
+        ids_to_filter.extend(
+            [q_id.strip() for q_id in question_ids.split(",") if q_id.strip()]
+        )
+
+    if not ids_to_filter:
         typer.echo(
-            f"Erro: Modelo '{model}' não é suportado pelo nosso OllamaClient.",
+            "Erro: O comando 'infer-test' exige que pelo menos um ID de questão seja fornecido via --id ou --ids.",
             err=True,
         )
         raise typer.Exit(code=1)
 
-    models_to_run = [model] if model else OllamaClient.AVAILABLE_MODELS
-
-    ollama_client = OllamaClient()
-    loader = DatasetLoaderFactory.create(dataset)
-    storage = LocalStorage()
-    execution_manager = ExecutionManagerFactory.create(
-        dataset, loader, storage, ollama_client
+    _run_inference(
+        dataset=dataset,
+        model=model,
+        limit=limit,
+        rag=rag,
+        top_k=top_k,
+        question_ids=ids_to_filter,
+        filename_suffix="_test",
+        append=True,
+        repeat=repeat,
     )
-    execution_manager.set_rag(rag)
-    execution_manager.set_top_k(top_k)
-
-    questions = execution_manager.get_questions(limit)
-
-    import time
-
-    for i, current_model in enumerate(models_to_run):
-        if i > 0:
-            typer.echo(
-                "\nAguardando 15 segundos para limpeza de VRAM e estabilização do Ollama..."
-            )
-            time.sleep(15)
-
-        typer.echo(
-            f"\nIniciando a execução de {len(questions)} questões no modelo {current_model}..."
-        )
-        results = []
-
-        with typer.progressbar(
-            questions, label=f"Processando ({current_model})"
-        ) as progress:
-            for q in progress:
-                q_result = execution_manager.process_full_question(q, current_model)
-                results.append(q_result)
-
-        output_path = execution_manager.save_results(results, current_model)
-
-        typer.echo(
-            f"Modelo {current_model} finalizado! Resultados salvos em: {output_path}"
-        )
-
-    typer.echo("\nExecução finalizada com sucesso!")
 
 
 @app.command()

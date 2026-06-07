@@ -124,8 +124,37 @@ A flag `--rag` ativa a busca híbrida semântica na base de legislação indexad
 ```bash
 uv run reinan-cli infer oab_bench --model qwen2.5:3b --limit 5 --rag --top-k 5
 ```
-
 Os resultados gerados nessa etapa são salvos no diretório `.reinan_cache/results`.
+
+#### Filtrar questões por ID
+
+Você também pode executar a inferência apenas para questões específicas fornecendo seus IDs. Isso é útil para depurar erros em questões particulares.
+
+É possível passar o ID de forma individual (usando `--id` múltiplas vezes) ou como uma lista separada por vírgula (usando `--ids`):
+
+```bash
+# Executando apenas uma questão específica
+uv run reinan-cli infer oab_exams --model gemma2:2b --rag -k 3 --id 2016-21_37
+
+# Executando múltiplas questões específicas
+uv run reinan-cli infer oab_exams --model gemma2:2b --rag -k 3 --ids 2016-21_36,2016-21_37
+```
+
+Quando um filtro de ID é utilizado no comando `infer`, os resultados são mesclados (*append*) com os resultados existentes no arquivo principal do modelo (ex: `gemma2-2b.json`), sem sobrescrever ou apagar as respostas de outras questões que já haviam sido processadas.
+
+#### Executar testes direcionados e repetidos (`infer-test`)
+
+Para fins de teste e análise de variabilidade do modelo, você pode utilizar o comando **`infer-test`**. Ele exige a indicação de pelo menos um ID de questão e possui um parâmetro adicional `--repeat` / `-r` para executar a inferência sobre as questões filtradas múltiplas vezes em sequência.
+
+Isso é ideal para entender o comportamento estocástico do modelo e depurar por que uma determinada questão falha ou pontua incorretamente.
+
+Exemplo de uso executando a mesma questão 10 vezes consecutivas com RAG habilitado:
+
+```bash
+uv run reinan-cli infer-test oab_exams --model gemma2:2b --rag -k 3 --id 2016-21_37 --repeat 10
+```
+
+Os resultados gerados pelo comando `infer-test` são salvos de forma isolada em um arquivo com sufixo `_test` (ex: `gemma2-2b_test.json`), evitando interferir na acurácia geral do modelo que é medida pelo comando `evaluate` sobre o arquivo principal. Múltiplas execuções do comando de teste acumulam novas entradas ao fim desse arquivo de teste sem sobrescrever valores.
 
 ### 4. Avaliar os resultados `evaluate`
 
