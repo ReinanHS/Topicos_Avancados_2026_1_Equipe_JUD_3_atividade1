@@ -709,6 +709,27 @@ def rag_test_chunker(
     run_chunker_tests(file_name, preview_limit)
 
 
+@app.command(name="rag-test-regression")
+def rag_test_regression(
+    db_path: str = typer.Option(
+        ".reinan_cache/chromadb", "--db-path", help="Caminho local do ChromaDB."
+    ),
+    collection: str = typer.Option(
+        "legislacao", "--collection", help="Nome da coleção no ChromaDB."
+    ),
+    model: str = typer.Option(
+        "nomic-embed-text", "--model", help="Nome do modelo de embedding no Ollama."
+    ),
+):
+    """
+    Executa o teste de regressão para garantir a recuperação correta da Questão 2016-21_38.
+    """
+    from src.rag.tester import run_regression_test
+
+    typer.echo("=== Iniciando teste de regressão RAG ===")
+    run_regression_test(db_path, collection, model)
+
+
 @app.command("run-all")
 def run_all(
     limit: int = typer.Option(

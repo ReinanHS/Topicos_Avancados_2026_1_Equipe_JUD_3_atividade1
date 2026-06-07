@@ -52,23 +52,22 @@ class OllamaEmbeddingProvider:
             try:
                 response = self.client.embed(model=self.model_name, input=batch)
                 embeddings.extend(response["embeddings"])
-            except Exception:
-                # Tratamento de erro e retry para evitar falhas no meio de execuções longas
+            except Exception as _e:
+                # Tratamento de erro e retry para tentar isolar o problema
                 print(
                     f"[OllamaEmbeddingProvider] Falha ao gerar batch {i // batch_size}. Retentando individualmente..."
                 )
                 for text in batch:
-                    # Tenta individualmente para isolar e ignorar eventuais textos corrompidos
                     try:
                         resp = self.client.embed(model=self.model_name, input=text)
                         embeddings.append(resp["embeddings"][0])
                     except Exception as err:
                         print(
-                            f"[OllamaEmbeddingProvider] Falha crítica em texto individual: {err}"
+                            f"[OllamaEmbeddingProvider] Falha crítica ao gerar embedding individual: {err}"
                         )
-                        # Retorna vetor zerado do mesmo tamanho aproximado caso falhe
-                        # nomic-embed-text tem 768 dimensões
-                        embeddings.append([0.0] * 768)
+                        raise RuntimeError(
+                            f"Falha ao gerar embedding para o texto. Erro original: {err}"
+                        ) from err
 
         return embeddings
 

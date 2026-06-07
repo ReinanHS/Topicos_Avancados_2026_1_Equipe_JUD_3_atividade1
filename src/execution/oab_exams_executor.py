@@ -43,8 +43,7 @@ class OABExamsExecutionManager(ExecutionManager):
         rag_context = ""
         rag_info = []
         if self.use_rag:
-            query_text = q.get("question", q.get("statement", ""))
-            rag_context, rag_info = self.get_rag_context_and_info(query_text)
+            rag_context, rag_info = self.get_rag_context_and_info(q, model=model)
             q_result["rag_info"] = rag_info
 
         system_prompt = self._resolve_system_prompt(q)

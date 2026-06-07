@@ -4,7 +4,7 @@ import time
 import uuid
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from src.prompts.renderer import PromptRenderer
 
@@ -41,14 +41,16 @@ class ExecutionManager(ABC):
             )
 
     def get_rag_context_and_info(
-        self, query_text: str, top_k: int = 3
+        self, q: Any, top_k: int = 3, model: Optional[str] = None
     ) -> tuple[str, list]:
-        """Realiza busca semântica no banco vetorial e retorna contexto textual e info estruturada."""
+        """Realiza busca híbrida no banco vetorial e retorna contexto textual e info estruturada."""
         if not self.use_rag or not self._rag_db:
             return "", []
 
         try:
-            results = self._rag_db.query(query_text, top_k=top_k)
+            results = self._rag_db.query(
+                q, top_k=top_k, top_k_retrieval=20, model=model
+            )
         except Exception as e:
             print(f"[RAG] Erro ao consultar banco vetorial: {e}")
             return "", []
