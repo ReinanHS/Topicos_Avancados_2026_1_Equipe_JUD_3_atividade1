@@ -138,6 +138,23 @@ def _build_expansion_index() -> Dict[str, List[str]]:
 _EXPANSION_INDEX = _build_expansion_index()
 
 
+def _expand_ngrams_for_n(
+    n: int,
+    words: List[str],
+    matched_spans: set,
+    expansions: set,
+) -> None:
+    """Procura e registra expansões para n-grams de tamanho n."""
+    for i in range(len(words) - n + 1):
+        # Pula se qualquer posição já foi matched por n-gram maior
+        if any(j in matched_spans for j in range(i, i + n)):
+            continue
+        ngram = " ".join(words[i : i + n])
+        if ngram in _EXPANSION_INDEX:
+            expansions.update(_EXPANSION_INDEX[ngram])
+            matched_spans.update(range(i, i + n))
+
+
 def expand_query(query: str) -> str:
     """
     Expande uma query com sinônimos jurídicos do dicionário.
@@ -149,18 +166,8 @@ def expand_query(query: str) -> str:
     expansions = set()
     matched_spans = set()  # Para evitar duplicação
 
-    # Tenta n-grams de 3, 2 e 1 palavras
     for n in [3, 2, 1]:
-        for i in range(len(words) - n + 1):
-            # Pula se qualquer posição já foi matched por n-gram maior
-            if any(j in matched_spans for j in range(i, i + n)):
-                continue
-            ngram = " ".join(words[i : i + n])
-            if ngram in _EXPANSION_INDEX:
-                for exp in _EXPANSION_INDEX[ngram]:
-                    expansions.add(exp)
-                for j in range(i, i + n):
-                    matched_spans.add(j)
+        _expand_ngrams_for_n(n, words, matched_spans, expansions)
 
     if not expansions:
         return query

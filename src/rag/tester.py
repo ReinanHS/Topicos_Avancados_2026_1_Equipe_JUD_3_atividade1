@@ -1,7 +1,7 @@
 import sys
 import json
 from pathlib import Path
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Tuple
 import typer
 from src.rag.chunker import LegislationChunker
 
@@ -84,26 +84,8 @@ def _print_query_results(results: List[Dict[str, Any]]) -> None:
         typer.echo("")
 
 
-def run_query_tests(
-    query_text: Optional[str], top_k: int, db_path: str, collection: str, model: str
-) -> None:
-    """Orquestra as consultas híbridas com exibição detalhada de diagnósticos."""
-    from src.rag.embeddings import OllamaEmbeddingProvider
-    from src.rag.database import LegislationVectorDB
-
-    provider = OllamaEmbeddingProvider(model_name=model)
-    db = LegislationVectorDB(
-        db_path=db_path, collection_name=collection, embedding_provider=provider
-    )
-
-    if not db.count():
-        typer.echo(
-            "Erro: O banco de dados vetorial está vazio. Execute 'rag-populate' primeiro.",
-            err=True,
-        )
-        raise typer.Exit(code=1)
-
-    # 1. Resolve a entrada (pode ser texto simples, string JSON ou arquivo JSON)
+def _parse_query_input(query_text: Optional[str]) -> Dict[str, Any]:
+    """Resolve e parseia a entrada para a query em dicionário de questão."""
     q = query_text
     if query_text:
         path = Path(query_text)
@@ -119,31 +101,15 @@ def run_query_tests(
             except Exception:
                 pass
 
-    # Se q for apenas uma string, criamos um formato de dicionário simples de questão
     if isinstance(q, str) or q is None:
         default_statement = q or "Quais são os direitos básicos do consumidor?"
         q = {"question": default_statement, "choices": {"text": []}, "area": ""}
+    return q
 
-    statement = q.get("question", q.get("statement", ""))
-    choices = q.get("choices", {}).get("text", [])
 
-    # Etapa A — Consulta e Reescrita
-    typer.echo("\n" + "=" * 60)
-    typer.echo(f"Query Original:\n  '{statement}'")
-    if choices:
-        typer.echo("Alternativas fornecidas:")
-        for c in choices:
-            typer.echo(f"  - {c}")
-
-    legal_query = db.build_legal_query(q, model)
-    typer.echo(f"\nQuery Jurídica Reescrita:\n  '{legal_query}'")
-    typer.echo("=" * 60)
-
-    # Etapa B — Busca Vetorial Inicial
+def _print_vector_results(vector_res: Dict[str, Any]) -> None:
+    """Imprime diagnósticos da recuperação vetorial inicial."""
     typer.echo("\n--- [1] Resultados Vetoriais Iniciais (Top 5 no ChromaDB) ---")
-    query_vector = db.embedding_provider.embed_query(legal_query)
-    vector_res = db.collection.query(query_embeddings=[query_vector], n_results=5)
-
     if vector_res and "documents" in vector_res and vector_res["documents"]:
         docs = vector_res["documents"][0]
         metas = vector_res["metadatas"][0]
@@ -157,11 +123,10 @@ def run_query_tests(
     else:
         typer.echo("  Nenhum resultado vetorial.")
 
-    # Etapa B — Busca Lexical Inicial
-    typer.echo("\n--- [2] Resultados Lexicais Iniciais (Top 5 via TF-IDF) ---")
-    db._ensure_lexical_retriever()
-    lexical_res = db._lexical_retriever.search(legal_query, top_k=5)
 
+def _print_lexical_results(lexical_res: List[Dict[str, Any]]) -> None:
+    """Imprime diagnósticos da recuperação lexical inicial."""
+    typer.echo("\n--- [2] Resultados Lexicais Iniciais (Top 5 via TF-IDF) ---")
     if lexical_res:
         for idx, item in enumerate(lexical_res):
             meta = item["metadata"]
@@ -171,12 +136,12 @@ def run_query_tests(
     else:
         typer.echo("  Nenhum resultado lexical.")
 
-    # Etapa C — Reranking e Fusão Híbrida
+
+def _print_final_rag_results(results: List[Dict[str, Any]], top_k: int) -> None:
+    """Imprime os resultados RAG finais com reranking."""
     typer.echo("\n" + "=" * 60)
     typer.echo(f"--- [3] Resultados Finais (Top {top_k} com Reranking & Fusão) ---")
     typer.echo("=" * 60)
-
-    results = db.query(q, top_k_final=top_k, top_k_retrieval=20, model=model)
 
     if not results:
         typer.echo("Nenhum resultado retornado pelo RAG.")
@@ -203,6 +168,79 @@ def run_query_tests(
             if len(lines) > 3:
                 typer.echo("    ...")
             typer.echo("-" * 60)
+
+
+def run_query_tests(
+    query_text: Optional[str], top_k: int, db_path: str, collection: str, model: str
+) -> None:
+    """Orquestra as consultas híbridas com exibição detalhada de diagnósticos."""
+    from src.rag.embeddings import OllamaEmbeddingProvider
+    from src.rag.database import LegislationVectorDB
+
+    provider = OllamaEmbeddingProvider(model_name=model)
+    db = LegislationVectorDB(
+        db_path=db_path, collection_name=collection, embedding_provider=provider
+    )
+
+    if not db.count():
+        typer.echo(
+            "Erro: O banco de dados vetorial está vazio. Execute 'rag-populate' primeiro.",
+            err=True,
+        )
+        raise typer.Exit(code=1)
+
+    q = _parse_query_input(query_text)
+    statement = q.get("question", q.get("statement", ""))
+    choices = q.get("choices", {}).get("text", [])
+
+    # Etapa A — Consulta e Reescrita
+    typer.echo("\n" + "=" * 60)
+    typer.echo(f"Query Original:\n  '{statement}'")
+    if choices:
+        typer.echo("Alternativas fornecidas:")
+        for c in choices:
+            typer.echo(f"  - {c}")
+
+    original_query, legal_query = db.build_legal_query(q, model)
+    typer.echo(f"\nQuery Jurídica Reescrita:\n  '{legal_query}'")
+    typer.echo("=" * 60)
+
+    # Etapa B — Busca Vetorial Inicial
+    query_vector = db.embedding_provider.embed_query(legal_query)
+    vector_res = db.collection.query(query_embeddings=[query_vector], n_results=5)
+    _print_vector_results(vector_res)
+
+    # Etapa B — Busca Lexical Inicial
+    db._ensure_lexical_retriever()
+    lexical_res = db._lexical_retriever.search(legal_query, top_k=5)
+    _print_lexical_results(lexical_res)
+
+    # Etapa C — Reranking e Fusão Híbrida
+    results = db.query(q, top_k_final=top_k, top_k_retrieval=20, model=model)
+    _print_final_rag_results(results, top_k)
+
+
+def _analyze_q38_results(
+    results: List[Dict[str, Any]],
+) -> Tuple[int, List[Tuple[str, int]]]:
+    """Analisa as posições de artigos chaves na q38."""
+    pos_art_156 = -1
+    transport_violations = []
+
+    for idx, res in enumerate(results):
+        meta = res["metadata"]
+        art = meta.get("article", "")
+        file_name = meta.get("file_name", "").lower()
+
+        if "l10406" not in file_name:
+            continue
+
+        if "156" in art:
+            pos_art_156 = idx
+        elif any(x in art for x in ["739", "740", "742"]):
+            if pos_art_156 == -1 or idx < pos_art_156:
+                transport_violations.append((art, idx))
+    return pos_art_156, transport_violations
 
 
 def _run_regression_q38(db, model: str) -> bool:
@@ -237,21 +275,7 @@ def _run_regression_q38(db, model: str) -> bool:
         typer.echo(f"     Justificativa: {res.get('rerank_reason', '')}")
     typer.echo("-" * 60)
 
-    # Encontra as posições dos artigos críticos
-    pos_art_156 = -1
-    transport_violations = []
-
-    for idx, res in enumerate(results):
-        meta = res["metadata"]
-        art = meta.get("article", "")
-        file_name = meta.get("file_name", "").lower()
-
-        if "l10406" in file_name:
-            if "156" in art:
-                pos_art_156 = idx
-            elif any(x in art for x in ["739", "740", "742"]):
-                if pos_art_156 == -1 or idx < pos_art_156:
-                    transport_violations.append((art, idx))
+    pos_art_156, transport_violations = _analyze_q38_results(results)
 
     # Validação 1: O Art. 156 deve ser encontrado
     if pos_art_156 == -1:
@@ -277,16 +301,67 @@ def _run_regression_q38(db, model: str) -> bool:
     return True
 
 
+def _has_incapacity_terms(text_lower: str) -> bool:
+    """Verifica se o texto contém termos relacionados à incapacidade/discernimento."""
+    return any(
+        term in text_lower
+        for term in ["causa transitoria", "incapacidade relativa", "exprimir"]
+    )
+
+
+def _analyze_q37_results(results: List[Dict[str, Any]]) -> Tuple[int, int, bool]:
+    """Analisa as posições de artigos chaves na q37."""
+    pos_art_4 = -1
+    pos_art_171 = -1
+    has_relevant_incapacity = False
+
+    for idx, res in enumerate(results):
+        meta = res["metadata"]
+        art = meta.get("article", "")
+        file_name = meta.get("file_name", "").lower()
+        text_lower = res.get("text", "").lower()
+
+        if "l10406" in file_name:
+            art_clean = art.strip().lower()
+            if art_clean in {"art. 4", "art 4", "art. 4º"}:
+                pos_art_4 = idx
+            elif "171" in art:
+                pos_art_171 = idx
+
+        if _has_incapacity_terms(text_lower):
+            has_relevant_incapacity = True
+
+    return pos_art_4, pos_art_171, has_relevant_incapacity
+
+
+def _print_q37_validation_messages(
+    pos_art_4: int,
+    pos_art_171: int,
+    has_relevant_incapacity: bool,
+) -> None:
+    """Imprime mensagens de validação detalhadas para a q37."""
+    if not has_relevant_incapacity:
+        typer.echo(
+            "[AVISO] Nenhum resultado contém termos sobre 'causa transitória' ou 'incapacidade relativa'.",
+        )
+    if pos_art_4 != -1:
+        typer.echo(f"[OK] Art. 4 do Código Civil na posição {pos_art_4 + 1}.")
+        if pos_art_4 >= 5:
+            typer.echo("[AVISO] Art. 4 está abaixo do top 5. Poderia melhorar.")
+    else:
+        typer.echo("[AVISO] Art. 4 do Código Civil não encontrado no top 10.")
+
+    if pos_art_171 != -1:
+        typer.echo(f"[OK] Art. 171 do Código Civil na posição {pos_art_171 + 1}.")
+    else:
+        typer.echo("[INFO] Art. 171 do Código Civil não ficou no top 10.")
+
+
 def _run_regression_q37(db, model: str) -> bool:
     """
     Teste de regressão para a questão 2016-21_37 (André / transtorno psiquiátrico).
     Garante que dispositivos centrais sobre incapacidade relativa e causa transitória
     sejam recuperados, e que a confiança da recuperação não seja 'low'.
-
-    Artigos esperados nos resultados:
-    - Art. 4 do Código Civil (causa transitória / incapacidade relativa)
-    - Art. 171 do Código Civil (anulabilidade por incapacidade relativa)
-    Resposta correta: C (anulação + causa transitória)
     """
     typer.echo("\n=== [TESTE 2/2] Questão 2016-21_37 (André / causa transitória) ===")
 
@@ -326,57 +401,10 @@ def _run_regression_q37(db, model: str) -> bool:
         )
     typer.echo("-" * 60)
 
-    # Busca posições de artigos centrais
-    pos_art_4 = -1
-    pos_art_171 = -1
-    has_relevant_incapacity = False
-
-    for idx, res in enumerate(results):
-        meta = res["metadata"]
-        art = meta.get("article", "")
-        file_name = meta.get("file_name", "").lower()
-        text_lower = res.get("text", "").lower()
-
-        if "l10406" in file_name:
-            # Art. 4 (pode ser "Art. 4" ou "Art. 4º")
-            if art.strip().lower() in ["art. 4", "art 4", "art. 4º"]:
-                pos_art_4 = idx
-            elif "171" in art:
-                pos_art_171 = idx
-
-        # Verifica se algum resultado menciona causa transitória ou incapacidade relativa
-        if (
-            "causa transitoria" in text_lower
-            or "incapacidade relativa" in text_lower
-            or "exprimir" in text_lower
-        ):
-            has_relevant_incapacity = True
+    pos_art_4, pos_art_171, has_relevant_incapacity = _analyze_q37_results(results)
+    _print_q37_validation_messages(pos_art_4, pos_art_171, has_relevant_incapacity)
 
     passed = True
-
-    # Validação 1: Pelo menos um resultado contém conceito de causa transitória / incapacidade relativa
-    if not has_relevant_incapacity:
-        typer.echo(
-            "[AVISO] Nenhum resultado contém termos sobre 'causa transitória' ou 'incapacidade relativa'.",
-        )
-        # Não falha o teste, mas avisa — pode ser que os termos estejam no heading_path ou keywords
-
-    # Validação 2: Art. 4 idealmente no top 5
-    if pos_art_4 != -1:
-        typer.echo(f"[OK] Art. 4 do Código Civil na posição {pos_art_4 + 1}.")
-        if pos_art_4 >= 5:
-            typer.echo("[AVISO] Art. 4 está abaixo do top 5. Poderia melhorar.")
-    else:
-        typer.echo("[AVISO] Art. 4 do Código Civil não encontrado no top 10.")
-        # Não falha o teste inteiro, mas registra
-
-    # Validação 3: Art. 171 idealmente presente
-    if pos_art_171 != -1:
-        typer.echo(f"[OK] Art. 171 do Código Civil na posição {pos_art_171 + 1}.")
-    else:
-        typer.echo("[INFO] Art. 171 do Código Civil não ficou no top 10.")
-
-    # Validação 4: Confiança não deve ser 'low'
     if results:
         confidence = results[0].get("confidence", {})
         if confidence.get("level") == "low":

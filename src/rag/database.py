@@ -385,6 +385,26 @@ class LegislationVectorDB:
             f"[LegislationVectorDB] População concluída com sucesso! Total de itens: {self.collection.count()}"
         )
 
+    def _parse_chroma_chunk(self, doc_id: str, doc_text: str, metadata: dict) -> dict:
+        """Converte dados retornados do ChromaDB de volta para a estrutura de chunk."""
+        meta = metadata or {}
+        kws = meta.get("keywords", "")
+        keywords_list = kws.split(",") if kws else []
+
+        return {
+            "id": doc_id,
+            "text": doc_text,
+            "raw_text": meta.get("raw_text", doc_text),
+            "metadata": meta,
+            "keywords": keywords_list,
+            "article": meta.get("article", ""),
+            "article_number": meta.get("article_number", ""),
+            "law_title": meta.get("law_title", ""),
+            "file_name": meta.get("file_name", ""),
+            "legal_area": meta.get("legal_area", ""),
+            "heading_path": meta.get("heading_path", ""),
+        }
+
     def _get_all_chunks(self) -> List[Dict[str, Any]]:
         """Recupera todos os chunks indexados no ChromaDB."""
         if self._cached_chunks is not None:
@@ -393,31 +413,16 @@ class LegislationVectorDB:
         try:
             res = self.collection.get(include=["documents", "metadatas"])
             chunks = []
-            if res and "documents" in res and res["documents"]:
-                docs = res["documents"]
-                metas = res["metadatas"]
-                ids = res["ids"]
-                for i in range(len(docs)):
-                    # Converte de volta keywords para lista
-                    meta = metas[i] or {}
-                    kws = meta.get("keywords", "")
-                    keywords_list = kws.split(",") if kws else []
+            if not (res and "documents" in res and res["documents"]):
+                self._cached_chunks = chunks
+                return chunks
 
-                    chunks.append(
-                        {
-                            "id": ids[i],
-                            "text": docs[i],
-                            "raw_text": meta.get("raw_text", docs[i]),
-                            "metadata": meta,
-                            "keywords": keywords_list,
-                            "article": meta.get("article", ""),
-                            "article_number": meta.get("article_number", ""),
-                            "law_title": meta.get("law_title", ""),
-                            "file_name": meta.get("file_name", ""),
-                            "legal_area": meta.get("legal_area", ""),
-                            "heading_path": meta.get("heading_path", ""),
-                        }
-                    )
+            docs = res["documents"]
+            metas = res["metadatas"]
+            ids = res["ids"]
+            for i in range(len(docs)):
+                chunks.append(self._parse_chroma_chunk(ids[i], docs[i], metas[i]))
+
             self._cached_chunks = chunks
             return chunks
         except Exception as e:
@@ -433,23 +438,32 @@ class LegislationVectorDB:
         self._lexical_retriever = LexicalRetriever()
         self._lexical_retriever.fit(chunks)
 
+    def _find_preferred_model(
+        self, preferred_list: list[str], downloaded: list[str]
+    ) -> Optional[str]:
+        """Procura o primeiro modelo preferido entre os modelos baixados."""
+        for preferred in preferred_list:
+            for d in downloaded:
+                if preferred in d:
+                    return d
+        return None
+
     def _get_available_llm_model(self) -> str:
         """Auto-detecta um modelo LLM instalado no Ollama local para reescrita de query."""
         try:
             models_list = self.embedding_provider.client.list()
             downloaded = [m.model for m in models_list.models]
-            # Prioriza modelos comuns pequenos instalados
-            for preferred in [
+            preferred_models = [
                 "gemma2:2b",
                 "llama3.2:3b",
                 "qwen2.5:3b",
                 "gemma2",
                 "llama3.2",
                 "qwen2.5",
-            ]:
-                for d in downloaded:
-                    if preferred in d:
-                        return d
+            ]
+            match = self._find_preferred_model(preferred_models, downloaded)
+            if match:
+                return match
             if downloaded:
                 return downloaded[0]
         except Exception:
@@ -606,6 +620,34 @@ class LegislationVectorDB:
 
         return original_query, rewritten_query
 
+    def _clean_rewritten_and_append_choices(self, rewritten: str, choices: Dict) -> str:
+        """Limpa a query reescrita e anexa termos normalizados das alternativas."""
+        rewritten = re.sub(r"\s+", " ", rewritten)
+        rewritten = (
+            rewritten.replace("`", "")
+            .replace("*", "")
+            .replace("Query jurídica gerada:", "")
+            .strip()
+        )
+        if not rewritten:
+            return ""
+
+        clean_choices = []
+        if choices and "text" in choices:
+            for opt in choices["text"]:
+                opt_norm = strip_accents(opt).lower().strip(". ")
+                if len(opt_norm) > 3:
+                    clean_choices.append(opt_norm)
+        if clean_choices:
+            rewritten += " " + " ".join(clean_choices)
+        return rewritten
+
+    def _resolve_llm_model(self, model: Optional[str]) -> str:
+        """Resolve qual modelo utilizar para a reescrita de query, evitando modelos de embedding."""
+        if model and ("embed" in model.lower() or "nomic" in model.lower()):
+            return self._get_available_llm_model()
+        return model or self._get_available_llm_model()
+
     def _build_rewritten_query(
         self,
         statement: str,
@@ -633,11 +675,7 @@ class LegislationVectorDB:
             user_prompt += f"Alternativas:\n{choices_text}\n"
         user_prompt += "\nQuery jurídica gerada:"
 
-        # Descarta o modelo se for um modelo de embedding
-        if model and ("embed" in model.lower() or "nomic" in model.lower()):
-            llm_model = self._get_available_llm_model()
-        else:
-            llm_model = model or self._get_available_llm_model()
+        llm_model = self._resolve_llm_model(model)
 
         try:
             response = self.embedding_provider.client.chat(
@@ -647,25 +685,9 @@ class LegislationVectorDB:
                     {"role": "user", "content": user_prompt},
                 ],
             )
-            rewritten = response["message"]["content"].strip()
-            # Remove quebras de linha e limpa markdown
-            rewritten = re.sub(r"\s+", " ", rewritten)
-            rewritten = (
-                rewritten.replace("`", "")
-                .replace("*", "")
-                .replace("Query jurídica gerada:", "")
-                .strip()
-            )
+            rewritten_raw = response["message"]["content"].strip()
+            rewritten = self._clean_rewritten_and_append_choices(rewritten_raw, choices)
             if rewritten:
-                # Aumenta a query com as opções para busca consciente
-                clean_choices = []
-                if choices and "text" in choices:
-                    for opt in choices["text"]:
-                        opt_norm = strip_accents(opt).lower().strip(". ")
-                        if len(opt_norm) > 3:
-                            clean_choices.append(opt_norm)
-                if clean_choices:
-                    rewritten += " " + " ".join(clean_choices)
                 return rewritten
         except Exception as e:
             print(
@@ -674,6 +696,17 @@ class LegislationVectorDB:
 
         # Fallback de heurística estática se o LLM falhar
         return self._build_fallback_query(statement, choices, q)
+
+    def _extract_choices_fallback_terms(
+        self, choices: Dict, fallback_terms: List[str]
+    ) -> None:
+        """Extrai termos das alternativas para enriquecer a query de fallback."""
+        if not (choices and "text" in choices):
+            return
+        for opt in choices["text"]:
+            opt_norm = strip_accents(opt).lower().strip(". ")
+            if len(opt_norm) > 3 and opt_norm not in fallback_terms:
+                fallback_terms.append(opt_norm)
 
     def _build_fallback_query(self, statement: str, choices: Dict, q: Dict) -> str:
         """Constrói uma query de fallback usando heurísticas estáticas."""
@@ -701,11 +734,7 @@ class LegislationVectorDB:
                 fallback_terms.append(term)
 
         # Adiciona termos das alternativas diretamente à query de fallback
-        if choices and "text" in choices:
-            for opt in choices["text"]:
-                opt_norm = strip_accents(opt).lower().strip(". ")
-                if len(opt_norm) > 3 and opt_norm not in fallback_terms:
-                    fallback_terms.append(opt_norm)
+        self._extract_choices_fallback_terms(choices, fallback_terms)
 
         # Adiciona área/categoria
         area = q.get("area", q.get("category", ""))
@@ -719,78 +748,35 @@ class LegislationVectorDB:
         print(f"[RAG] Query jurídica de fallback: '{fallback_query}'")
         return fallback_query
 
-    # ------------------------------------------------------------------
-    # Busca híbrida em duas etapas
-    # ------------------------------------------------------------------
+    def _process_vector_candidates(
+        self, vector_res: Dict[str, Any], candidates: Dict[str, Any]
+    ) -> None:
+        """Processa candidatos recuperados via similaridade vetorial."""
+        if not (vector_res and "documents" in vector_res and vector_res["documents"]):
+            return
 
-    def query(
-        self,
-        q: Any,
-        top_k: int = 3,
-        top_k_retrieval: int = 100,
-        top_k_final: Optional[int] = None,
-        model: Optional[str] = None,
-    ) -> List[Dict[str, Any]]:
-        """
-        Pesquisa híbrida em duas etapas com reranking jurídico na base de legislação.
+        docs = vector_res["documents"][0]
+        metas = vector_res["metadatas"][0]
+        ids = vector_res["ids"][0]
+        distances = vector_res.get("distances", [[]])[0]
 
-        Etapa A — Recuperação ampla:
-            - Busca vetorial com query reescrita (top_k_retrieval)
-            - Busca lexical BM25 com query original + expandida (top_k_retrieval)
-            - Combina candidatos com score híbrido
+        for i in range(len(docs)):
+            # Normaliza distância L2 para similaridade (0 a 1)
+            dist = distances[i] if i < len(distances) else 0.5
+            sim_score = 1.0 / (1.0 + dist)
+            doc_id = ids[i]
+            candidates[doc_id] = {
+                "id": doc_id,
+                "text": docs[i],
+                "metadata": metas[i] or {},
+                "vector_score": sim_score,
+                "lexical_score": 0.0,
+            }
 
-        Etapa B — Seleção final:
-            - Reranking jurídico multi-critério
-            - Avaliação de confiança
-            - Retorna top_k_final resultados com metadados de confiança
-
-        Args:
-            q: Questão (dicionário completo) ou texto bruto da consulta.
-            top_k: Número final de resultados (caso top_k_final não seja informado).
-            top_k_retrieval: Quantidade de documentos a recuperar inicialmente.
-            top_k_final: Quantidade final de documentos a retornar.
-            model: Nome do modelo de LLM para reescrita de query.
-        """
-        k_final = top_k_final or top_k
-
-        # Etapa A — Construção das Queries
-        original_query, legal_query = self.build_legal_query(q, model)
-
-        # 1. Recuperação Vetorial (ChromaDB) com query reescrita
-        query_vector = self.embedding_provider.embed_query(legal_query)
-        vector_res = self.collection.query(
-            query_embeddings=[query_vector], n_results=top_k_retrieval
-        )
-
-        candidates = {}
-
-        if vector_res and "documents" in vector_res and vector_res["documents"]:
-            docs = vector_res["documents"][0]
-            metas = vector_res["metadatas"][0]
-            ids = vector_res["ids"][0]
-            distances = vector_res.get("distances", [[]])[0]
-
-            for i in range(len(docs)):
-                # Normaliza distância L2 para similaridade (0 a 1)
-                dist = distances[i] if i < len(distances) else 0.5
-                sim_score = 1.0 / (1.0 + dist)
-
-                doc_id = ids[i]
-                candidates[doc_id] = {
-                    "id": doc_id,
-                    "text": docs[i],
-                    "metadata": metas[i] or {},
-                    "vector_score": sim_score,
-                    "lexical_score": 0.0,
-                }
-
-        # 2. Recuperação Lexical (BM25) com query original + expandida
-        self._ensure_lexical_retriever()
-        expanded_original = expand_query(original_query)
-        lexical_res = self._lexical_retriever.search(
-            original_query, top_k=top_k_retrieval, expanded_query=expanded_original
-        )
-
+    def _process_lexical_candidates(
+        self, lexical_res: List[Dict[str, Any]], candidates: Dict[str, Any]
+    ) -> None:
+        """Processa candidatos recuperados via busca lexical."""
         for item in lexical_res:
             doc_id = item["id"]
             lex_score = item["lexical_score"]
@@ -805,6 +791,39 @@ class LegislationVectorDB:
                     "vector_score": 0.0,
                     "lexical_score": lex_score,
                 }
+
+    def query(
+        self,
+        q: Any,
+        top_k: int = 3,
+        top_k_retrieval: int = 100,
+        top_k_final: Optional[int] = None,
+        model: Optional[str] = None,
+    ) -> List[Dict[str, Any]]:
+        """
+        Pesquisa híbrida em duas etapas com reranking jurídico na base de legislação.
+        """
+        k_final = top_k_final or top_k
+
+        # Etapa A — Construção das Queries
+        original_query, legal_query = self.build_legal_query(q, model)
+
+        # 1. Recuperação Vetorial (ChromaDB) com query reescrita
+        query_vector = self.embedding_provider.embed_query(legal_query)
+        vector_res = self.collection.query(
+            query_embeddings=[query_vector], n_results=top_k_retrieval
+        )
+
+        candidates = {}
+        self._process_vector_candidates(vector_res, candidates)
+
+        # 2. Recuperação Lexical (BM25) com query original + expandida
+        self._ensure_lexical_retriever()
+        expanded_original = expand_query(original_query)
+        lexical_res = self._lexical_retriever.search(
+            original_query, top_k=top_k_retrieval, expanded_query=expanded_original
+        )
+        self._process_lexical_candidates(lexical_res, candidates)
 
         # 3. Combinação de Scores (Score Híbrido Base)
         candidate_list = list(candidates.values())
@@ -830,6 +849,184 @@ class LegislationVectorDB:
     # ------------------------------------------------------------------
     # Reranking jurídico multi-critério
     # ------------------------------------------------------------------
+
+    def _count_matches(self, terms: List[str], text: str, min_len: int = 0) -> int:
+        """Conta a quantidade de termos que estão presentes no texto."""
+        count = 0
+        for term in terms:
+            if len(term) >= min_len and term in text:
+                count += 1
+        return count
+
+    def _any_term_in_text(self, terms: List[str], text: str, min_len: int = 0) -> bool:
+        """Retorna True se qualquer um dos termos estiver presente no texto."""
+        for term in terms:
+            if len(term) >= min_len and term in text:
+                return True
+        return False
+
+    def _find_first_match(self, terms: List[str], text: str) -> Optional[str]:
+        """Retorna o primeiro termo da lista que está presente no texto."""
+        for term in terms:
+            if term in text:
+                return term
+        return None
+
+    def _check_narrative_penalty(
+        self,
+        text_norm: str,
+        choice_terms_norm: List[str],
+        concepts: Dict[str, List[str]],
+        narrative_terms: List[str],
+    ) -> Tuple[float, List[str]]:
+        """Calcula e retorna a penalidade caso o artigo possua apenas termos narrativos."""
+        if not narrative_terms:
+            return 0.0, []
+
+        matched_narrative = [w for w in narrative_terms if w in text_norm]
+        if not matched_narrative:
+            return 0.0, []
+
+        has_legal_concept = self._any_term_in_text(
+            choice_terms_norm, text_norm, min_len=6
+        )
+        has_foundation = self._any_term_in_text(
+            concepts.get("foundations", []), text_norm
+        )
+        if not has_legal_concept and not has_foundation:
+            pen = min(0.50 * len(matched_narrative), 1.0)
+            return pen, [
+                f"Apenas narrativa ({matched_narrative[:3]}) sem conceito jurídico (-{pen:.2f})"
+            ]
+
+        return 0.0, []
+
+    def _calculate_area_boost(self, q_area_norm: str, chunk_area: str) -> float:
+        """Calcula a bonificação por correspondência de área do Direito."""
+        if not (q_area_norm and chunk_area):
+            return 0.0
+        norm_chunk_area = strip_accents(chunk_area).lower()
+        if q_area_norm in norm_chunk_area or norm_chunk_area in q_area_norm:
+            return 0.30
+        return 0.0
+
+    def _calculate_boost(
+        self,
+        c: Dict[str, Any],
+        q_branch: str,
+        q_area_norm: str,
+        concepts: Dict[str, List[str]],
+        choice_terms_norm: List[str],
+    ) -> Tuple[float, List[str]]:
+        """Calcula o boost total acumulado para um candidato."""
+        meta = c["metadata"]
+        text_raw = meta.get("raw_text", c["text"])
+        text_norm = strip_accents(text_raw).lower()
+        heading_path_norm = strip_accents(meta.get("heading_path", "")).lower()
+        keywords_str = meta.get("keywords", "")
+        chunk_keywords_norm = strip_accents(keywords_str).lower()
+
+        boost = 0.0
+        reasons = []
+
+        # A. Correspondência de Ramo Jurídico (+0.30)
+        chunk_area = meta.get("legal_area", "")
+        area_boost = self._calculate_area_boost(q_area_norm, chunk_area)
+        if area_boost > 0.0:
+            boost += area_boost
+            reasons.append(f"Ramo jurídico compatível: {chunk_area} (+0.30)")
+
+        # B. Instituto jurídico no heading_path (+0.35)
+        heading_match = self._find_first_match(
+            concepts.get("foundations", []), heading_path_norm
+        )
+        if heading_match:
+            boost += 0.35
+            reasons.append(f"Instituto '{heading_match}' no heading_path (+0.35)")
+
+        # C. Consequência jurídica no texto (+0.40)
+        consequence_match = self._find_first_match(
+            concepts.get("choices_consequences", []), text_norm
+        )
+        if consequence_match:
+            boost += 0.40
+            reasons.append(
+                f"Consequência '{consequence_match}' encontrada no texto (+0.40)"
+            )
+
+        # D. Fundamento jurídico no texto (+0.25)
+        foundation_matches = self._count_matches(
+            concepts.get("choices_foundations", []), text_norm
+        )
+        if foundation_matches > 0:
+            f_boost = min(0.25 * foundation_matches, 0.50)
+            boost += f_boost
+            reasons.append(
+                f"Fundamentos das alternativas no texto ({foundation_matches}x, +{f_boost:.2f})"
+            )
+
+        # E. Verbo jurídico no texto (+0.15)
+        verb_match = self._find_first_match(concepts.get("verbs", []), text_norm)
+        if verb_match:
+            boost += 0.15
+            reasons.append(f"Verbo jurídico '{verb_match}' no texto (+0.15)")
+
+        # F. Match parcial de alternativas no texto (+0.20 por match)
+        alt_match_count = self._count_matches(choice_terms_norm, text_norm, min_len=6)
+        if alt_match_count > 0:
+            alt_boost = min(0.20 * alt_match_count, 0.60)
+            boost += alt_boost
+            reasons.append(
+                f"Termos de alternativas no texto ({alt_match_count}x, +{alt_boost:.2f})"
+            )
+
+        # G. Correspondência com keywords do chunk (+0.15)
+        keyword_match = self._find_first_match(
+            concepts.get("foundations", []), chunk_keywords_norm
+        )
+        if keyword_match:
+            boost += 0.15
+            reasons.append(f"Keyword '{keyword_match}' nos metadados (+0.15)")
+
+        return boost, reasons
+
+    def _calculate_penalty(
+        self,
+        c: Dict[str, Any],
+        q_branch: str,
+        q_area_norm: str,
+        concepts: Dict[str, List[str]],
+        choice_terms_norm: List[str],
+        narrative_terms: List[str],
+    ) -> Tuple[float, List[str]]:
+        """Calcula a penalidade total para um candidato."""
+        meta = c["metadata"]
+        text_raw = meta.get("raw_text", c["text"])
+        text_norm = strip_accents(text_raw).lower()
+
+        penalty = 0.0
+        reasons = []
+
+        chunk_area = meta.get("legal_area", "")
+        if q_area_norm and chunk_area:
+            norm_chunk_area = strip_accents(chunk_area).lower()
+            if self._areas_incompatible(q_area_norm, norm_chunk_area):
+                penalty += 0.40
+                reasons.append(f"Área incompatível: {chunk_area} vs {q_branch} (-0.40)")
+
+        # H. Penalização: artigo apenas com termos narrativos (-0.50)
+        narr_penalty, narr_reasons = self._check_narrative_penalty(
+            text_norm, choice_terms_norm, concepts, narrative_terms
+        )
+        penalty += narr_penalty
+        reasons.extend(narr_reasons)
+
+        # I. Penalização: score base muito baixo (-0.20)
+        if c["base_score"] < 0.10:
+            penalty += 0.20
+            reasons.append("Score base muito baixo (<0.10, -0.20)")
+
+        return penalty, reasons
 
     def rerank(self, q: Any, candidates: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
@@ -863,112 +1060,18 @@ class LegislationVectorDB:
         narrative_terms = self._extract_narrative_terms(statement, concepts)
 
         for c in candidates:
-            meta = c["metadata"]
-            text_raw = meta.get("raw_text", c["text"])
-            text_norm = strip_accents(text_raw).lower()
-            heading_path_norm = strip_accents(meta.get("heading_path", "")).lower()
-            keywords_str = meta.get("keywords", "")
-            chunk_keywords_norm = strip_accents(keywords_str).lower()
-
-            boost = 0.0
-            penalty = 0.0
-            reasons = []
-
-            # A. Correspondência de Ramo Jurídico (+0.30)
-            chunk_area = meta.get("legal_area", "")
-            if q_area_norm and chunk_area:
-                norm_chunk_area = strip_accents(chunk_area).lower()
-                if q_area_norm in norm_chunk_area or norm_chunk_area in q_area_norm:
-                    boost += 0.30
-                    reasons.append(f"Ramo jurídico compatível: {chunk_area} (+0.30)")
-                elif self._areas_incompatible(q_area_norm, norm_chunk_area):
-                    penalty += 0.40
-                    reasons.append(
-                        f"Área incompatível: {chunk_area} vs {q_branch} (-0.40)"
-                    )
-
-            # B. Instituto jurídico no heading_path (+0.35)
-            for foundation in concepts.get("foundations", []):
-                if foundation in heading_path_norm:
-                    boost += 0.35
-                    reasons.append(f"Instituto '{foundation}' no heading_path (+0.35)")
-                    break  # Conta apenas uma vez
-
-            # C. Consequência jurídica no texto (+0.40)
-            for consequence in concepts.get("choices_consequences", []):
-                if consequence in text_norm:
-                    boost += 0.40
-                    reasons.append(
-                        f"Consequência '{consequence}' encontrada no texto (+0.40)"
-                    )
-                    break  # Conta apenas uma vez
-
-            # D. Fundamento jurídico no texto (+0.25)
-            foundation_matches = 0
-            for foundation in concepts.get("choices_foundations", []):
-                if foundation in text_norm:
-                    foundation_matches += 1
-            if foundation_matches > 0:
-                f_boost = min(0.25 * foundation_matches, 0.50)
-                boost += f_boost
-                reasons.append(
-                    f"Fundamentos das alternativas no texto ({foundation_matches}x, +{f_boost:.2f})"
-                )
-
-            # E. Verbo jurídico no texto (+0.15)
-            for verb in concepts.get("verbs", []):
-                if verb in text_norm:
-                    boost += 0.15
-                    reasons.append(f"Verbo jurídico '{verb}' no texto (+0.15)")
-                    break
-
-            # F. Match parcial de alternativas no texto (+0.20 por match)
-            alt_match_count = 0
-            matched_alts = []
-            for alt_norm in choice_terms_norm:
-                if len(alt_norm) > 5 and alt_norm in text_norm:
-                    alt_match_count += 1
-                    matched_alts.append(alt_norm[:40])
-            if alt_match_count > 0:
-                alt_boost = min(0.20 * alt_match_count, 0.60)
-                boost += alt_boost
-                reasons.append(
-                    f"Termos de alternativas no texto ({alt_match_count}x, +{alt_boost:.2f})"
-                )
-
-            # G. Correspondência com keywords do chunk (+0.15)
-            for foundation in concepts.get("foundations", []):
-                if foundation in chunk_keywords_norm:
-                    boost += 0.15
-                    reasons.append(f"Keyword '{foundation}' nos metadados (+0.15)")
-                    break
-
-            # H. Penalização: artigo apenas com termos narrativos (-0.50)
-            if narrative_terms:
-                matched_narrative = [w for w in narrative_terms if w in text_norm]
-                if matched_narrative:
-                    has_legal_concept = any(
-                        term in text_norm for term in choice_terms_norm if len(term) > 5
-                    )
-                    has_foundation = any(
-                        f in text_norm for f in concepts.get("foundations", [])
-                    )
-                    if not has_legal_concept and not has_foundation:
-                        pen = min(0.50 * len(matched_narrative), 1.0)
-                        penalty += pen
-                        reasons.append(
-                            f"Apenas narrativa ({matched_narrative[:3]}) sem conceito jurídico (-{pen:.2f})"
-                        )
-
-            # I. Penalização: score base muito baixo (-0.20)
-            if c["base_score"] < 0.10:
-                penalty += 0.20
-                reasons.append("Score base muito baixo (<0.10, -0.20)")
+            boost, b_reasons = self._calculate_boost(
+                c, q_branch, q_area_norm, concepts, choice_terms_norm
+            )
+            penalty, p_reasons = self._calculate_penalty(
+                c, q_branch, q_area_norm, concepts, choice_terms_norm, narrative_terms
+            )
 
             # Calcula score final
             final_score = c["base_score"] + boost - penalty
             c["score"] = max(0.0, final_score)
 
+            reasons = b_reasons + p_reasons
             # Registra a justificativa do reranking
             c["rerank_reason"] = (
                 "; ".join(reasons) if reasons else "Mantido score híbrido base."
@@ -1049,20 +1152,37 @@ class LegislationVectorDB:
     # Avaliação de confiança da recuperação
     # ------------------------------------------------------------------
 
+    def _check_key_terms_presence(
+        self, results: List[Dict[str, Any]], key_terms: List[str]
+    ) -> bool:
+        """Verifica se os termos-chave estão presentes em algum dos resultados."""
+        if not key_terms:
+            return False
+        for r in results:
+            text_norm = strip_accents(r.get("text", "")).lower()
+            if any(t in text_norm for t in key_terms):
+                return True
+        return False
+
+    def _classify_confidence_level(self, reasons: List[str]) -> Dict[str, Any]:
+        """Classifica o nível de confiança com base no número de motivos levantados."""
+        if len(reasons) >= 3:
+            return {"level": "low", "reason": "; ".join(reasons), "suggested_k": 0}
+        if len(reasons) == 2:
+            return {"level": "low", "reason": "; ".join(reasons), "suggested_k": 1}
+        if len(reasons) == 1:
+            return {"level": "medium", "reason": reasons[0], "suggested_k": 2}
+        return {
+            "level": "high",
+            "reason": "Recuperação coerente.",
+            "suggested_k": 3,
+        }
+
     def _assess_confidence(
         self, results: List[Dict[str, Any]], q: Any
     ) -> Dict[str, Any]:
         """
         Avalia a qualidade/confiança dos resultados recuperados.
-
-        Critérios:
-        1. Score absoluto do melhor resultado
-        2. Spread de scores entre os top resultados
-        3. Coerência de área jurídica entre os resultados
-        4. Presença de termos-chave nos resultados
-
-        Returns:
-            Dict com 'level' ("high", "medium", "low"), 'reason', 'suggested_k'.
         """
         if not results:
             return {
@@ -1087,16 +1207,9 @@ class LegislationVectorDB:
         unique_areas = set(strip_accents(a).lower() for a in areas)
 
         # 4. Presença de termos-chave
-        concepts = {}
-        if isinstance(q, dict):
-            concepts = self._extract_legal_concepts(q)
+        concepts = self._extract_legal_concepts(q) if isinstance(q, dict) else {}
         key_terms = concepts.get("foundations", []) + concepts.get("consequences", [])
-        term_found = False
-        for r in results:
-            text_norm = strip_accents(r.get("text", "")).lower()
-            if any(t in text_norm for t in key_terms):
-                term_found = True
-                break
+        term_found = self._check_key_terms_presence(results, key_terms)
 
         # Classificação
         reasons = []
@@ -1110,18 +1223,7 @@ class LegislationVectorDB:
         if not term_found and key_terms:
             reasons.append("Nenhum resultado contém termos-chave da questão")
 
-        if len(reasons) >= 3:
-            return {"level": "low", "reason": "; ".join(reasons), "suggested_k": 0}
-        elif len(reasons) >= 2:
-            return {"level": "low", "reason": "; ".join(reasons), "suggested_k": 1}
-        elif len(reasons) == 1:
-            return {"level": "medium", "reason": reasons[0], "suggested_k": 2}
-        else:
-            return {
-                "level": "high",
-                "reason": "Recuperação coerente.",
-                "suggested_k": 3,
-            }
+        return self._classify_confidence_level(reasons)
 
     def count(self) -> int:
         """Retorna a quantidade de registros na coleção."""

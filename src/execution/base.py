@@ -45,6 +45,51 @@ class ExecutionManager(ABC):
                 embedding_provider=provider,
             )
 
+    def _process_single_rag_result(
+        self, idx: int, res: dict, confidence_level: str
+    ) -> tuple[dict, str]:
+        """Processa um único resultado RAG e retorna as informações estruturadas e formatadas."""
+        meta = res.get("metadata", {})
+        law_title = meta.get("law_title", "Desconhecida")
+        file_name = meta.get("file_name", "")
+        article = meta.get("article", "Desconhecido")
+        score = res.get("score", 0.0)
+        raw_text = meta.get("raw_text", res.get("text", ""))
+
+        law_str = f"{law_title}"
+        if file_name:
+            law_str += f" ({file_name})"
+
+        info = {
+            "Lei": law_str,
+            "Artigo": article,
+            "Score": round(score, 4),
+            "Score Vetorial Base": round(res.get("vector_score", 0.0), 4),
+            "Score Lexical Base": round(res.get("lexical_score", 0.0), 4),
+            "Score Hibrido Base": round(res.get("base_score", 0.0), 4),
+            "Boost": round(res.get("boost", 0.0), 4),
+            "Penalidade": round(res.get("penalty", 0.0), 4),
+            "Justificativa": res.get("rerank_reason", ""),
+            "Confianca": confidence_level,
+        }
+
+        # Texto compacto: apenas as primeiras 4 linhas do artigo
+        lines = raw_text.strip().split("\n")
+        compact_text = "\n".join(lines[:4])
+        if len(lines) > 4:
+            compact_text += "\n(...)"
+
+        # Gera breve explicação de relevância a partir do rerank_reason
+        relevance = res.get("rerank_reason", "")
+        relevance_short = relevance.split(";")[0].strip() if relevance else ""
+
+        context_part = (
+            f"{idx + 1}. {law_title} — {article}\n"
+            f"   {compact_text}\n"
+            f"   Relevância: {relevance_short}"
+        )
+        return info, context_part
+
     def get_rag_context_and_info(
         self, q: Any, top_k: Optional[int] = None, model: Optional[str] = None
     ) -> tuple[str, list]:
@@ -86,47 +131,11 @@ class ExecutionManager(ABC):
         context_parts = []
 
         for idx, res in enumerate(results):
-            meta = res.get("metadata", {})
-            law_title = meta.get("law_title", "Desconhecida")
-            file_name = meta.get("file_name", "")
-            article = meta.get("article", "Desconhecido")
-            score = res.get("score", 0.0)
-            raw_text = meta.get("raw_text", res.get("text", ""))
-
-            law_str = f"{law_title}"
-            if file_name:
-                law_str += f" ({file_name})"
-
-            rag_info.append(
-                {
-                    "Lei": law_str,
-                    "Artigo": article,
-                    "Score": round(score, 4),
-                    "Score Vetorial Base": round(res.get("vector_score", 0.0), 4),
-                    "Score Lexical Base": round(res.get("lexical_score", 0.0), 4),
-                    "Score Hibrido Base": round(res.get("base_score", 0.0), 4),
-                    "Boost": round(res.get("boost", 0.0), 4),
-                    "Penalidade": round(res.get("penalty", 0.0), 4),
-                    "Justificativa": res.get("rerank_reason", ""),
-                    "Confianca": confidence_level,
-                }
+            info, context_part = self._process_single_rag_result(
+                idx, res, confidence_level
             )
-
-            # Texto compacto: apenas as primeiras 4 linhas do artigo
-            lines = raw_text.strip().split("\n")
-            compact_text = "\n".join(lines[:4])
-            if len(lines) > 4:
-                compact_text += "\n(...)"
-
-            # Gera breve explicação de relevância a partir do rerank_reason
-            relevance = res.get("rerank_reason", "")
-            relevance_short = relevance.split(";")[0].strip() if relevance else ""
-
-            context_parts.append(
-                f"{idx + 1}. {law_title} — {article}\n"
-                f"   {compact_text}\n"
-                f"   Relevância: {relevance_short}"
-            )
+            rag_info.append(info)
+            context_parts.append(context_part)
 
         # Monta o contexto final compacto
         context_str = "[LEGISLAÇÃO RELEVANTE]\n" + "\n\n".join(context_parts)

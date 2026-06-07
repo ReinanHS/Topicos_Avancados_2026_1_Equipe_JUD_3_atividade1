@@ -231,6 +231,35 @@ def pull(
     typer.echo(f"Conjunto de dados salvo com sucesso em: {caminho_arquivo}")
 
 
+def _run_questions_for_model(
+    execution_manager,
+    questions: list,
+    current_model: str,
+    filename_suffix: str,
+    append: bool,
+) -> None:
+    """Processa todas as questões de um modelo específico."""
+    typer.echo(
+        f"\nIniciando a execução de {len(questions)} questões no modelo {current_model}..."
+    )
+    results = []
+
+    with typer.progressbar(
+        questions, label=f"Processando ({current_model})"
+    ) as progress:
+        for q in progress:
+            q_result = execution_manager.process_full_question(q, current_model)
+            results.append(q_result)
+
+    output_path = execution_manager.save_results(
+        results, current_model, filename_suffix=filename_suffix, append=append
+    )
+
+    typer.echo(
+        f"Modelo {current_model} finalizado! Resultados salvos em: {output_path}"
+    )
+
+
 def _run_inference(
     dataset: str,
     model: str = None,
@@ -286,24 +315,8 @@ def _run_inference(
             )
             time.sleep(15)
 
-        typer.echo(
-            f"\nIniciando a execução de {len(questions)} questões no modelo {current_model}..."
-        )
-        results = []
-
-        with typer.progressbar(
-            questions, label=f"Processando ({current_model})"
-        ) as progress:
-            for q in progress:
-                q_result = execution_manager.process_full_question(q, current_model)
-                results.append(q_result)
-
-        output_path = execution_manager.save_results(
-            results, current_model, filename_suffix=filename_suffix, append=append
-        )
-
-        typer.echo(
-            f"Modelo {current_model} finalizado! Resultados salvos em: {output_path}"
+        _run_questions_for_model(
+            execution_manager, questions, current_model, filename_suffix, append
         )
 
     typer.echo("\nExecução finalizada com sucesso!")
