@@ -1,0 +1,122 @@
+[
+    {
+        "question_id": "44_direito_administrativo_questao_1",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Lei nº 14.133/2021",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1778591426.3650112
+    },
+    {
+        "question_id": "44_direito_administrativo_questao_2",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Constituição Federal",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1778591429.5201614
+    },
+    {
+        "question_id": "44_direito_administrativo_questao_3",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Lei nº 8.429/1992",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1778591432.2862303
+    },
+    {
+        "question_id": "44_direito_administrativo_questao_4",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Lei nº 13.869/2019",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1778591435.213048
+    },
+    {
+        "question_id": "44_direito_civil_peca_profissional",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código Civil, Lei nº 10.406/2002",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1778591438.0196009
+    },
+    {
+        "question_id": "44_direito_civil_questao_1",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1778591440.6856408
+    },
+    {
+        "question_id": "44_direito_civil_questao_2",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1778591443.68631
+    },
+    {
+        "question_id": "44_direito_civil_questao_3",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Código Civil",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1778591450.8602834
+    },
+    {
+        "question_id": "44_direito_civil_questao_4",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Lei nº 13.146/2015",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1778591453.8579135
+    },
+    {
+        "question_id": "44_direito_do_trabalho_peca_profissional",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Consolidação das Leis do Trabalho (CLT)",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1778591457.0076182
+    },
+    {
+        "question_id": "44_direito_do_trabalho_questao_1",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Consolidação das Leis do Trabalho (CLT)",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1778591459.91337
+    },
+    {
+        "question_id": "44_direito_do_trabalho_questao_2",
+        "judge": "gpt-4o-mini",
+        "curatorship": {
+            "difficulty_question": 3,
+            "basic_legislation": "Consolidação das Leis do Trabalho - CLT",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1778591463.148416
+    }
+]

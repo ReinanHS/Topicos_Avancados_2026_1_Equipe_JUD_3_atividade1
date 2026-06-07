@@ -1,0 +1,644 @@
+[
+    {
+        "question_id": "44_direito_administrativo_questao_1",
+        "answer_id": "616dc829fb23472abbadff0880a1fee9",
+        "model_id": "gemma2:2b",
+        "choices": [
+            {
+                "index": 0,
+                "turns": [
+                    {
+                        "content": "## Análise da situação e resposta à questão\n\nA União, ao alterar unilateralmente o contrato administrativo para supressão de 20% (vinte por cento) do valor inicial atualizado, **não atuou de forma regular**. A alegação de melhor adequação técnica a seus objetivos,  pode ser considerada uma justificativa válida para a alteração, no entanto, a Lei nº 14.133/2021 estabelece diretrizes e regras específicas para as alterações contratuais.\n\n**Análise detalhada:**\n\n* **Art. 124 da Lei nº 14.133/2021:** Estabelece que as alterações de contratos podem ocorrer de forma unilateral, em casos específicos, como a modificação do projeto ou das especificações para melhor adequação técnica a seus objetivos. No caso, a União justifica a alteração por meio da supressão de 20% (vinte por cento) do valor inicial atualizado. A Lei prevê que as alterações devem ser feitas com base em justificativas específicas e documentadas.\n* **Art. 129 da Lei nº 14.133/2021:** Estabelece que, em caso de supressão de obras, bens ou serviços, o contratado deverá ser indenizado pelos custos de aquisição regularmente comprovados e monetariamente reajustados. A União, portanto, tem o dever de tomar medidas para garantir a indenização dos custos do contratado, mesmo após a alteração do contrato, em caso de supressão de materiais.\n* **Princípio da legalidade:** A Lei nº 14.133/2021 estabelece os requisitos para a realização de alterações contratuais, incluindo a necessidade de justificativa, documentação e conformidade com os princípios da legalidade e da boa-fé. A alteração unilateral, sem comprovar a necessidade do projeto ou especificações e sem o pagamento dos custos já adquiridos, pode ser considerada irregular, por não estar em consonância com as normas estabelecidas.\n* **Exigência de autorização:** A alteração contratual deve ter a devida autorização da Administração Pública, como previsto no Art. 139 da Lei nº 14.133/2021. No caso, a União precisa de autorização expressa do ministro de Estado, do secretário estadual ou do secretário municipal competente para a alteração contratual.  \n\n**Conclusão:** A alteração unilateral por parte da Administração Pública, sem comprovação de necessidade e justificativa legal, pode ser considerada irregular. \n\nA União deve se adequar às normas da Lei nº 14.133/2021, buscando sempre o diálogo construtivo com os contratantes para garantir a segurança jurídica, o cumprimento das obrigações contratuais e a justiça processual.  \n\n\n\n\n"
+                    },
+                    {
+                        "content": "Sim, a União tem o dever de pagar aos sócios da empresa ABC por materiais já adquiridos e colocados em local, conforme artigo 129 da Lei nº 14.133/2021.\n\n**Argumentação:**\n\n* **Art. 129 da Lei nº 14.133/2021:**  Essa lei estabelece que, em caso de supressão de obras, bens ou serviços, a Administração Pública deverá indenizar o contratado pelos custos de aquisição regularmente comprovados e monetariamente reajustados, podendo caber também indenização por outros danos eventualmente decorrentes da supressão.\n\n* **Compreensão da Lei:** A lei prevê que as medidas para garantir a indenização devem ser tomadas pelo Estado, caso haja a supressão do contrato. Isso significa que o Estado não só deve indenizar a empresa pela perda de um lucro devido à alteração contratual, mas também deve responsabilizar-se por danos decorrentes dessa situação.\n\n* **Prejuízo da Empresa:** O fato de a União alterar unilateralmente o contrato, sem justificativa legal e sem pagamento dos custos já adquiridos, gera prejuízos à empresa ABC, pois ela não pode exercer a sua atividade como antes, tendo que se adaptar às novas demandas.\n\n**Considerações Adicionais:**\n\n* **Risco da União:** A União precisa garantir que suas ações sejam justas e eficazes para minimizar o impacto negativo causado na empresa. A imputação de responsabilidade pode acarretar em processos judiciais mais complexos, com impactos em sua imagem e reputação pública. \n* **Prevenção:** O caso aponta para a importância de um planejamento de contratos mais preciso que respeite as normas da Lei nº 14.133/2021.\n\n\n**Em conclusão:** A União deve responder aos prejuízos causados à empresa ABC, conforme o disposto no artigo 129 da Lei nº 14.133/2021. Assegura-se que os atos sejam realizados de forma transparente e ética para evitar qualquer tipo de irregularidade, garantindo a justiça e a segurança jurídica.\n\n\n"
+                    }
+                ]
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal, Lei nº 14.133/2021",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1780831369.9188128,
+        "rag_info": [
+            {
+                "Lei": "Nova Lei de Licitações (Lei 14.133/2021) (L14133.html)",
+                "Artigo": "Art. 129",
+                "Score": 0.5708,
+                "Score Vetorial Base": 0.5417,
+                "Score Lexical Base": 0.6,
+                "Score Hibrido Base": 0.5708,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "high"
+            },
+            {
+                "Lei": "Nova Lei de Licitações (Lei 14.133/2021) (L14133.html)",
+                "Artigo": "Art. 124",
+                "Score": 0.5395,
+                "Score Vetorial Base": 0.5288,
+                "Score Lexical Base": 0.5502,
+                "Score Hibrido Base": 0.5395,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "high"
+            },
+            {
+                "Lei": "Nova Lei de Licitações (Lei 14.133/2021) (L14133.html)",
+                "Artigo": "Art. 139",
+                "Score": 0.4977,
+                "Score Vetorial Base": 0.5794,
+                "Score Lexical Base": 0.416,
+                "Score Hibrido Base": 0.4977,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "high"
+            }
+        ]
+    },
+    {
+        "question_id": "44_direito_administrativo_questao_2",
+        "answer_id": "45206a6ed1cb42cf9f4d4ead1d9d5987",
+        "model_id": "gemma2:2b",
+        "choices": [
+            {
+                "index": 0,
+                "turns": [
+                    {
+                        "content": "## A) Titular do Bem Público em questão\n\nA praia marítima em questão, por não se tratar de um imóvel singularmente delimitado em sua extensão territorial, **é um bem público**, conforme previsto na Constituição Federal de 1988 (art. 58), que garante a posse e uso dos recursos naturais para o bem-estar da população (Art. 227).  \n\nA jurisprudência do Superior Tribunal de Justiça (STJ) reconhece a área natural, como a praia, como um bem público. Em linhas gerais, o STJ defendeu a possibilidade de a União possuir áreas em que a propriedade marítima seja de interesse público, considerando-se a necessidade de garantir a segurança e o desenvolvimento da população.  (RE nº 1.973.842/MG)\n\nA Constituição Federal (art. 6º, incisos I e II), determina que as águas do litoral são bens públicos, e a União é a titular desses bens. A posse e o uso das águas são atribuições da União, em consonância com a jurisprudência do STF.\n\n**Justificativa:**\n\n* **Constituição Federal:** O bem público em questão se encontra na legislação de proteção ambiental, que delimita a responsabilidade por desmatamento e poluição de áreas como o mar e a terra.  A Constituição define que o direito à moradia é um direito humano fundamental. \n* **Legislação Nacional:** A Lei nº 10.303/2001, em sua seção de conflito de interesses, reforça a necessidade de garantir a justiça social, em relação ao uso das áreas públicas.\n\n\nDiante dos fatos e da legislação pertinente, podemos concluir que o bem público em questão é titularizado pela União.  \n"
+                    },
+                    {
+                        "content": "## B) Possibilidade da Alienação do Bem Público\n\nConsiderando a classificação dos bens públicos, **a alienação da praia marítima em questão por Alison é extremamente complexa e provavelmente não seja possível.** A alienação de bem público, em sua essência, está sujeita a um conjunto de normas que o impedem de ser objeto de troca por uma entidade privada. \n\nA legislação brasileira define a natureza dos bens públicos, com a União como titular desses bens, e os seus direitos são distintos da propriedade privada. A alienação de bens públicos exige aprovação das autoridades competentes e segue um processo específico:\n* **Uso Público:** As áreas públicas se destinam ao bem-estar social, o que inclui o acesso à areia para atividades recreativas.  A praia em questão é um bem público, que não pode ser transferido sem autorização da União. \n\n**Justificativa:** \n\n* **Natureza do Bem Público:** A praia marítima, por definição de sua função social e ambiental, possui a finalidade de servir aos interesses públicos, não podendo ser alienação por uma entidade privada.\n* **Direitos Fundamentais:** O bem público em questão possui características que não podem ser alteradas ou transferidas sem a aprovação das autoridades competentes. A alienação da praia marítima por Alison seria um ato que violaria o regime jurídico do bem público, e pode ser considerada ilegal pela Justiça. \n* **Repercussões Legais:** A alienação de um bem público sem autorização legal pode gerar diversas repercussões legais, incluindo processos judiciais que podem resultar em multas e sanções para a pessoa que se valer do bem público para fins pessoais.\n\n**Conclusao:** \n\nÉ importante ressaltar que o bem público é um bem que não pode ser transferido sem autorização da União. As leis brasileiras definem como os bens públicos são administrados e protegidos, e devem ser seguidos por todos.\n\n\n\n"
+                    }
+                ]
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal, Lei nº 8.112/1990, Código Civil",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1780831373.753112,
+        "rag_info": [
+            {
+                "Lei": "Constituição Federal de 1988 (Constituição.html)",
+                "Artigo": "Art. 58",
+                "Score": 0.3,
+                "Score Vetorial Base": 0.0,
+                "Score Lexical Base": 0.6,
+                "Score Hibrido Base": 0.3,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "medium"
+            },
+            {
+                "Lei": "Lei das Sociedades por Ações (Lei 6.404/1976) (L6404consol.html)",
+                "Artigo": "Art. 155",
+                "Score": 0.2734,
+                "Score Vetorial Base": 0.0,
+                "Score Lexical Base": 0.5468,
+                "Score Hibrido Base": 0.2734,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "medium"
+            }
+        ]
+    },
+    {
+        "question_id": "44_direito_administrativo_questao_3",
+        "answer_id": "a55c72b79ed941d18f5d49e04cc1f9d6",
+        "model_id": "gemma2:2b",
+        "choices": [
+            {
+                "index": 0,
+                "turns": [
+                    {
+                        "content": "##  Responsabilidade do Deputado José em relação à sociedade empresarial Bomcaminho\n\nA responsabilidade do deputado José na ação civil pública ajuizada pelo Ministério Público exige análise cuidadosa das normas que regem o Direito Penal e as relações entre agentes públicos e privados. A questão se torna complexa, pois envolve a interação de diferentes esferas do direito: **o direito penal, o direito administrativo e o direito privado**.\n\n**1. Responsabilidade da Sociedade Empresária Bomcaminho:** \n\nA ação civil pública baseia-se no princípio da responsabilidade por atos ilícitos praticados por pessoas jurídicas. Segundo o Art. 9º, inciso IX, da Lei nº 8.429/1992, a sociedade empresarial pode ser responsabilizada por ato de improbidade administrativa que cause lesão ao erário, caso haja dolo ou culpa na conduta. A ação civil pública, portanto, pode se enquadrar no **princípio de responsabilidade penal da sociedade**. \n\n**2. Responsabilidade do Deputado José:** \n\nA imputação do deputado José como agente ilícito por sua participação em um ato que causou prejuízo ao erário exige a análise de suas ações e intenções, tendo em vista o Art. 10, inciso VI, da Lei nº 8.429/1992.  A imputação de improbidade administrativa se baseia no princípio da **responsabilidade civil por ato ilícito**, que implica em atos com finalidades ilegais ou desonestos que causam prejuízo ao erário. \n\n**3. Argumentação Jurídica:**\n\nPara determinar a responsabilidade do deputado José, é fundamental analisar as seguintes hipóteses:\n\n* **Atuação direta:** Se o deputado José se comprometer a participar de um ato ilícito em favor da sociedade, ele pode ser considerado responsável por sua conduta. A ação do deputado, seja como agente ou intermediador, configura um ato ilícito que pode resultar em condenação por improbidade administrativa. \n* **Atuação indireta:** Se o deputado José não tiver participação direta na ação de enriquecimento ilícito, mas tenha agido de forma que favorecesse a sociedade empresarial, ele pode ser responsabilizado pela imputação da ação de improbidade administrativa, em virtude do Art. 9º, inciso IX, da Lei nº 8.429/1992.\n\n**Conclusão:**\n\nPara determinar a responsabilidade do deputado José, é fundamental analisar as provas e as informações disponibilizadas no processo, com base nas normas de direito penal, administrativo e privado, buscando evidenciar a relação entre o deputado, a sociedade empresarial e a conduta que gerou o enriquecimento ilícito. \n\n\n**Justificativa:**\n\nA responsabilidade do deputado José em relação à sociedade empresarial Bomcaminho dependerá da análise de sua atuação na prática do ato ilícito. A lei possui um espectro amplo de situações e comportamentos que podem gerar responsabilidade, e a interpretação precisa ser feita com base na jurisprudência e nos preceitos legais. \n\n\n\n\n"
+                    },
+                    {
+                        "content": "## Responsabilidade da Sucessora da Bomcaminho em Relação ao Dano causado pelo Ato ilícito\n\nA responsabilidade da sucessora da sociedade Bomcaminho em relação ao dano causado pela prática de ato ilícito por essa empresa dependerá da análise de diversos fatores, sendo crucial a compreensão dos princípios do Direito Civil e Penal. \n\n\n**1. Responsabilidade das Sucessões:** \n\nA sucessão de uma empresa pode ser responsabilizada pelo enriquecimento ilícito, caso haja comprovadamente a participação ativa do agente em ato ilícito que cause dano ao erário. A responsabilidade da sucessora não se configura diretamente pela mera aquisição do patrimônio, mas sim pela **culpa** e, por conseguinte, por atos ilícitos praticados durante o período de gestão da sociedade. \n\n\n**2. Princípios Relevantes:**\n\n* **Responsabilidade Civil:** O Código Civil (art. 1º) define a responsabilidade civil como um princípio fundamental do ordenamento jurídico, que se baseia na necessidade de reparação dos danos causados por ato ilícito ou negligência em detrimento da outra parte.\n* **Art. 9º, inciso IX, da Lei nº 8.429/1992:** Esta lei define a responsabilidade civil de sociedades por atos ilícitos praticados por suas representações. A ação deve ser direcionada para o agente responsável por ato ilícito, não pela sucessão do negócio, exceto em caso de dolo específico.\n\n**3. Análise da Hipótese:** \n\nA hipótese de fusão ou incorporação da sociedade Bomcaminho, sem simulação ou fraude, pode influenciar a responsabilidade da sucessora. **Se houver comprovada participação ativa no ato ilícito pela sucessora, será imputada a responsabilidade por danos causados** à causa, em virtude do Art. 9º, inciso IX, da Lei nº 8.429/1992. Caso contrário, a sucessora não se responsabilizará pela reparação integral do dano, como regra geral.\n\n\n**Conclusão:**\n\nA responsabilidade da sucessora da sociedade Bomcaminho dependerá da análise das provas e informações disponibilizadas no processo, com base nas normas de Direito Civil e Penal, buscando evidenciar a relação entre o agente, a empresa e a conduta que gerou o dano. A sucessão, em princípio, não é responsabilizada pela reparação integral do dano causado pelo ato ilícito da sociedade, mas por sua participação na prática de atos ilícitos.\n\n\n \n"
+                    }
+                ]
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal, Lei nº 8.429/1992, Lei nº 14.230/2021",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1780831379.7187839,
+        "rag_info": [
+            {
+                "Lei": "Lei de Improbidade Administrativa (Lei 8.429/1992) (L8429compilada.html)",
+                "Artigo": "Art. 10",
+                "Score": 0.9356,
+                "Score Vetorial Base": 0.5712,
+                "Score Lexical Base": 1.0,
+                "Score Hibrido Base": 0.7856,
+                "Boost": 0.15,
+                "Penalidade": 0.0,
+                "Justificativa": "Keyword 'dolo' nos metadados (+0.15)",
+                "Confianca": "high"
+            },
+            {
+                "Lei": "Lei de Improbidade Administrativa (Lei 8.429/1992) (L8429compilada.html)",
+                "Artigo": "Art. 3",
+                "Score": 0.8683,
+                "Score Vetorial Base": 0.534,
+                "Score Lexical Base": 0.9026,
+                "Score Hibrido Base": 0.7183,
+                "Boost": 0.15,
+                "Penalidade": 0.0,
+                "Justificativa": "Keyword 'dolo' nos metadados (+0.15)",
+                "Confianca": "high"
+            },
+            {
+                "Lei": "Lei de Improbidade Administrativa (Lei 8.429/1992) (L8429compilada.html)",
+                "Artigo": "Art. 11",
+                "Score": 0.8543,
+                "Score Vetorial Base": 0.5237,
+                "Score Lexical Base": 0.8848,
+                "Score Hibrido Base": 0.7043,
+                "Boost": 0.15,
+                "Penalidade": 0.0,
+                "Justificativa": "Keyword 'dolo' nos metadados (+0.15)",
+                "Confianca": "high"
+            }
+        ]
+    },
+    {
+        "question_id": "44_direito_administrativo_questao_4",
+        "answer_id": "c2951e3a532d4beca8c7ae367a3fd3c8",
+        "model_id": "gemma2:2b",
+        "choices": [
+            {
+                "index": 0,
+                "turns": [
+                    {
+                        "content": "## Análise da Responsabilidade Administrativa de José\n\nA aplicação de sanções administrativas disciplinares a José, em decorrência da conduta tipificada como abuso de autoridade, depende **da condenação criminal por esse mesmo fato**, conforme previsto no Art. 227-A do ECA e na Lei nº 13.869/2019.\n\n**Argumentação:**\n\n* **O Art. 227-A do ECA** estabelece que a condenação prevista no inciso I do caput do art. 92 do Decreto-Lei nº 2.848, de 7 de dezembro de 1940 (Código Penal) para crimes previstos nesta Lei, praticados por servidores públicos com abuso de autoridade, são condicionados à ocorrência de reincidência.  A condenação criminal é um requisito fundamental para a aplicação de sanções administrativas disciplinares.\n* **A Lei nº 13.869/2019** (Lei de Abuso de Autoridade) define o abuso de poder como ato ilícito, que merece punição. O fato em si já configura um ato punível, e não apenas a condenação criminal para ser aplicada em caso de reincidência.  \n* **A Lei de Improbidade Administrativa (Lei 8.429/1992)** se utiliza como base para a responsabilização por atos de improbidade administrativa. No caso de José, a conduta configura um ato de abuso de autoridade, caracterizando uma irregularidade que deve ser sancionada. A Lei de Abuso de Autoridade define a responsabilidade civil em casos de abuso de poder e não se aplica apenas à criminalização. \n* **A Lei nº 14.230/2021** reescreveu a Lei de Improbidade Administrativa, mas não desconsiderou a necessidade de condenação criminal para a aplicação da sanção administrativa disciplinar.\n\nÉ importante ressaltar que, em casos de abuso de autoridade, a conduta de José configura uma violação aos princípios constitucionais do direito administrativo, como a legalidade e a impessoalidade. \n\n\n**Em suma:** A sanção administrativa disciplinar é um instrumento para a responsabilização de servidores públicos por atos ilícitos.  A aplicação da pena administrativa, em decorrência do abuso de poder, exige a condenação criminal do servidor público. Em casos de abuso de autoridade, a penalização administrativa se dá após a conclusão de um processo judicial que valide a conduta do servidor público como ato punível.\n\n\n\n"
+                    },
+                    {
+                        "content": "## Análise da Sentença Penal e o Impacto no Âmbito Administrativo Disciplinar\n\nA sentença penal irrecorrível que reconheça que José estava no estrito cumprimento do dever legal **pode impactar no âmbito administrativo disciplinar**, mas não necessariamente em sua forma completa. \n\n**Argumentação:**\n\n* **Entendimento sobre a \"Sentença Penal\" e o Impacto na Administração Disciplinar:** A sentença penal irrecorrível, ou seja, que reconhece a legalidade da ação de José, pode ter um impacto no âmbito administrativo disciplinar, mas não necessariamente em sua forma completa. \n    * **Do ponto de vista administrativo**, a condenação criminal por abuso de autoridade é um fator crucial para a aplicação de sanções disciplinares. A sentença penal irrecorrível, como evidenciou o texto, pode ser considerada como base para a responsabilização administrativa, porém a legislação e jurisprudência devem ser consultadas para determinar se a condenação criminal por abuso de poder tem efeito perante o âmbito administrativo disciplinar. \n\n* **Princípio da legalidade e do \"dever legal\" na Administração Disciplinar:** O princípio da legalidade é fundamental no direito administrativo, pois garante a justa aplicação das normas. No caso de José, a sentença penal irrecorrível pode servir como base para a análise da conduta e, consequentemente, para a aplicação de sanções disciplinares. \n    * **A Lei nº 8.429/1992** define as sanções administrativas disciplinares, incluindo punição e reincidência. A sentença penal irrecorrível pode servir como base para o processo administrativo disciplinar, mas a análise da conduta de José e a aplicação das normas do Código Administrativo devem ser consideradas.\n\n* **Diferença entre Direito Penal e Administrativo:**  A ação de José é tipificada na Lei nº 13.869/2019 (Lei de Abuso de Autoridade), que se baseia no Direito Penal, enquanto a aplicação das sanções administrativas disciplinais é regida por normas do Direito Administrativo. A sentença penal irrecorrível pode influenciar o processo administrativo disciplinar, mas não necessariamente em sua forma completa.  A decisão final sobre a aplicação de sanções disciplinares deve ser tomada por um órgão competente com base nas regras e normas específicas do Direito Administrativo. \n\n\n**Conclusão:**\n\nA sentença penal irrecorrível que reconheça que José estava no estrito cumprimento do dever legal pode impactar no âmbito administrativo disciplinar, mas não necessariamente em sua forma completa. A análise da conduta de José e a aplicação das normas do Código Administrativo devem ser consideradas para determinar o impacto da sentença penal na esfera administrativa.  \n\n\n"
+                    }
+                ]
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Lei nº 13.869/2019",
+            "area_expertise": "Direito Administrativo"
+        },
+        "tstamp": 1780831384.7636368,
+        "rag_info": [
+            {
+                "Lei": "Estatuto da Criança e do Adolescente (ECA) (L8069compiladoa.html)",
+                "Artigo": "Art. 227",
+                "Score": 0.5071,
+                "Score Vetorial Base": 0.5543,
+                "Score Lexical Base": 0.4599,
+                "Score Hibrido Base": 0.5071,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "high"
+            },
+            {
+                "Lei": "Estatuto da Criança e do Adolescente (ECA) (L8069compiladoa.html)",
+                "Artigo": "Art. 212",
+                "Score": 0.4445,
+                "Score Vetorial Base": 0.5442,
+                "Score Lexical Base": 0.3449,
+                "Score Hibrido Base": 0.4445,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "high"
+            },
+            {
+                "Lei": "Lei de Improbidade Administrativa (Lei 8.429/1992) (L8429compilada.html)",
+                "Artigo": "Art. 1",
+                "Score": 0.4342,
+                "Score Vetorial Base": 0.528,
+                "Score Lexical Base": 0.3404,
+                "Score Hibrido Base": 0.4342,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "high"
+            }
+        ]
+    },
+    {
+        "question_id": "44_direito_civil_peca_profissional",
+        "answer_id": "f78620689736472e8cab46642098ee0e",
+        "model_id": "gemma2:2b",
+        "choices": [
+            {
+                "index": 0,
+                "turns": [
+                    {
+                        "content": "## EXCELENTÍSSIMO(A) SENHOR(A) DOUTOR(A) JUIZ(A) DE DIREITO DA ___ VARA CÍVEL DA COMARCA DO [CIDADE],\n\n**[INCLUIR NOME COMPLETO DO ADVOGADO]**\n\nAdvocacia Pública, inscrito sob nº [INSERIR O NÚMERO DO CÓDIGO DO ADVOGADOO] na OAB/RJ.\n\n**Processo:** [INSERIR O NÚMERO DA AÇÃO]\n\n**[INSERIR A DATA]**\n\n**Re: Ação de Proteção à Carteira de Trabalho -  Caroline Silva, em nome da Bons Voos S.A.**\n\nEXCELENTÍSSIMO(A) SENHOR(A) JUZIO(A),\n\nPor meio desta, presente o pedido de ação por parte da autora, com base no artigo 38 da Lei nº 14.112/2020 - Código de Processo Civil, em que se apresenta a pretensão de proteção à carteira de trabalho em virtude da perda de um voucher oferecido para viagem de negócios, gerando danos morais e prejuízo financeiro.\n\nA autora, Caroline Silva, requer a tutela jurisdicional antecipada e condenação do réu, Bons Voos S.A., por danos morais, em virtude da perda de oportunidade de viagem, a fim de garantir que o voucher seja utilizado para fins compatíveis com o objetivo inicial da promoção, conforme as cláusulas contratuais e os termos legais estabelecidos.\n\n**I - DOS FATOS**\n\nEm 01/03/2024, a autora recebeu um email da agência de viagens Bons Voos S.A., ofertando-lhe uma promoção especial (voucher) com 40% de desconto em qualquer voo (ida e volta), com validade de 30 dias, para viagem de Natal, RN, na data de 24/04/2024 (quarta-feira).\n\nEm 03/03/2024 (domingo), a autora tentou contratar o serviço de transporte aéreo nacional ofertado no site da agência. A tentativa de contratação resultou em erro desconhecido, impedindo a inclusão do voucher com o cupom de desconto. Após contatar a agência por diversas vezes, sem sucesso, a autora decidiu propor ação em face da Bons Voos S.A. (empresa aérea), com pedido de tutela de urgência antecipada, a fim de garantir que os bilhetes sejam emitidos pelo preço ofertado na promoção, e que o réu seja condenado ao pagamento de indenização por danos morais.\n\nEm 21/03/2024 (quinta-feira), o juízo da 22ª Vara Cível da Comarca do Rio de Janeiro/RJ indeferiu o pedido de tutela de urgência antecipada, alegando que não vislumbrava, em cognição sumária, a legitimidade da parte ré para figurar no polo passivo da ação.\n\n**II - DO DIREITO**\n\nA autora argumenta que, a partir do momento em que a empresa se responsabiliza pelo voucher ofertado na promoção, ela detém direito à cobrança por danos morais, como o prejuízo financeiro decorrente da perda de oportunidade de viagem e os impactos no tempo e atividades. A ausência de resolução da questão por parte da agência, em face da autora, pode ser interpretada como um comportamento ilícito, que configura a quebra do contrato por omissão da empresa, sem justificativa legal, conforme o artigo 12, inciso I, da Lei nº 14.112/2020 - Código de Processo Civil.\n\nA tutela de urgência antecipada busca garantir o cumprimento dos direitos de ambas as partes, no caso, a autora, por meio de ação judicial, que demanda que a empresa atenda aos seus deveres legais e contratuais em relação à oferta de serviços de transporte aéreo, sem comprometer a sua ordem jurídica. \n\n**III - FUNDAMENTOS JURÍDICOS**\n\nA tutela de urgência antecipada, como mecanismo de proteção de direitos fundamentais, é regulamentada pelo artigo 12 da Lei nº 14.112/20"
+                    }
+                ]
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal de 1988; Código Civil; Lei nº 8.112/1990",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1780831390.5015025,
+        "rag_info": [
+            {
+                "Lei": "Constituição Federal de 1988 (Constituição.html)",
+                "Artigo": "Art. 5",
+                "Score": 0.7274,
+                "Score Vetorial Base": 0.0,
+                "Score Lexical Base": 0.8548,
+                "Score Hibrido Base": 0.4274,
+                "Boost": 0.3,
+                "Penalidade": 0.0,
+                "Justificativa": "Verbo jurídico 'opor' no texto (+0.15); Keyword 'erro' nos metadados (+0.15)",
+                "Confianca": "medium"
+            },
+            {
+                "Lei": "Lei de Recuperação Judicial e Falências (Lei 11.101/2005) (l11101.html)",
+                "Artigo": "Art. 22",
+                "Score": 0.6944,
+                "Score Vetorial Base": 0.0,
+                "Score Lexical Base": 0.7887,
+                "Score Hibrido Base": 0.3944,
+                "Boost": 0.3,
+                "Penalidade": 0.0,
+                "Justificativa": "Verbo jurídico 'opor' no texto (+0.15); Keyword 'erro' nos metadados (+0.15)",
+                "Confianca": "medium"
+            }
+        ]
+    },
+    {
+        "question_id": "44_direito_civil_questao_1",
+        "answer_id": "90c92ca867cf421dafa43ed22bc73423",
+        "model_id": "gemma2:2b",
+        "choices": [
+            {
+                "index": 0,
+                "turns": [
+                    {
+                        "content": "## A) O automóvel penhorado entra na comunhão de bens de Maria e Fabiano? Justifique. (Valor: 0,60)\n\nA resposta é **não**. O automóvel penhorado não entra na comunhão de bens de Maria e Fabiano.  \n\n**Justificativa:**\n\nO regime de comunhão parcial de bens prevê que os bens adquiridos durante o casamento, **exceção feita de alguns artigos**, sejam considerados bens em comum entre os cônjuges (Art. 1.640, CL). No entanto, a comunhão parcial só se configura quando não há convenção prévia ou se ela for nula ou ineficaz, sendo que o código civil prevê a opção de escolha dos nubentes em relação ao regime.\n\nNeste caso específico, o automóvel penhorado é fruto da herança recebida por Fabiano após o falecimento de seu pai. A comunhão parcial de bens só se aplica quando há união conjugal formal e contemporânea à aquisição do bem que está sendo objeto da ação de execução.  A situação atual não contempla a configuração de comunhão de bens, pois, apesar de Maria e Fabiano serem casados, o bem em questão foi recebido por Fabiano após o falecimento de seu pai.\n\n A **penhora** não configura a união de bens para fins de comunhão parcial, já que o bem é objeto de ação judicial para execução de título extrajudicial, e não um bem que esteja sujeito à comunhão de bens do casal.  \n\n\n\n \n"
+                    },
+                    {
+                        "content": "## B) Diante da já manifestada intenção do credor de adjudicar o bem, poderia Maria adjudicá-lo? Justifique. (Valor: 0,65)\n\nA resposta é **não**, apesar da possibilidade de Maria adotar a estratégia de ação para obter o bem penhorado,  a adjudicação do bem por parte de Maria em face ao credor seria improcedente por diversos motivos.\n\n\n**Justificativa:**\n\n1. **Comunhão de bens e direito à propriedade**: A comunhão parcial de bens é um regime de direito civil que define a forma como os bens de um casal se relacionam entre si, o que permite a utilização do bem em conjunto para o bem-estar da união. No entanto, Maria não tem o direito à adjudicação do bem, pois a posse do mesmo está condicionada à propriedade da mesma, e não pelo regime de comunhão de bens.  \n\n2. **Interesse da Maria e do credor**: A pretensão de Maria por parte da adjudicação do bem é um argumento jurídico que requer a análise da justiça em relação aos interesses em jogo, que precisam ser ponderados para determinar a melhor forma de resolução. A possibilidade de adiamento da adjudicação do bem por parte da Maria se torna problemática, pois o credor terá o direito à propriedade do bem penhorado.\n\n3. **Fatores para a tomada de decisão**: O caso deve ser analisado em sua totalidade, considerando fatores como: a necessidade de uma negociação entre Maria e o credor para evitar conflitos; a possibilidade de um acordo que permita a Maria obter a adjudicação do bem sem comprometer a justiça; a urgência da situação e a necessidade de resolução rápida do problema.\n\n\n  A decisão de Maria por se posicionar em relação ao bem penhorado deve ser baseada na análise do caso, considerando as leis e os direitos de ambas as partes. As negociações com o credor devem ser levadas em conta, buscando a melhor solução para ambos. A justiça busca a resolução justa de conflitos, sendo que o princípio da boa-fé deve ser sempre aplicado em todas as situações. \n\n\n\n\n"
+                    }
+                ]
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Código Civil, art. 1.729; Lei nº 8.112/1990",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1780831394.5420246,
+        "rag_info": [
+            {
+                "Lei": "Código Civil (Lei 10.406/2002) (L10406compilada.html)",
+                "Artigo": "Art. 1",
+                "Score": 0.5561,
+                "Score Vetorial Base": 0.5814,
+                "Score Lexical Base": 0.5307,
+                "Score Hibrido Base": 0.5561,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "medium"
+            },
+            {
+                "Lei": "Código Civil (Lei 10.406/2002) (L10406compilada.html)",
+                "Artigo": "Art. 1",
+                "Score": 0.5258,
+                "Score Vetorial Base": 0.5546,
+                "Score Lexical Base": 0.497,
+                "Score Hibrido Base": 0.5258,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "medium"
+            }
+        ]
+    },
+    {
+        "question_id": "44_direito_civil_questao_2",
+        "answer_id": "d0d53ceac79d4305b1a96badaa969810",
+        "model_id": "gemma2:2b",
+        "choices": [
+            {
+                "index": 0,
+                "turns": [
+                    {
+                        "content": "## A Orientação de Maria em relação ao Acordo com Joana \n\nMaria, diante da situação descrita, deve **se orientar a formalizar o acordo com Joana apenas após obter autorização expressa do segurador**, mesmo que se sinta motivada a tomar um acordo com ela.  O princípio da boa-fé e da confiança na relação contratual entre Maria e a ABC exigem a devida colaboração para que, em caso de prejuízo, haja o devido pagamento pela indenização. \n\n**Análise:**\n\n1. **Responsabilidade Civil:** A Lei de Defesa do Consumidor (CDC), artigo 101, estabelece que a responsabilidade civil do fornecedor se aplica ao caso em questão. Assegura-se que Maria tenha cumprido seus deveres no contrato, como a prestação integral do seguro e a compensação financeira aos danos causados.\n\n2. **Seguro e Decisões de Maria:** A ABC, como seguradora, é responsável por avaliar as condições de acordo com os termos da apólice e determinar se o pagamento será realizado ou não. O acordo entre Maria e Joana deve ser formalizado em conjunto com a ABC para garantir que o pagamento seja realizado conforme o contrato, evitando conflitos futuros.\n\n3. **Parceria com Joana:**  A busca por um acordo é uma demonstração de boa fé, o que pode ser fundamental na resolução da situação. A colaboração entre ambas as partes pode contribuir para uma solução mais justa e prática. \n\n\n**Justificativa:**\n\nA decisão de Maria em se antecipar a formalização do acordo com Joana deve ser baseada em um profundo respeito pela lei e na boa-fé na relação contratual. A comunicação com a ABC é fundamental para que os direitos de ambas as partes sejam protegidos. É importante que Maria, sem a anuência expressa da seguradora, não faça qualquer acordo que possa gerar conflitos futuros. \n\n**Considerações:**\n\nÉ crucial que a Maria busque aconselhamento jurídico profissional para que ela possa agir de forma adequada e segura em todas as etapas do processo. A orientação de um advogado é fundamental para garantir a proteção dos seus direitos.\n\n\n"
+                    },
+                    {
+                        "content": "## A Possibilidade de Intervenção de Terceiros na Situação Narrada\n\nEm casos como o apresentado, a possibilidade de Maria se valer de intervenção de terceiros para resolver a situação é **complexa e depende da natureza do contrato de seguro**, bem como das regras aplicáveis. \n\n**Análise:**\n\n1. **Intervenção da Seguradora:**  A ABC, como seguradora, possui um papel importante na resolução do conflito entre Maria e Joana. A ABC pode ter ferramentas para auxiliar em ambas as partes, com a finalidade de chegar a uma solução justa e que atenda aos termos contratuais estabelecidos.\n\n2. **Intervenção Judicial:**  A intervenção judicial é possível, mas pode ser um processo lento e custoso. Ela requer a apresentação de documentos e petições, e o caso deve ser julgado por um juiz. \n\n3. **Intervenção Extrajudicial:** A possibilidade de negociação entre Maria e Joana é importante para evitar processos judiciais. A intervenção de terceiros na resolução da situação pode ser uma forma eficaz de garantir que a indenização seja paga, sem causar conflitos futuros.\n\n\n**Justificativa:**\n\nA busca por soluções alternativas para o caso deve ser prioritária, considerando que a judicialização pode gerar custos elevados e prolongar o processo de resolução. A intervenção de terceiros, como um mediador ou conselheiro especializado em direito civil, pode facilitar a comunicação entre ambas as partes, e ajudar na busca por um acordo justo e adequado à situação. \n\n**Considerações:**\n\nÉ importante que Maria busque aconselhamento jurídico profissional para que ela possa agir de forma adequada e segura em todas as etapas do processo. A orientação de um advogado é fundamental para garantir a proteção dos seus direitos.  A intervenção de terceiros deve ser cuidadosamente analisada, considerando as normas aplicáveis e o objetivo da resolução do conflito. \n\n\n\n"
+                    }
+                ]
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal, Código Civil e Lei nº 8.112/1990",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1780831398.8071537,
+        "rag_info": [
+            {
+                "Lei": "Código de Defesa do Consumidor (CDC) (L8078compilado.html)",
+                "Artigo": "Art. 101",
+                "Score": 0.767,
+                "Score Vetorial Base": 0.534,
+                "Score Lexical Base": 1.0,
+                "Score Hibrido Base": 0.767,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "medium"
+            },
+            {
+                "Lei": "Lei de Gestão de Florestas Públicas (Lei 11.284/2006) (l11284.html)",
+                "Artigo": "Art. 21",
+                "Score": 0.671,
+                "Score Vetorial Base": 0.4772,
+                "Score Lexical Base": 0.8649,
+                "Score Hibrido Base": 0.671,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "medium"
+            }
+        ]
+    },
+    {
+        "question_id": "44_direito_civil_questao_3",
+        "answer_id": "fa54c93862b44d679cd953f36f6109be",
+        "model_id": "gemma2:2b",
+        "choices": [
+            {
+                "index": 0,
+                "turns": [
+                    {
+                        "content": "## Análise da Compensação da Dívida em Contexto de Ação Monitoria\n\n**Sendo o objetivo deste item analisar se a compensação alegada pela Suinocultura Ltda., na defesa do embargos monitórios, pode ser acolhida como defesa válida. ** \n\nA resposta à pergunta demanda uma análise criteriosa dos elementos da situação fática e da legislação pertinente, para determinar se a compensação é um argumento jurídico válido no contexto da ação monitoria.\n\n**1. A Necessidade de Demonstração:**\n\nA compensação, por si só, não é suficiente para ser aceita como defesa válida. A Suinocultura Ltda. precisa demonstrar que a compensação **de fato e efetivamente** se baseie em uma relação entre a dívida do Antônio com a Suinocultura Ltda.,  ou seja, a compensação deve **estar diretamente relacionada à dívida principal**, de forma clara e objetiva.  Para isso, ela pode oferecer provas:\n\n* **Certidão de Pagamento:** A empresa poderia apresentar um documento que comprove o pagamento da carne por parte do Antônio em janeiro do próximo ano, demonstrando a efetividade da compensação.\n* **Provimento de Despesas:** Caso a Suinocultura Ltda. tenha despesas com a compra da carne, poderá comprovar a relação entre as duas partes. \n\n\n**2. Princípio da Reintegração da Dívida:**\n\nA compensação, em geral, **não é o principal princípio para a análise da ação monitoria**. O principal princípio é a  **reintegração da dívida**, com base na Lei 5.474/1968 e no Art. 8º da Lei, que trata de um pedido de indenização ou reintegração da dívida, caso o devedor não pague em dia. No entanto, a compensação pode ser utilizada como forma de **apurar a adequação da quantia** que o devedor irá pagar, conforme a lei. \n\n\n**3. A Necessidade de Justificativa:**\n\nA Suinocultura Ltda. deve fundamentar sua defesa de compensação com justificativas claras e objetivas. As justificativas devem ser baseadas em **documentos comprovativos**, como contratos, notas fiscais, recibos de pagamento, comprovando a relação entre a compra da carne e o pagamento da dívida.\n\n**4. A Jurisprudência:**\n\nEm casos semelhantes, a jurisprudência tem se mostrado favorável à compensação, especialmente quando houver **condições especiais** que possibilitem a reconciliação entre as partes. No entanto, é fundamental que a compensação seja justa e proporcional, de acordo com o caso concreto.\n\n\n**Conclusão:** \n\nA compensação da dívida por parte da Suinocultura Ltda., em si, não é um argumento legalmente suficiente para ser aceito na defesa do embargos monitórios.  Para ser acolhido, a compensação deve ser **comprovada** e apresentar uma **relação clara e objetiva entre a dívida e a compensação**. A Suinocultura Ltda. deverá fornecer provas que comprovem a relação entre a dívida de Antônio com a Suinocultura Ltda., e justificar o pedido de compensação, caso não seja possível reintegrar a dívida em sua totalidade. \n\n  \n**Importante:** Esta análise é baseada na legislação e jurisprudência disponíveis e pode ser alterada por fatores específicos do caso. É importante consultar um advogado para uma análise mais completa da situação.\n\n\n\n\n"
+                    },
+                    {
+                        "content": "## Recurso em face da Decisão que Rejeitou os Embargos\n\n**Sim**, é cabível recurso em face da decisão que rejeitou os embargos monitórios.  A jurisprudência reconhece a existência de um **direito à impugnação da decisão, com base nos artigos 107 e 109 do CPC (CPC).**\n\n\n**Específico:**\n\n* **Recurso Extraordinário:** O recurso extraordinário é o instrumento para questionar a sentença em casos de **falta de jurisprudência** e **jurisdição**.\n \n**Justificativa:**  Em primeiro lugar, a decisão que rejeitou os embargos monitórios se configura como uma **decisão judicial**, que pode ser objeto de recurso. A recusa de embargos, quando não baseada em argumentos válidos ou na lei, gera um **desequilíbrio na justiça** e, consequentemente, o direito à **reintegração da dívida** é afetado.  \n\n**Para embasar o pedido de recurso:** \n\n* É preciso apresentar **provas** que demonstrem a **incorreção da decisão**.\n* A argumentação deve ser feita de forma **neutra e objetiva**, com base em **documentos legais e jurisprudência**. \n* É essencial que o recurso seja apresentado dentro do prazo legal, conforme previsto no artigo 403 do CPC. \n\n\nEm resumo:\n\nA decisão que rejeitou os embargos monitórios pode ser objeto de recurso, sendo a **especificidade do recurso extra-ordinário** uma das formas mais adequadas para defesa da justiça.\n\n\n\n"
+                    }
+                ]
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal de 1988; Código Civil de 2002; Lei nº 8.112/1990",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1780831403.8699691,
+        "rag_info": [
+            {
+                "Lei": "Lei das Duplicatas (Lei 5.474/1968) (L5474.html)",
+                "Artigo": "Art. 16",
+                "Score": 0.6578,
+                "Score Vetorial Base": 0.5216,
+                "Score Lexical Base": 0.794,
+                "Score Hibrido Base": 0.6578,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "low"
+            }
+        ]
+    },
+    {
+        "question_id": "44_direito_civil_questao_4",
+        "answer_id": "d78f9de824734a72986bea61e9b74ba4",
+        "model_id": "gemma2:2b",
+        "choices": [
+            {
+                "index": 0,
+                "turns": [
+                    {
+                        "content": "## A Curatela de Thomaz e a Legislação Brasileira\n\nA questão central envolve a validade da curatela decretada em favor de Thomaz, considerando o Estatuto da Pessoa com Deficiência (Lei nº 13.146/2015) e o contexto legal que permeia a situação. **A resposta para a afirmativa A não pode ser simples e exige uma análise cuidadosa das normas envolvidas.**\n\n**I.  Fundamentos Legais para a Curatela:**\n\nO fundamento da curatela, em primeiro lugar, reside na Lei nº 8.213/91, que estabelece o regime de proteção e auxílio às pessoas com deficiência. A lei prevê a possibilidade de curatela para indivíduos com necessidades especiais, especialmente quando há riscos à sua segurança ou bem-estar.  \n\n**II. Análise do Caso:**\n\n* **Thomaz e seu diagnóstico de TEA:** O laudo médico indica que Thomaz possui o necessário discernimento para gerir seu patrimônio. Essa informação é crucial para a análise da curatela.\n* **A ação judicial de Juliana:** Juliana, mãe de Thomaz, apresenta a sua discordância com as ideias de venda do imóvel. Para evitar o ato jurídico, ela busca a curatela de Thomaz, alegando que o negócio traria prejuízo para o filho e que a sua intervenção seria necessária para garantir o bem-estar e a segurança de Thomaz durante o processo de venda. \n* **A Decisão judicial:** O juiz, ao deferir a tutela de urgência, reconheceu a existência de prova documental de deficiência mental em Thomaz. No entanto, ele **não analisou a informação presente no laudo de que Thomaz possui o necessário discernimento para gerir seu patrimônio.** Essa omissão é relevante e precisa ser analisada com base na interpretação da legislação.\n\n**III. Fundamentos Legais para a Curatela:**\n\nA curatela, em sua essência, visa proteger os interesses da pessoa com deficiência e garantir a sua autonomia. A lei prevê o uso de instrumentos legais para que o indivíduo com deficiência possa gerenciar suas próprias vidas e decisões. No caso apresentado, o laudo médico demonstra a capacidade mental e o discernimento necessário para Thomaz tomar decisões sobre sua própria vida, incluindo as decisões relacionadas à venda do imóvel.\n\n**IV. Conclusões:**\n\nA análise da legislação brasileira revela que **o deferimento da curatela de Thomaz encontra-se com fundamentos legais.** A decisão judicial deve ser reavaliada, levando em conta a existência de laudo médico que demonstra a capacidade de Thomaz para gerenciar seus próprios interesses, bem como o disposto no Estatuto da Pessoa com Deficiência.\n\n\n**É importante ressaltar:**\n\n* O argumento jurídico de Juliana se baseia na alegação de prejuízo ao filho e necessidade de intervenção. No entanto, a lei prevê a possibilidade de curatela quando há risco à segurança ou bem-estar de Thomaz, e o laudo médico demonstra sua capacidade de gerenciar suas próprias vidas.\n* A análise da legislação brasileira por meio da interpretação do Estatuto da Pessoa com Deficiência (Lei nº 13.146/2015) é fundamental para a correta aplicação dos princípios em questão.\n\n\n\n"
+                    },
+                    {
+                        "content": "## A Omissão na Decisão e as Medidas Corretivas\n\nA omissão na análise de informações relevantes no processo judicial, como a presença de laudo médico que evidencia a capacidade de Thomaz para gerenciar seus próprios interesses, configura um erro grave na jurisdição.  A ação judicial de Juliana que busca a curatela se baseia em uma argumentação que precisa ser reavaliada com base na análise da legislação e na documentação em questão.\n\n**Considerando as características do caso, as seguintes medidas cabíveis podem ser tomadas para questionar a decisão o quanto antes:**\n\n**1. Reclamação perante a Justiça (Ação de Revisão):** \n   * A primeira medida cabível é a **reclamação da decisão judicial**, com base na omissão no laudo médico e na falta de análise sobre a capacidade mental de Thomaz para tomar decisões, especialmente em relação à venda do imóvel. \n\n**2. Ação de Revisão por Recurso:**\n   * É possível recorrer contra a decisão do juiz que deferiu a tutela de urgência, buscando a **reavaliação da decisão** através de recurso, caso haja elementos que comprovem a omissão, e principalmente em relação à interpretação do laudo médico.\n\n**3. Ação por Corrupção:** \n    * Em casos que o juiz tenha recebido influências externas ou evidências que possam ter levado a uma decisão judicial injusta, é possível iniciar uma ação por **corrupção**.  \n\n\n**Justificativa:**\n\n* O laudo médico demonstra a capacidade de Thomaz para gerenciar seus próprios interesses e decisões. A omissão da análise do laudo, por sua vez, configura um erro na jurisdição, pois impede o reconhecimento da capacidade mental de Thomaz e a sua autonomia. \n* As medidas acima visam garantir que a decisão judicial seja reavaliada com base em informações completas e pertinentes, buscando justiça para ambos os lados.\n\n**Conclusão:**\n\nA omissão na análise de documentos relevantes configura um erro na jurisdição. As medidas acima representam a primeira etapa para questionar a decisão o quanto antes. É importante buscar a correção da decisão judicial através de recursos ou ações que visem a reavaliação da situação, garantindo que a justiça seja feita de forma justa e imparcial. \n\n\n\n"
+                    }
+                ]
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal de 1988, Lei nº 8.112/1990 e Estatuto da Pessoa com Deficiência",
+            "area_expertise": "Direito Civil"
+        },
+        "tstamp": 1780831409.6501722,
+        "rag_info": [
+            {
+                "Lei": "Estatuto da Pessoa com Deficiência (Lei 13.146/2015) (L13146.html)",
+                "Artigo": "Art. 114",
+                "Score": 0.7793,
+                "Score Vetorial Base": 0.5664,
+                "Score Lexical Base": 0.9921,
+                "Score Hibrido Base": 0.7793,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "high"
+            },
+            {
+                "Lei": "Estatuto da Pessoa com Deficiência (Lei 13.146/2015) (L13146.html)",
+                "Artigo": "Art. 84",
+                "Score": 0.7337,
+                "Score Vetorial Base": 0.5448,
+                "Score Lexical Base": 0.9226,
+                "Score Hibrido Base": 0.7337,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "high"
+            },
+            {
+                "Lei": "Estatuto da Pessoa com Deficiência (Lei 13.146/2015) (L13146.html)",
+                "Artigo": "Art. 101",
+                "Score": 0.6975,
+                "Score Vetorial Base": 0.4851,
+                "Score Lexical Base": 0.9098,
+                "Score Hibrido Base": 0.6975,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "high"
+            }
+        ]
+    },
+    {
+        "question_id": "44_direito_do_trabalho_peca_profissional",
+        "answer_id": "2defb57d4cb24bda9e0b485e4db24c6d",
+        "model_id": "gemma2:2b",
+        "choices": [
+            {
+                "index": 0,
+                "turns": [
+                    {
+                        "content": "##  Ação de Reintegração ao Emprego - XYZ Ltda. e Sócios\n\n**EXCELENTÍSSIMO(A) SENHOR(A) DOUTOR(A) JUIZ(A) DE DIREITO DA Vª VARA DO TRABALHO DA COMARCA DE MANAUS, AM.**\n\n**[Nome da Parte Iniciativa]**, por seu advogado(a), infra-assinado(a), com endereço profissional situado em [endereço completo], inscrito(a) na OAB/AM sob o nº [número da OAB], vem perante Vossa Excelência, através desta presente petição, propor ação de reintegração ao emprego, em face de **XYZ Ltda. e seus sócios, Sandra Pi e Walmir Lé**, por meio do presente requerimento, com base nos seguintes fundamentos:\n\n**I - DOS FATOS**\n\nA autora, Paula Soares, exerceu atividade profissional na empresa XYZ Ltda., em função de estoquista, a partir de 10/08/2015 até 20/05/2023, conforme demonstrado por documentos. O contrato de trabalho foi extinto mediante justa causa por sua solicitação e, no período da demissão, a autora trabalhou em aviso prévio.\n\nA autora relata que, após o término do contrato, se viu em situação de vulnerabilidade financeira, justificando-se a necessidade de estudar para ser aprovada em um concurso público e buscar estabilidade. A autora também argumenta que recebeu ticket refeição indevidamente suprimido em abril de 2021, o que motiva a presente ação por pagamento do mesmo.\n\nA autora relata ainda que, após a extinção do contrato de trabalho, descobriu que estava grávida, razão pela qual requereu sua reintegração ao emprego, buscando estabilidade e segurança para sua família. A autora também alega não ter recebido vale-transporte, motivo pelo qual solicita o pagamento por danos morais.\n\n**II - DO DIREITO**\n\nO presente caso se assemelha a situações de reintegração ao emprego prevista no art. 4º da CLT. O que se destaca na presente ação é a necessidade de análise da justa causa e do contexto trabalhista, tendo em vista a legitimidade dos pedidos da autora.\n\n**III - DO PEDIDO**\n\nDiante do exposto, requer:\n\na) A sua reintegração ao emprego;\nb) A condenação da empresa XYZ Ltda. e seus sócios à indenização por danos morais (valor indeterminado);\nc) A condenação da empresa XYZ Ltda. e seus sócios à restituição de todos os valores pagos em juros legais e honorários advocatícios, no valor de R$5.000,00 (cinco mil reais), conforme a lei.\n\n**IV - DOS FUNDAMENTOS DE DIREITO**\n\n* **Art. 4º da CLT:** O empregado que, por sua própria iniciativa, tenha pedido o término do contrato de trabalho sem justa causa, em virtude de sua necessidade de estudar para ser aprovada em um concurso público e buscar estabilidade, terá a oportunidade de se reintegrar ao emprego; \n* **Art. 12 da CLT:** A empresa deve fornecer ao empregado informações sobre as condições de trabalho, incluindo o salário, jornada de trabalho e as regras do regime de trabalho; \n* **Consolidação das Leis do Trabalho (CLT):** O pedido de reintegração ao emprego é um direito fundamental da justiça trabalhista. O que se destaca na presente ação é a necessidade de análise da justa causa e do contexto trabalhista, tendo em vista a legitimidade dos pedidos da autora.\n\n**V - DO VALOR DA AÇÃO**\n \nA ação de reintegração ao emprego possui como valor a indenização por danos morais (valor indeterminado). É importante salientar que o valor de indenização para danos morais deverá ser determinado pelo tribunal de acordo com as circunstâncias do caso, levando em consideração o dano sofrido pela autora.\n\n**VI - DO PEDIDO DE REJUNTURA E JUSTA CAUSA**\n \nA presente ação se baseia na necessidade de reintegração ao emprego da autora, e no pedido de justiça trabalhista por danos morais e indenização por prejuízos materiais, em virtude do descumprimento das normas trabalhistas. A justiça deve ser feita em todos os casos.\n\n\n**VII - DOS COMENTÁRIOS FINAIS** \n \nA presente ação busca garantir a justiça social e o respeito aos direitos da autora. Solicita-se a vossa Excelência, que, por meio de uma análise cuidadosa da situação jurídica, determine o pedido em benefício da autora.\n\n**Reunião de Juízes (Se necessário):**  É importante que a reunião seja realizada para discutir as questões pertinentes à ação e determinar o melhor caminho para a condução da demanda.\n\n\n **Local, data.** \n **[Nome do Advogado(a)]**, Advogado(a) - **[Inscrição na OAB]** \n\n\n\n---\n\n**Observações:**\n\n* A petição deve ser enviada em papel por correio ou digitalmente via e-mail, conforme a legislação.\n* É necessário que o advogado(a) tenha conhecimento da legislação trabalhista para formular uma demanda eficiente.\n* As alegações devem ser sustentadas por provas e documentos. \n\n\n"
+                    }
+                ]
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal, Código Civil, Lei nº 8.112/1990",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1780831416.110261,
+        "rag_info": [
+            {
+                "Lei": "Constituição Federal de 1988 (Constituição.html)",
+                "Artigo": "Art. 7",
+                "Score": 0.6406,
+                "Score Vetorial Base": 0.5226,
+                "Score Lexical Base": 0.7587,
+                "Score Hibrido Base": 0.6406,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "high"
+            },
+            {
+                "Lei": "Consolidação das Leis do Trabalho (CLT) (Del5452compilado.html)",
+                "Artigo": "Art. 729",
+                "Score": 0.6281,
+                "Score Vetorial Base": 0.5359,
+                "Score Lexical Base": 0.7203,
+                "Score Hibrido Base": 0.6281,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "high"
+            },
+            {
+                "Lei": "Constituição Federal de 1988 (Constituição.html)",
+                "Artigo": "Art. 107",
+                "Score": 0.4197,
+                "Score Vetorial Base": 0.0,
+                "Score Lexical Base": 0.8394,
+                "Score Hibrido Base": 0.4197,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "high"
+            }
+        ]
+    },
+    {
+        "question_id": "44_direito_do_trabalho_questao_1",
+        "answer_id": "4539ebf663ef495bbadcce8423cf53d1",
+        "model_id": "gemma2:2b",
+        "choices": [
+            {
+                "index": 0,
+                "turns": [
+                    {
+                        "content": "## A) A partir da concessão do benefício previdenciário, que fenômeno jurídico ocorreu com o contrato de trabalho de Ênio? Justifique. (Valor: 0,65)\n\nA partir da concessão do benefício previdenciário, ocorrerá a **suspensão do contrato de trabalho de Ênio**, conforme previsto no **artigo 475 da Consolidação das Leis do Trabalho (CLT)**.  A CLT prevê a suspensão do contrato de trabalho para o empregado aposentado por invalidez, em decorrência da necessidade de realização de procedimentos e ações para efetivação do benefício previdenciário.  \n\n**Justificativa:**\n\n1. **Art. 475 da CLT:** O artigo 475 da CLT determina que o empregado aposentado por invalidez terá o seu contrato de trabalho suspenso durante o prazo necessário para a efetivação do benefício previdenciário. Essa suspensão é um efeito da concessão do benefício, sendo um momento crucial na relação trabalhista.\n\n2. **Natureza da Suspensão:** A suspensão do contrato não configura uma ruptura formal entre empregado e empregador. A relação de emprego permanece inativa durante a realização das etapas necessárias para a aposentadoria. \n\n3. **Impactações para o Empregado:** A suspensão do contrato, por sua vez,  impede que Ênio, ainda que em período previdenciário, exerça funções no empregador, sem prejuízo à sua capacidade de se reintegrar ao mercado de trabalho quando a situação permitir. \n\n4. **Indícios da Subjetividade:** A Lei nº 4.824/1965, na sua redação, prevê o direito do empregado a função que ocupava antes da aposentadoria e a possibilidade de indenização por rescisão do contrato de trabalho, caso o empregador tenha adotado a interinidade do vínculo.\n\n\nA suspensão do contrato de trabalho de Ênio não se manifesta como uma ruptura formal entre empregado e empregador, mas sim um período de **interrupção temporária** da relação laboral que será reestabelecida posteriormente. É importante ressaltar que o empregado deverá ser informado em respeito à situação e ao seu contrato de trabalho. \n\n\n"
+                    },
+                    {
+                        "content": "## B) A alteração do plano de saúde é válida? Justifique. (Valor: 0,60)\n\nA alteração do plano de saúde por parte da sociedade, em relação a Ênio, **pode ser considerada válida**, mas requer análise de diversos aspectos, considerando a legislação e o contexto jurídico do caso.  \n\n\n**Justificativa:**\n\n1. **Direito do Servidor:** A CLT (artigo 475) garante ao empregado aposentado por invalidez a suspensão do contrato de trabalho durante o período necessário para a efetivação do benefício previdenciário. Essa suspensão é uma consequência da concessão do benefício, e não um ato de rompimento formal.\n\n2. **Lei nº 13.548/2017:** A Lei nº 13.548/2017 alterou o regime previdenciário dos servidores públicos, incluindo a aposentadoria por invalidez.  A lei estabelece regras mais claras sobre a concessão do benefício e a suspensão do contrato de trabalho.\n\n\n**Análise da Alteração:**\n* **Condições para a alteração:** A mudança no plano de saúde pode ser justificada, desde que o empregador siga os seguintes critérios: \n    * **Revisão de plano:**  A necessidade de revisão de plano de saúde deve estar justificada por fatores como o aumento do custo da prestação dos serviços em questão, ou pela necessidade de reavaliar a cobertura do plano.\n    * **Crença e Conforto:** A sociedade tem o direito de mudar o plano de saúde, mas é importante que o empregado seja informado sobre as alterações, os benefícios que serão oferecidos e as consequências práticas para a sua saúde e bem-estar, sem que isso cause uma interrupção na relação laboral. \n\n**Considerações Importantes:**\n* **Consideração da situação do trabalhador:** A sociedade precisa ter em mente que o trabalhador necessita de assistência e suporte durante a fase de recuperação, além de manter o seu vínculo laboral, para que possa se reintegrar ao mercado de trabalho. É importante garantir que as condições trabalhistas sejam adequadas, incluindo a segurança social, a saúde mental e o desenvolvimento profissional, para que a relação entre empregador e empregado seja saudável e produtiva.\n\n\n**Conclusão:** \n\nA alteração do plano de saúde pode ser considerada válida, desde que ocorra dentro dos limites da legislação vigente e em consonância com os direitos trabalhistas do trabalhador aposentado por invalidez. É fundamental garantir a transparência, comunicação aberta e respeito aos direitos do trabalhador durante todo o processo. \n\n\n\n"
+                    }
+                ]
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal, Código Civil e Lei nº 8.112/1990",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1780831420.939222,
+        "rag_info": [
+            {
+                "Lei": "Constituição Federal de 1988 (Constituição.html)",
+                "Artigo": "Art. 40",
+                "Score": 0.6207,
+                "Score Vetorial Base": 0.5047,
+                "Score Lexical Base": 0.7367,
+                "Score Hibrido Base": 0.6207,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "medium"
+            },
+            {
+                "Lei": "Consolidação das Leis do Trabalho (CLT) (Del5452compilado.html)",
+                "Artigo": "Art. 475",
+                "Score": 0.6131,
+                "Score Vetorial Base": 0.5279,
+                "Score Lexical Base": 0.6984,
+                "Score Hibrido Base": 0.6131,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "medium"
+            }
+        ]
+    },
+    {
+        "question_id": "44_direito_do_trabalho_questao_2",
+        "answer_id": "687f2effa86a468c97d438edc4bfd07a",
+        "model_id": "gemma2:2b",
+        "choices": [
+            {
+                "index": 0,
+                "turns": [
+                    {
+                        "content": "## A) Tese Jurídica para a Busca de Direito de Lúcia Maria\n\nA presente questão se configura como um caso em que a empregada, Lúcia Maria, foi dispensada imotivadamente no decorrer do contrato de trabalho. O foco da análise jurídica é o direito à estabilidade gestante previsto no art. 391-A da CLT, e o entendimento sobre a necessidade de notificação prévia ou comunicação por parte da empregada em relação ao estado de gravidez durante o período contratual. \n\n**Aplicação de leis:**\n\n1. **Art. 391-A CLT**:  O art. 391-A da CLT garante à empregada gestante a estabilidade provisória prevista na alínea b do inciso II do art. 10 do Ato das Disposições Constitucionais Transitórias (ADCT), mesmo em situações de aviso prévio trabalhado ou indenizado.  \n    * **Vantagem:** A estabilidade provisória prevista no art. 391-A CLT é crucial para a empregada gestante, pois garante um momento de segurança e proteção durante o período de gravidez. \n2. **Art. 391 - CLT**: O art. 391 da CLT não constitui justa base para a rescisão do contrato de trabalho da mulher por conta de matrimônio ou estado de gravidez.  A lei está em consonância com o princípio da dignidade da pessoa humana e do direito à igualdade perante a lei, assegurando que o casamento ou a gravidez não se tornem justificativas para a rescisão do contrato de trabalho.\n3. **Princípio da Comunicação:** O princípio da comunicação é vital no contexto laboral, garantindo transparência e clareza entre empregador e empregado, especialmente em relação à gravidez. A falta de comunicação por parte da empregada pode gerar um desequilíbrio na relação de trabalho, o que pode ser interpretado como um fator para a rescisão do contrato.\n    * **Vantagem:** A comunicação é essencial para evitar mal entendidos e garantir que ambas as partes estejam em conformidade com os acordos estabelecidos.\n\n\n**Argumentação Jurídica:**\n\nBaseado na legislação mencionada e no princípio da comunicação, podemos sustentar que a empregada, Lúcia Maria, tem direito à estabilidade gestante, conforme previsto no art. 391-A CLT, devido à sua gravidez ocorrida durante o curso do contrato de trabalho. O fato de não ter comunicado o estado de gravidez, mesmo em um período prévio à resolução do contrato, pode gerar um desequilíbrio na relação de trabalho e a empregada deve ser protegida por leis que garantam a estabilidade gestante.\n\nA dispensação imotivada é um fator que se torna ainda mais relevante quando se considera a falta de comunicação da gravidez por parte da empregada. Essa falta de comunicação pode, em conjunto com o fato de não ter sido notificado de forma correta, gerar um desequilíbrio na relação de trabalho, como previsto no art. 391 - CLT.\n\n\n**Diante do que foi apresentado acima, proponho a seguinte tese jurídica para Lúcia Maria:**\n\n* **A demanda trabalhista deve ser reavaliada com base nos fatos e argumentos jurídicos mencionados acima.**  A empregada teve direito à estabilidade gestante, mas a falta de comunicação sobre o estado de gravidez durante o período contratual pode ser considerada como um fator relevante para a análise do caso.\n\nÉ fundamental que a decisão seja tomada com base em critérios legais e na compreensão da situação em questão. A demanda por indenização é válida, mas também deve ser analisada a necessidade de reavaliação da situação, com base em argumentos jurídicos e fatos concretos.\n\n\n\n \n**Observações:**\n\n* É importante destacar que a análise jurídica da situação individual de cada caso exige uma investigação mais aprofundada, levando em conta as especificidades de cada caso.\n* A interpretação da lei é sempre complexa e exige conhecimentos específicos para garantir a justiça.\n* A legislação trabalhista brasileira está em constante evolução, por isso é importante se manter atualizado sobre as novas normas e jurisprudência.\n\n"
+                    },
+                    {
+                        "content": "## B) Medidas Processuais para Reverter a Decisão Desfavorável\n\nCom base no caso apresentado,  a possibilidade de reverter a decisão desfavorável em relação à ação trabalhista de Lúcia Maria reside em diversas medidas processuais. A análise da situação específica exige uma investigação mais aprofundada, levando em conta as particularidades do caso. \n\n**1. Recurso em Jurisdição Superior:**\n\n*  A primeira medida que pode ser adotada é o recurso de apelação. É possível recorrer a instância superior da decisão judicial que condenou Lúcia Maria. Em um processo trabalhista, a jurisdição de segunda instância e a justiça de revisão são fundamentais para garantir a segurança jurídica e evitar erros.\n* **Vantagem:** A jurisdição superior pode revisar a decisão em questão e aplicar a legislação trabalhista de forma mais precisa, considerando todas as informações relevantes. \n\n\n**2. Recurso Extraordinário:**\n\n* Caso o recurso seja negado ou não haja efetividade na justiça de revisão, é possível propor um recurso extraordinário, caso haja elementos que possam influenciar a decisão em questão.\n\n\n**3. Instrumentos Processuais Adicionais:**\n\n* **Moções de Revisão:** É possível solicitar revisão da decisão do juiz, em especial se houver erro de interpretação ou aplicação da lei. \n* **Apelação Contra Ajuste Judicial:** Em caso de irregularidades no processo, é possível recorrer à justiça para a reavaliação de decisões arbitrárias ou que gerem consequências negativas para Lúcia Maria.\n\n\n**Fatores que influenciam a escolha da medida jurídica:**\n\n* **Evidências e Documentação:**  É fundamental reunir provas que comprovam a indisposição por parte do empregador e a negligência na comunicação da gravidez de Lúcia, o que pode contribuir para a argumentação da ação.\n* **Jurisprudência:** A jurisprudência, ou seja, as decisões judiciais de casos semelhantes, pode ajudar a determinar se existe um precedente similar para o caso em questão. \n* **Especialistas e Conselhos:** É aconselhável a busca de orientação de especialistas em direito do trabalho, como advogados e consultores jurídicos, que podem auxiliar na análise da situação específica e indicar as melhores medidas processuais.\n\n\n\n**Fundamentação da decisão:**\n\nO processo de revisão da decisão judicial é fundamental para garantir a justiça e evitar erros. A argumentação jurídica deve ser baseada em fatos concretos, leis aplicáveis e jurisprudência, buscando a melhor solução para Lúcia Maria.  \n"
+                    }
+                ]
+            }
+        ],
+        "additional_information": {
+            "difficulty_question": 2,
+            "basic_legislation": "Constituição Federal de 1988; Lei nº 8.112/1990",
+            "area_expertise": "Direito do Trabalho"
+        },
+        "tstamp": 1780831426.900918,
+        "rag_info": [
+            {
+                "Lei": "Consolidação das Leis do Trabalho (CLT) (Del5452compilado.html)",
+                "Artigo": "Art. 391",
+                "Score": 0.5,
+                "Score Vetorial Base": 0.0,
+                "Score Lexical Base": 1.0,
+                "Score Hibrido Base": 0.5,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "medium"
+            },
+            {
+                "Lei": "Consolidação das Leis do Trabalho (CLT) (Del5452compilado.html)",
+                "Artigo": "Art. 391",
+                "Score": 0.4586,
+                "Score Vetorial Base": 0.0,
+                "Score Lexical Base": 0.9171,
+                "Score Hibrido Base": 0.4586,
+                "Boost": 0.0,
+                "Penalidade": 0.0,
+                "Justificativa": "Mantido score híbrido base.",
+                "Confianca": "medium"
+            }
+        ]
+    }
+]
