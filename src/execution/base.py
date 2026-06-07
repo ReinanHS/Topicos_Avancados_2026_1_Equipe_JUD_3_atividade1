@@ -12,6 +12,23 @@ _DEFAULT_SYSTEM_PROMPT = (
     "Você é um assistente prestativo especialista em direito brasileiro."
 )
 
+_INSTITUTE_DEFINITIONS = {
+    "erro": "falsa percepção espontânea da realidade.",
+    "dolo": "induzimento malicioso ao erro por parte de outrem.",
+    "coacao": "ameaça grave e iminente que infunde temor.",
+    "estado de perigo": "emergência/grave dano e obrigação excessivamente onerosa.",
+    "lesao": "obrigação desproporcional por necessidade premente ou inexperiência.",
+    "fraude": "alienação de bens para frustrar execução ou cobrança.",
+    "simulacao": "declaração enganosa para aparentar negócio inexistente ou diferente.",
+    "nulidade": "invalidade absoluta e insanável por infração de ordem pública.",
+    "anulabilidade": "invalidade relativa, sanável ou confirmável pelas partes.",
+    "prescricao": "extinção da pretensão de cobrar/exigir um direito pelo decurso do tempo.",
+    "decadencia": "extinção do próprio direito potestativo por falta de exercício no prazo.",
+    "incapacidade absoluta": "invalidade absoluta do ato (ex: menores de 16 anos).",
+    "incapacidade relativa": "invalidade relativa (ex: maiores de 16 e menores de 18 ou causa transitória).",
+    "causa transitoria": "impedimento temporário de exprimir a vontade, gerando incapacidade relativa.",
+}
+
 
 class ExecutionManager(ABC):
     """
@@ -45,6 +62,25 @@ class ExecutionManager(ABC):
                 embedding_provider=provider,
             )
 
+    def _resolve_retrieval_notes(self, meta: dict) -> str:
+        """Resolve a descrição interpretativa (Uso) a partir dos metadados ricos."""
+        retrieval_notes = meta.get("retrieval_notes", "")
+        if retrieval_notes:
+            return retrieval_notes
+
+        institute = meta.get("canonical_institute", "")
+        category = meta.get("legal_category", "")
+        effect = meta.get("legal_effect", "")
+        if not institute:
+            return f"dispositivo legal relativo a {meta.get('legal_area', 'Direito')}."
+
+        notes = f"define o instituto '{institute}'"
+        if category:
+            notes += f" no âmbito de '{category}'"
+        if effect:
+            notes += f", com o efeito jurídico de '{effect}'"
+        return notes
+
     def _process_single_rag_result(
         self, idx: int, res: dict, confidence_level: str
     ) -> tuple[dict, str]:
@@ -73,22 +109,128 @@ class ExecutionManager(ABC):
             "Confianca": confidence_level,
         }
 
-        # Texto compacto: apenas as primeiras 4 linhas do artigo
-        lines = raw_text.strip().split("\n")
-        compact_text = "\n".join(lines[:4])
-        if len(lines) > 4:
-            compact_text += "\n(...)"
+        retrieval_notes = self._resolve_retrieval_notes(meta)
 
-        # Gera breve explicação de relevância a partir do rerank_reason
-        relevance = res.get("rerank_reason", "")
-        relevance_short = relevance.split(";")[0].strip() if relevance else ""
+        # Garante a formatação do texto oficial sem poluição interpretativa
+        indented_text = "\n".join(f"   {line}" for line in raw_text.strip().split("\n"))
 
         context_part = (
             f"{idx + 1}. {law_title} — {article}\n"
-            f"   {compact_text}\n"
-            f"   Relevância: {relevance_short}"
+            f"   Uso: {retrieval_notes}\n"
+            f"   Texto:\n"
+            f"{indented_text}"
         )
         return info, context_part
+
+    def _query_rag(self, q: Any, k: int, model: Optional[str]) -> List[dict]:
+        """Consulta o banco vetorial RAG."""
+        try:
+            return (
+                self._rag_db.query(q, top_k=k, top_k_retrieval=100, model=model) or []
+            )
+        except Exception as e:
+            print(f"[RAG] Erro ao consultar banco vetorial: {e}")
+            return []
+
+    def _apply_confidence_threshold(
+        self, results: List[dict], k: int
+    ) -> tuple[str, List[dict], Optional[dict]]:
+        """Aplica a avaliação de confiança para filtrar os resultados."""
+        if not results:
+            return "high", [], None
+
+        confidence = results[0].get("confidence", {})
+        confidence_level = confidence.get("level", "high")
+        suggested_k = confidence.get("suggested_k", k)
+        effective_k = min(len(results), suggested_k)
+
+        if effective_k <= 0:
+            print(
+                f"[RAG] Confiança baixa ({confidence.get('reason', '')}). Fallback sem RAG."
+            )
+            return confidence_level, [], {"confidence": confidence}
+
+        return confidence_level, results[:effective_k], None
+
+    def _collect_single_meta_concepts(self, res: dict, concepts: set[str]) -> None:
+        """Extrai institutos e distinções dos metadados de um único resultado RAG."""
+        meta = res.get("metadata", {})
+        inst = meta.get("canonical_institute")
+        if inst:
+            concepts.add(inst.strip().lower())
+        dist = meta.get("distinguish_from", [])
+        if isinstance(dist, list):
+            for d in dist:
+                if d:
+                    concepts.add(d.strip().lower())
+
+    def _collect_meta_concepts(self, results: List[dict]) -> set[str]:
+        """Extrai institutos e distinções dos metadados dos resultados RAG."""
+        concepts = set()
+        for res in results:
+            self._collect_single_meta_concepts(res, concepts)
+        return concepts
+
+    def _collect_choice_concepts(self, q: Any) -> set[str]:
+        """Extrai conceitos das alternativas da questão."""
+        concepts = set()
+        if not isinstance(q, dict):
+            return concepts
+
+        from src.rag.chunker import strip_accents
+
+        choices = q.get("choices", {})
+        if not (choices and "text" in choices):
+            return concepts
+
+        for choice_text in choices["text"]:
+            choice_clean = strip_accents(choice_text).lower().strip(". ")
+            for key in _INSTITUTE_DEFINITIONS:
+                if key in choice_clean:
+                    concepts.add(key)
+        return concepts
+
+    def _collect_distinct_concepts(self, results: List[dict], q: Any) -> set[str]:
+        """Coleta conceitos jurídicos dos metadados e das alternativas da questão."""
+        meta_concepts = self._collect_meta_concepts(results)
+        choice_concepts = self._collect_choice_concepts(q)
+        return meta_concepts.union(choice_concepts)
+
+    def _compile_alerts(
+        self, q: Any, distinct_concepts: set[str], confidence_level: str
+    ) -> str:
+        """Gera alertas de distinção jurídicas estáticos e dinâmicos e de nível de confiança."""
+        dynamic_alerts = []
+        for concept in sorted(distinct_concepts):
+            if concept in _INSTITUTE_DEFINITIONS:
+                dynamic_alerts.append(
+                    f"{concept.capitalize()} envolve {_INSTITUTE_DEFINITIONS[concept]}"
+                )
+
+        distinction_alerts = self._build_distinction_alerts(q)
+
+        # Combina alertas estáticos e dinâmicos sem duplicidades
+        for alert in dynamic_alerts:
+            concept_name = alert.split(" ")[0].lower()
+            if not any(
+                concept_name in static_alert.lower()
+                for static_alert in distinction_alerts
+            ):
+                distinction_alerts.append(alert)
+
+        alert_parts = []
+        if distinction_alerts:
+            alert_parts.append(
+                "\n\n[ALERTA DE DISTINÇÃO]\n"
+                + "\n".join(f"- {alert}" for alert in distinction_alerts)
+            )
+
+        if confidence_level != "high":
+            alert_parts.append(
+                f"\n\n[ALERTA] Confiança da recuperação: {confidence_level}. Use os artigos com cautela."
+            )
+
+        return "".join(alert_parts)
 
     def get_rag_context_and_info(
         self, q: Any, top_k: Optional[int] = None, model: Optional[str] = None
@@ -102,34 +244,18 @@ class ExecutionManager(ABC):
             return "", []
 
         k = top_k if top_k is not None else self.top_k
-        try:
-            results = self._rag_db.query(q, top_k=k, top_k_retrieval=100, model=model)
-        except Exception as e:
-            print(f"[RAG] Erro ao consultar banco vetorial: {e}")
-            return "", []
-
+        results = self._query_rag(q, k, model)
         if not results:
             return "", []
 
-        # Aplica avaliação de confiança para ajustar k
-        confidence = results[0].get("confidence", {}) if results else {}
-        confidence_level = confidence.get("level", "high")
-        suggested_k = confidence.get("suggested_k", k)
-
-        # Reduz resultados com base na confiança
-        effective_k = min(len(results), suggested_k)
-
-        if effective_k <= 0:
-            print(
-                f"[RAG] Confiança baixa ({confidence.get('reason', '')}). Fallback sem RAG."
-            )
-            return "", [{"confidence": confidence}]
-
-        results = results[:effective_k]
+        confidence_level, results, fallback_res = self._apply_confidence_threshold(
+            results, k
+        )
+        if fallback_res is not None:
+            return "", [fallback_res]
 
         rag_info = []
         context_parts = []
-
         for idx, res in enumerate(results):
             info, context_part = self._process_single_rag_result(
                 idx, res, confidence_level
@@ -137,18 +263,9 @@ class ExecutionManager(ABC):
             rag_info.append(info)
             context_parts.append(context_part)
 
-        # Monta o contexto final compacto
         context_str = "[LEGISLAÇÃO RELEVANTE]\n" + "\n\n".join(context_parts)
-
-        # Gera alertas de distinção se a questão tem pares confusos
-        distinction_alerts = self._build_distinction_alerts(q)
-        if distinction_alerts:
-            context_str += "\n\n[ALERTA DE DISTINÇÃO]\n" + "\n".join(
-                f"- {alert}" for alert in distinction_alerts
-            )
-
-        if confidence_level != "high":
-            context_str += f"\n\n[ALERTA] Confiança da recuperação: {confidence_level}. Use os artigos com cautela."
+        distinct_concepts = self._collect_distinct_concepts(results, q)
+        context_str += self._compile_alerts(q, distinct_concepts, confidence_level)
 
         return context_str, rag_info
 

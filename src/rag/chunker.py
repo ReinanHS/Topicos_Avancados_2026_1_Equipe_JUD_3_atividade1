@@ -117,6 +117,46 @@ LEGAL_KEYWORDS_POOL = [
 ]
 
 
+def _build_indexing_text(
+    raw_text: str,
+    law_title: str,
+    current_art: str,
+    metadata: dict,
+    contextualized_text: str,
+) -> str:
+    """Constrói o texto de indexação a partir do texto oficial e dos metadados enriquecidos."""
+    if not metadata:
+        return contextualized_text
+
+    indexing_parts = [f"{law_title} — {current_art}."]
+
+    # Map simple metadata string fields
+    field_mappings = [
+        ("legal_category", "Categoria"),
+        ("canonical_institute", "Instituto"),
+        ("legal_effect", "Efeito jurídico"),
+    ]
+    for key, label in field_mappings:
+        val = metadata.get(key)
+        if val:
+            indexing_parts.append(f"{label}: {val}.")
+
+    # Map list fields
+    list_mappings = [
+        ("fact_triggers", "Gatilhos fáticos"),
+        ("synonyms", "Sinônimos"),
+        ("distinguish_from", "Distinguir de"),
+        ("synthetic_queries", "Consultas sintéticas"),
+    ]
+    for key, label in list_mappings:
+        vals = metadata.get(key)
+        if vals:
+            indexing_parts.append(f"{label}: {'; '.join(vals)}.")
+
+    indexing_parts.append(f"Texto oficial: {raw_text}")
+    return "\n".join(indexing_parts)
+
+
 class LegislationChunker:
     """
     Filtra e divide documentos HTML de legislação brasileira em artigos contíguos (chunks).
@@ -236,6 +276,18 @@ class LegislationChunker:
         text_norm = strip_accents(raw_text).lower()
         keywords = [kw for kw in LEGAL_KEYWORDS_POOL if kw in text_norm]
 
+        # Process metadata if enriched cache exists
+        metadata = {}
+        if (
+            hasattr(self, "current_enriched_metadata")
+            and self.current_enriched_metadata
+        ):
+            metadata = self.current_enriched_metadata.get(current_art, {})
+
+        indexing_text = _build_indexing_text(
+            raw_text, law_title, current_art, metadata, contextualized_text
+        )
+
         return {
             "article": current_art,
             "article_number": art_number,
@@ -246,6 +298,8 @@ class LegislationChunker:
             "legal_area": legal_area,
             "keywords": keywords,
             "heading_path": heading_path,
+            "indexing_text": indexing_text,
+            "enriched_metadata": metadata,
         }
 
     def _update_headings(
@@ -319,6 +373,8 @@ class LegislationChunker:
         Lê o arquivo HTML, limpa o conteúdo e divide em artigos.
         Retorna uma lista de dicionários contendo o artigo, texto e metadados.
         """
+        import json
+
         content = self._read_file_content(file_path)
         lines = self.clean_html_to_lines(content)
 
@@ -326,6 +382,16 @@ class LegislationChunker:
         stem_norm = strip_accents(file_path.stem).lower()
         law_title = FRIENDLY_NAMES.get(stem_norm, file_path.stem)
         legal_area = LEGAL_AREAS.get(stem_norm, "Direito")
+
+        # Load enriched metadata cache if exists
+        enriched_path = Path("database/enriched_metadata") / f"{file_path.stem}.json"
+        self.current_enriched_metadata = {}
+        if enriched_path.exists():
+            try:
+                with open(enriched_path, "r", encoding="utf-8") as f:
+                    self.current_enriched_metadata = json.load(f)
+            except Exception as e:
+                print(f"[LegislationChunker] Erro ao carregar metadados ricos: {e}")
 
         state = {
             "current_headings": {
@@ -357,5 +423,8 @@ class LegislationChunker:
         )
         if chunk_data:
             chunks.append(chunk_data)
+
+        # Clear state after run
+        self.current_enriched_metadata = {}
 
         return chunks

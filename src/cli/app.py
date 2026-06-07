@@ -882,6 +882,53 @@ def rag_test_regression(
     run_regression_test(db_path, collection, model)
 
 
+@app.command(name="rag-enrich-metadata")
+def rag_enrich_metadata(
+    model: str = typer.Option(
+        "qwen3.6:27b",
+        "--model",
+        "-m",
+        help="Modelo do Ollama para enriquecimento de metadados.",
+    ),
+    force: bool = typer.Option(
+        False,
+        "--force",
+        help="Forçar a regeneração de metadados já cacheados.",
+    ),
+    limit: int = typer.Option(
+        None,
+        "--limit",
+        "-l",
+        help="Limitar o número total de artigos a serem enriquecidos.",
+    ),
+    file_name: str = typer.Option(
+        None,
+        "--file",
+        "-f",
+        help="Nome do arquivo HTML de legislação para enriquecer (ex: L10406compilada.html).",
+    ),
+    article: str = typer.Option(
+        None,
+        "--article",
+        "-a",
+        help="Nome do artigo específico para enriquecer (ex: 'Art. 156').",
+    ),
+):
+    """
+    Executa o enriquecimento offline dos artigos de legislação usando um LLM grande local via Ollama.
+    """
+    from src.rag.metadata_enricher import run_enrichment_pipeline
+
+    typer.echo("=== Iniciando enriquecimento de metadados offline ===")
+    run_enrichment_pipeline(
+        model=model,
+        force=force,
+        limit=limit,
+        file_filter=file_name,
+        article_filter=article,
+    )
+
+
 @app.command("run-all")
 def run_all(
     limit: int = typer.Option(
