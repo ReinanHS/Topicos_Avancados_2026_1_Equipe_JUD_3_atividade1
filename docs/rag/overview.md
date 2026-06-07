@@ -22,12 +22,7 @@ A documentação está dividida nos seguintes tópicos detalhados:
    - Explicação sobre a escolha do modelo de embeddings local em português (`qwen3-embedding:8b` via Ollama).
    - Detalhes sobre a modelagem de dados, loteamento (*batching*) e a persistência no **ChromaDB**.
 
-3. **[Estratégia de Ranqueamento e Re-ranqueamento (Reranking)](ranking_and_reranking.md)**
-   - Funcionamento da fusão híbrida (busca vetorial e busca lexical TF-IDF).
-   - Injeção de candidatos relevantes e aplicação das heurísticas de boost por área e alternativas.
-   - Aplicação de penalidades para afastar trechos puramente cenográficos/narrativos.
-
-4. **[Guia de Execução e Testes](usage_guide.md)**
+3. **[Guia de Execução e Testes](usage_guide.md)**
    - Instruções passo a passo de como rodar o comando CLI para indexar a legislação.
    - Como executar buscas rápidas de teste semântico por terminal e testes de regressão.
 
